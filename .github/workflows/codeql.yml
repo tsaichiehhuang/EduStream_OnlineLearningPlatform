@@ -65,10 +65,10 @@ jobs:
         queries: security-extended,security-and-quality
 
         # Restrict scanning directory to specific ones.
-        paths:
-          - backend
-        paths-ignore:
-          - backend/node_modules
+        paths: |
+          backend
+        paths-ignore: |
+          backend/node_modules
 
 
     # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).

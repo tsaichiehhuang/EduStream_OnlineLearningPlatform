@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import { cors } from '@elysiajs/cors';
+import { cors } from "@elysiajs/cors";
 
 const app = new Elysia()
   .use(cors())
@@ -7,7 +7,7 @@ const app = new Elysia()
   .post("/hello", ({ body }) => `Hello ${body.name}`, {
     body: t.Object({
       name: t.String(),
-    })
+    }),
   })
   .listen(3050);
 

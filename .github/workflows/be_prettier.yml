@@ -1,0 +1,62 @@
+name: Format code using Prettier
+on:
+  push:
+    branches: [ "backend_develop" ]
+    paths: 
+      - backend/**
+  pull_request:
+    branches: [ "backend_develop" ]
+    paths: 
+      - backend/**
+
+permissions: 
+  contents: write
+
+jobs:
+  Prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
+    outputs:
+      prettier_fmt_errs: ${{ steps.fmt.outputs.prettier_fmt_errs }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Setup bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      - name: Install packages
+        run: |
+          cd backend
+          bun install --frozen-lockfile
+      - name: Run prettier
+        id: fmt
+        shell: bash
+        run: |
+          cd backend
+          rm -f .failed
+          # ignore file patterns not found
+          shopt -s nullglob
+          echo "Prettifying files..."
+          echo "Files:"
+          bun prettier --write **/*.{ts,js,md,json} *.{ts,js,md,json} --config .prettierrc.json \
+            || echo 'failed' > .failed
+          
+          if [ -s .failed ]; then
+            delimiter="$(openssl rand -hex 8)"
+            echo "prettier_fmt_errs<<${delimiter}" >> "${GITHUB_OUTPUT}"
+            cat .failed >> "${GITHUB_OUTPUT}"
+            echo "${delimiter}" >> "${GITHUB_OUTPUT}"
+            exit 1
+          fi
+      - name: Commit formatted files if success
+        if: steps.fmt.outputs.prettier_fmt_errs == ''
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore(Prettier): Prettified Code"
+          file_pattern: "backend/**"
+          status_options: '--untracked-files=no'
+          # add only modified files
+          add_options: '-u'

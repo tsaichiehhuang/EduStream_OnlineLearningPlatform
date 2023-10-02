@@ -15,12 +15,12 @@ on:
   push:
     branches: [ "backend_develop" ]
     paths: 
-      - backend
+      - backend/**
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ "backend_develop" ]
     paths: 
-      - backend
+      - backend/**
   schedule:
     - cron: '00 08 * * 5'
 

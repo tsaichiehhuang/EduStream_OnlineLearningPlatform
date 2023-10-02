@@ -9,11 +9,11 @@ on:
   push:
     branches: [ "backend_develop" ]
     paths: 
-      - backend
+      - backend/**
   pull_request:
     branches: [ "backend_develop" ]
     paths: 
-      - backend
+      - backend/**
 
 permissions:
   contents: read

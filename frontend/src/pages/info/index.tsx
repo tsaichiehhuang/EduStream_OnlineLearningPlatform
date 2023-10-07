@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Button } from '@nextui-org/react'
+import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from '@nextui-org/react'
 
 import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import Header from '@/components/header'
 
@@ -20,7 +20,11 @@ export default function Info() {
                     {/* <div className={`${theme} text-foreground bg-background`}> */}
                     <div className="text-2xl font-medium p-10">課程名稱</div>
                     <div className=" w-full h-screen flex justify-around ">
-                        <div className=" bg-white rounded-[10px] shadow w-6/12 h-3/5"></div>
+                        <Card className=" bg-white rounded-[10px] w-6/12 ">
+                            <CardBody>
+                                <p>Make beautiful websites regardless of your design experience.</p>
+                            </CardBody>
+                        </Card>
                         <div className="flex-col w-1/3 gap-8 flex">
                             <Button className="w-full" size="lg" color="primary" variant="shadow">
                                 <svg
@@ -37,9 +41,16 @@ export default function Info() {
                                 </svg>
                                 線上教學
                             </Button>
-                            <div className="w-full h-32 rounded-lg border-l-5 border-mainGreen bg-white shadow-md p-4">
-                                <div className="text-mainGreen text-xl font-bold">近日事項</div>
-                            </div>
+
+                            <Card className="max-w-[400px] border-l-5 border-mainGreen">
+                                <CardHeader className="flex gap-3">
+                                    <h2 className="text-mainGreen text-xl font-bold">近日事項</h2>
+                                </CardHeader>
+                                <Divider />
+                                <CardBody>
+                                    <p>Make beautiful websites regardless of your design experience.</p>
+                                </CardBody>
+                            </Card>
                         </div>
                     </div>
                     {/* </div> */}

@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { NextUIProvider } from '@nextui-org/react'
-import { Button } from '@nextui-org/react'
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from '@nextui-org/react'
+
+import Link from 'next/link'
 
 import Head from 'next/head'
 import Image from 'next/image'
@@ -12,13 +14,23 @@ interface DarkModeProps {
 }
 
 export default function Header({ toggleTheme, theme }: DarkModeProps) {
+    const items: { key: string; label: string }[] = [
+        {
+            key: 'setting',
+            label: '設定',
+        },
+        {
+            key: 'logout',
+            label: '登出',
+        },
+    ]
     return (
         <NextUIProvider>
             <div className={`${theme} text-foreground bg-background `}>
                 <div className="light  dark:bg-gray-800 dark:text-white bg-white text-black h-16  shadow-md w-full flex flex-row justify-between items-center p-10 ">
-                    <div className="light dark:text-white text-mainBlue font-zen-dots text-xl font-normal">
+                    <Link className="light dark:text-white text-mainBlue font-zen-dots text-xl font-normal" href="/">
                         EduStream
-                    </div>
+                    </Link>
                     <div className="flex row items-center justify-center">
                         <Button color="default" onClick={toggleTheme}>
                             {theme === 'light' ? (
@@ -51,23 +63,41 @@ export default function Header({ toggleTheme, theme }: DarkModeProps) {
                                 </svg>
                             )}
                         </Button>
-                        <div className="light flex row items-center dark:text-white text-mainBlue gap-2 ">
-                            <div className="bg-mainBlue w-6 h-6 rounded-full flex justify-center items-center">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    viewBox="0 0 16 16"
-                                    fill="none"
-                                >
-                                    <path
-                                        d="M3 14C3 14 2 14 2 13C2 12 3 9 8 9C13 9 14 12 14 13C14 14 13 14 13 14H3ZM8 8C8.79565 8 9.55871 7.68393 10.1213 7.12132C10.6839 6.55871 11 5.79565 11 5C11 4.20435 10.6839 3.44129 10.1213 2.87868C9.55871 2.31607 8.79565 2 8 2C7.20435 2 6.44129 2.31607 5.87868 2.87868C5.31607 3.44129 5 4.20435 5 5C5 5.79565 5.31607 6.55871 5.87868 7.12132C6.44129 7.68393 7.20435 8 8 8Z"
-                                        fill="white"
-                                    />
-                                </svg>
-                            </div>
-                            黃采婕
-                        </div>
+
+                        <Dropdown>
+                            <DropdownTrigger>
+                                <Button variant="bordered">
+                                    <div className="light flex row items-center dark:text-white text-mainBlue gap-2 ">
+                                        <div className="bg-mainBlue w-6 h-6 rounded-full flex justify-center items-center">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                width="16"
+                                                height="16"
+                                                viewBox="0 0 16 16"
+                                                fill="none"
+                                            >
+                                                <path
+                                                    d="M3 14C3 14 2 14 2 13C2 12 3 9 8 9C13 9 14 12 14 13C14 14 13 14 13 14H3ZM8 8C8.79565 8 9.55871 7.68393 10.1213 7.12132C10.6839 6.55871 11 5.79565 11 5C11 4.20435 10.6839 3.44129 10.1213 2.87868C9.55871 2.31607 8.79565 2 8 2C7.20435 2 6.44129 2.31607 5.87868 2.87868C5.31607 3.44129 5 4.20435 5 5C5 5.79565 5.31607 6.55871 5.87868 7.12132C6.44129 7.68393 7.20435 8 8 8Z"
+                                                    fill="white"
+                                                />
+                                            </svg>
+                                        </div>
+                                        黃采婕
+                                    </div>
+                                </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu aria-label="Dynamic Actions" items={items}>
+                                {(item: any) => (
+                                    <DropdownItem
+                                        key={item.key}
+                                        color={item.key === 'logout' ? 'danger' : 'default'}
+                                        className={item.key === 'logout' ? 'text-danger' : ''}
+                                    >
+                                        {item.label}
+                                    </DropdownItem>
+                                )}
+                            </DropdownMenu>
+                        </Dropdown>
                     </div>
                 </div>
             </div>

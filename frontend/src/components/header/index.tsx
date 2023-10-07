@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { NextUIProvider } from '@nextui-org/react'
+import { Button } from '@nextui-org/react'
 
 import Head from 'next/head'
 import Image from 'next/image'
@@ -18,7 +19,7 @@ export default function Header({ toggleTheme, theme }: DarkModeProps) {
                     <div className="light dark:text-white text-mainBlue font-zen-dots text-xl font-normal">
                         EduStream
                     </div>
-                    <button onClick={toggleTheme}>
+                    <Button color="" onClick={toggleTheme}>
                         {theme === 'light' ? (
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -48,7 +49,7 @@ export default function Header({ toggleTheme, theme }: DarkModeProps) {
                                 />
                             </svg>
                         )}
-                    </button>
+                    </Button>
                     <div className="bg-mainBlue w-6 h-6 rounded-full flex justify-center items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                             <path

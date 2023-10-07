@@ -11,6 +11,7 @@ module.exports = {
             },
             colors: {
                 mainBlue: '#6689CB',
+                mainGreen: '#7FE69C ',
             },
             minHeight: {
                 56: '14rem',
@@ -32,9 +33,8 @@ module.exports = {
                         background: '#FFFFFF', // or DEFAULT
                         foreground: '#11181C', // or 50 to 900 DEFAULT
                         primary: {
-                            //... 50 to 900
                             foreground: '#FFFFFF',
-                            DEFAULT: '#006FEE',
+                            DEFAULT: '#6689CB',
                         },
                     }, // light theme colors
                 },

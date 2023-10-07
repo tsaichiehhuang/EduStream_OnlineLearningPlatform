@@ -12,6 +12,7 @@ module.exports = {
             colors: {
                 mainBlue: '#6689CB',
                 mainGreen: '#7FE69C ',
+                mainOrange: '#F2A660 ',
             },
             minHeight: {
                 56: '14rem',

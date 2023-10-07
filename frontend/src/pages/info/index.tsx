@@ -46,7 +46,7 @@ export default function Info() {
                                 <CardHeader className="flex gap-3">
                                     <h2 className="text-mainGreen text-xl font-bold">近日事項</h2>
                                 </CardHeader>
-                                <Divider />
+
                                 <CardBody>
                                     <p>Make beautiful websites regardless of your design experience.</p>
                                 </CardBody>

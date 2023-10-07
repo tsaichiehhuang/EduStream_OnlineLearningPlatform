@@ -22,7 +22,7 @@ export default function Live() {
                         <CardHeader className="flex gap-3">
                             <h2 className="text-mainBlue text-xl font-bold">重要消息</h2>
                         </CardHeader>
-                        <Divider />
+
                         <CardBody>
                             <p>Make beautiful websites regardless of your design experience.</p>
                         </CardBody>

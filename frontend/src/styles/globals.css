@@ -1,22 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC&family=Zen+Dots&display=swap');
-
-* {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-}
-
-html,
-body {
-    max-width: 100vw;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+html {
+    /* max-width: 100vw;  这个样式可以根据具体情况选择是否使用 */
     overflow-x: hidden;
 }
 
 body {
-    font-family: 'Noto Sans TC', 'Zen Dots';
+    @apply font-sans bg-gray-100; /* 使用Tailwind的字体和背景颜色类名 */
+    font-family: 'Noto Sans TC', sans-serif;
 }
 
 a {
-    color: inherit;
-    text-decoration: none;
+    @apply text-inherit no-underline; /* 使用Tailwind的文字颜色和文本装饰类名 */
 }

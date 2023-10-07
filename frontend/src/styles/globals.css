@@ -4,14 +4,13 @@
 @tailwind utilities;
 
 :root {
-    --background-light: #ffffff; /* 亮模式背景颜色 */
-    --text-light: #000000; /* 亮模式文本颜色 */
-    --background-dark: #000000; /* 暗模式背景颜色 */
-    --text-dark: #ffffff; /* 暗模式文本颜色 */
+    --background-light: #ffffff;
+    --text-light: #000000;
+    --background-dark: #333;
+    --text-dark: #ffffff;
 }
 
 html {
-    /* max-width: 100vw;  这个样式可以根据具体情况选择是否使用 */
     overflow-x: hidden;
 }
 
@@ -19,14 +18,14 @@ body {
     @apply font-sans;
     font-family: 'Noto Sans TC', sans-serif;
     &.dark {
-        @apply bg-gray-800; /* 暗模式背景颜色 */
+        @apply bg-gray-700;
     }
 
     &.light {
-        @apply bg-gray-100; /* 亮模式背景颜色 */
+        @apply bg-gray-100;
     }
 }
 
 a {
-    @apply text-inherit no-underline; /* 使用Tailwind的文字颜色和文本装饰类名 */
+    @apply text-inherit no-underline;
 }

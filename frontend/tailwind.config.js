@@ -30,23 +30,23 @@ module.exports = {
                 light: {
                     layout: {}, // light theme layout tokens
                     colors: {
-                        background: '#FFFFFF', // or DEFAULT
-                        foreground: '#11181C', // or 50 to 900 DEFAULT
+                        background: '#FDFDFD',
+                        foreground: '#11181C',
                         primary: {
                             foreground: '#FFFFFF',
                             DEFAULT: '#6689CB',
                         },
+                        default: 'transparent',
                     }, // light theme colors
                 },
                 dark: {
                     layout: {}, // dark theme layout tokens
                     colors: {
-                        background: '#000000', // or DEFAULT
-                        foreground: '#ECEDEE', // or 50 to 900 DEFAULT
+                        background: '#171E28',
+                        foreground: '#ECEDEE',
                         primary: {
-                            //... 50 to 900
                             foreground: '#FFFFFF',
-                            DEFAULT: '#006FEE',
+                            DEFAULT: '#6689CB',
                         },
                     }, // dark theme colors
                 },

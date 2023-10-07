@@ -2,14 +2,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    --background-light: #ffffff; /* 亮模式背景颜色 */
+    --text-light: #000000; /* 亮模式文本颜色 */
+    --background-dark: #000000; /* 暗模式背景颜色 */
+    --text-dark: #ffffff; /* 暗模式文本颜色 */
+}
+
 html {
     /* max-width: 100vw;  这个样式可以根据具体情况选择是否使用 */
     overflow-x: hidden;
 }
 
 body {
-    @apply font-sans bg-gray-100; /* 使用Tailwind的字体和背景颜色类名 */
+    @apply font-sans;
     font-family: 'Noto Sans TC', sans-serif;
+    &.dark {
+        @apply bg-gray-800; /* 暗模式背景颜色 */
+    }
+
+    &.light {
+        @apply bg-gray-100; /* 亮模式背景颜色 */
+    }
 }
 
 a {

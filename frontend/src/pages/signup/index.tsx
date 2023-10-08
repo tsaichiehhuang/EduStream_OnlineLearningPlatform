@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import Link from 'next/link';
 
 export default function Login() {
-  const [isregister, setregister] = useState(false);
+
   const [signuping, setsignuping] = useState(false);
 
   
@@ -70,8 +70,8 @@ export default function Login() {
 
         if (response.ok) {
           console.log('註冊成功');
-          setregister(!isregister);
-          setsignuping(false);
+       
+          window.location.href = '/login';
         
         } else {
           console.error('註冊失敗:', data.error);

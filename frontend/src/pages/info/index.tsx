@@ -7,6 +7,8 @@ import { Inter } from 'next/font/google'
 import Header from '@/components/header'
 
 export default function Info() {
+    const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
+
     const [theme, setTheme] = useState('light')
 
     const toggleTheme = () => {
@@ -17,15 +19,18 @@ export default function Info() {
             <Header toggleTheme={toggleTheme} theme={theme} />
             <div className={`${theme} text-foreground bg-background`}>
                 <main className="p-10 w-full h-screen flex flex-col ">
-                    {/* <div className={`${theme} text-foreground bg-background`}> */}
-                    <div className="text-2xl font-medium p-10">課程名稱</div>
-                    <div className=" w-full h-screen flex justify-around ">
-                        <Card className=" bg-white rounded-[10px] w-6/12 ">
+                    <div className={`text-2xl font-medium  ${isMobile ? 'py-10' : 'p-10'}`}>課程名稱</div>
+                    <div
+                        className={` w-full h-screen flex  ${
+                            isMobile ? 'flex-col-reverse justify-end' : 'justify-around'
+                        }`}
+                    >
+                        <Card className={` bg-white rounded-[10px]  ${isMobile ? 'w-full mt-5' : 'w-6/12'} `}>
                             <CardBody>
                                 <p>Make beautiful websites regardless of your design experience.</p>
                             </CardBody>
                         </Card>
-                        <div className="flex-col w-1/3 gap-8 flex">
+                        <div className={`flex-col  gap-8 flex ${isMobile ? 'w-full' : 'w-1/3'}`}>
                             <Link href="/live">
                                 <Button className="w-full" size="lg" color="primary" variant="shadow">
                                     <svg
@@ -55,7 +60,6 @@ export default function Info() {
                             </Card>
                         </div>
                     </div>
-                    {/* </div> */}
                 </main>
             </div>
         </>

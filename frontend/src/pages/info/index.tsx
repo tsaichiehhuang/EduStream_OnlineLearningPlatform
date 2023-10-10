@@ -19,18 +19,14 @@ export default function Info() {
             <Header toggleTheme={toggleTheme} theme={theme} />
             <div className={`${theme} text-foreground bg-background`}>
                 <main className="p-10 w-full h-screen flex flex-col ">
-                    <div className={`text-2xl font-medium  ${isMobile ? 'py-10' : 'p-10'}`}>課程名稱</div>
-                    <div
-                        className={` w-full h-screen flex  ${
-                            isMobile ? 'flex-col-reverse justify-end' : 'justify-around'
-                        }`}
-                    >
-                        <Card className={` bg-white rounded-[10px]  ${isMobile ? 'w-full mt-5' : 'w-6/12'} `}>
+                    <div className="text-2xl font-medium py-10 md:p-10">課程名稱</div>
+                    <div className="flex w-full h-screen justify-end md:flex-row flex-col-reverse md:justify-ariund">
+                        <Card className=" bg-white rounded-[10px]  w-full mt-5 md:w-6/12">
                             <CardBody>
                                 <p>Make beautiful websites regardless of your design experience.</p>
                             </CardBody>
                         </Card>
-                        <div className={`flex-col  gap-8 flex ${isMobile ? 'w-full' : 'w-1/3'}`}>
+                        <div className="flex-col  gap-8 flex  w-full md:w-1/3">
                             <Link href="/live">
                                 <Button className="w-full" size="lg" color="primary" variant="shadow">
                                     <svg

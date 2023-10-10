@@ -33,12 +33,8 @@ export default function Home() {
         <>
             <Header toggleTheme={toggleTheme} theme={theme} />
             <div className={`${theme} text-foreground bg-background`}>
-                <main
-                    className={`p-10 w-full h-screen flex  ${
-                        isMobile ? 'flex-col justify-start items-center' : 'flex-row justify-around items-start'
-                    } `}
-                >
-                    <div className={`${isMobile ? 'w-full ' : 'w-5/12'}  gap-10 flex flex-col justify-around `}>
+                <main className="p-10 w-full h-screen flex flex-col md:flex-row md:justify-around items-start gap-8 justify-start">
+                    <div className="w-full md:w-5/12 gap-10 flex flex-col justify-around">
                         <Card className=" border-l-5 border-mainGreen">
                             <CardHeader className="flex gap-3 justify-between">
                                 <h2 className="text-mainGreen text-xl font-bold ">今日課程</h2>
@@ -64,7 +60,7 @@ export default function Home() {
                             </CardBody>
                         </Card>
                     </div>
-                    <div className={`${isMobile ? 'w-full mt-5 ' : 'w-5/12'} flex-col w-5/12 gap-8 flex `}>
+                    <div className="w-full md:w-5/12 flex-col  gap-8 flex">
                         <h3 className=" text-mainOrange font-bold text-2xl">你的課程</h3>
                         <div className="flex-col w-full gap-2 flex ">
                             <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]" isPressable>

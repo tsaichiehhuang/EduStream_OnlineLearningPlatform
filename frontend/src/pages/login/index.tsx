@@ -78,10 +78,10 @@ export default function Login() {
 
     return (
         <>
-            <div className="flex flex-col  justify-center mt-5 items-center ">
-                <div className="bg-white rounded-lg mt h-[55%] w-[60%] shadow-md">
+            <div className="flex flex-col  justify-center mt-20 md:mt-5 items-center ">
+                <div className="bg-white rounded-lg mt h-[55%] md:w-[60%]  w-[80%] shadow-md">
                     <div className="flex flex-row">
-                        <div className="w-[65%] bg-white p-10 rounded-r-lg">
+                        <div className="md:w-[65%] w-full bg-white p-10 rounded-lg">
                             <div className="light dark:text-white text-mainBlue text-center font-zen-dots text-4xl font-normal">
                                 EduStream
                             </div>
@@ -145,7 +145,7 @@ export default function Login() {
                                 </div>
                             </div>
                         </div>
-                        <div className="w-[35%] bg-mainBlue rounded-r-lg"></div>
+                        <div className="md:w-[35%] hidden bg-mainBlue rounded-r-lg"></div>
                     </div>
                 </div>
             </div>

@@ -19,9 +19,9 @@ export default function Info() {
             <Header toggleTheme={toggleTheme} theme={theme} />
             <div className={`${theme} text-foreground bg-background`}>
                 <main className="p-10 w-full h-screen flex flex-col ">
-                    <div className="text-2xl font-medium py-10 md:p-10">課程名稱</div>
-                    <div className="flex w-full h-screen justify-end md:flex-row flex-col-reverse md:justify-around">
-                        <Card className=" bg-white rounded-[10px]  w-full mt-5 md:w-6/12">
+                    <div className="text-2xl font-medium py-10 md:p-6">課程名稱</div>
+                    <div className="flex w-full h-screen justify-end md:flex-row flex-col-reverse md:justify-around ">
+                        <Card className=" bg-white rounded-[10px]  w-full mt-5 md:w-6/12 md:mt-0">
                             <CardBody>
                                 <p>Make beautiful websites regardless of your design experience.</p>
                             </CardBody>

@@ -30,9 +30,9 @@ jobs:
           script_stop: true
           script: |
             cd ~/EduStream_OnlineLearningPlarform/backend
-            git remote set-url origin https://tsaichiehhuang:${{ secrets.BE_DEPLOY_PAT }}@github.com/tsaichiehhuang/EduStream_OnlineLearningPlarform.git
+            git remote set-url origin https://tsaichiehhuang:${{ secrets.BE_DEPLOY_PAT }}@github.com/tsaichiehhuang/EduStream_OnlineLearningPlatform.git
             git fetch origin
-            git remote set-url origin https://github.com/tsaichiehhuang/EduStream_OnlineLearningPlarform.git
+            git remote set-url origin https://github.com/tsaichiehhuang/EduStream_OnlineLearningPlatform.git
             git switch --force main
             # remove the branch to ensure getting the right commit
             git branch -D $BRANCH; true

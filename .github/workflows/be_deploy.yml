@@ -20,7 +20,7 @@ jobs:
         uses: appleboy/ssh-action@v1.0.0
         env:
           BRANCH: ${{ steps.extract_branch.outputs.branch }}
-          ENV: ${{ secrets.ENV }}
+          ENV: ${{ secrets.BE_ENV }}
         with:
           host: ${{ secrets.EC2_ADDR }}
           username: ${{ secrets.EC2_USERNAME }}

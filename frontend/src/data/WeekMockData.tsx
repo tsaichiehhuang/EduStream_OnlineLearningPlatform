@@ -1,3 +1,6 @@
+import React from 'react'
+
+// WeekMockData.ts
 interface File {
     name: string
     path: string
@@ -9,6 +12,7 @@ interface WeekData {
     file: File[]
     hw: { name: string; endTime: string; done: boolean; uploadTime: string }[]
 }
+
 export const WeekMockData: WeekData[] = [
     {
         week: 1,
@@ -38,9 +42,5 @@ export const WeekMockData: WeekData[] = [
         hw: [{ name: 'week1講義', endTime: '2023年10月12日', done: false, uploadTime: '' }],
     },
 ]
-export const CourseMockData = {
-    name: '人機互動',
-    id: 1,
-    announcement: '第一次作業上傳',
-    file: [{ name: 'syllabus', path: 'syllabus.pdf' }],
-}
+
+export default WeekMockData

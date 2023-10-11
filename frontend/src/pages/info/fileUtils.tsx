@@ -1,4 +1,6 @@
-export function getFileIcon(filePath: string) {
+import React from 'react'
+
+function getFileIcon(filePath: string) {
     const extension = filePath.split('.').pop()
     if (extension) {
         switch (extension) {
@@ -37,3 +39,4 @@ export function getFileIcon(filePath: string) {
     }
     return null
 }
+export default getFileIcon

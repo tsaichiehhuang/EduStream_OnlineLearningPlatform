@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { Card, CardHeader, CardBody, Button, Divider, Link, Chip } from '@nextui-org/react'
 import Header from '@/components/header'
 import WeekBlock from './WeekBlock'
-import { getFileIcon } from './fileUtils'
-import { CourseMockData, WeekMockData } from './mockData'
+import getFileIcon from './fileUtils'
+import WeekMockData from '@/data/WeekMockData'
+import CourseMockData from '@/data/CourseMockData'
 
 export default function Info() {
     const [theme, setTheme] = useState('light')

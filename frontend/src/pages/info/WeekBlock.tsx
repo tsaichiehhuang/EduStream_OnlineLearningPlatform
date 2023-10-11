@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, CardHeader, CardBody, Divider, Link, Button } from '@nextui-org/react'
-import { getFileIcon } from './fileUtils'
+import getFileIcon from './fileUtils'
 interface File {
     name: string
     path: string

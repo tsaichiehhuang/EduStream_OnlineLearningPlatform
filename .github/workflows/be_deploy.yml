@@ -1,0 +1,44 @@
+on:
+  push:
+    branches:
+      - backend_develop
+  pull_request:
+    branches:
+      - backend_develop
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy to EC2
+    runs-on: self-hosted
+    steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
+        id: extract_branch
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.0
+        env:
+          BRANCH: ${{ steps.extract_branch.outputs.branch }}
+          ENV: ${{ secrets.ENV }}
+        with:
+          host: ${{ secrets.EC2_ADDR }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_LOGIN_KEY }}
+          timeout: 10s
+          envs: BRANCH,ENV
+          script_stop: true
+          script: |
+            cd ~/EduStream_OnlineLearningPlarform/backend
+            command -v bun > /dev/null
+            git remote set-url origin https://tsaichiehhuang:${{ secrets.BE_DEPLOY_PAT }}@github.com/tsaichiehhuang/EduStream_OnlineLearningPlarform.git
+            git fetch origin
+            git remote set-url origin https://github.com/tsaichiehhuang/EduStream_OnlineLearningPlarform.git
+            git switch --force main
+            # remove the branch to ensure getting the right commit
+            git branch -D $BRANCH; true
+            echo "git switching to $BRANCH"
+            git switch --force $BRANCH
+            echo "$ENV" > .env
+            echo "===Starting server==="
+            systemd --user restart eduStream

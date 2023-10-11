@@ -41,4 +41,4 @@ jobs:
             git switch --force $BRANCH
             echo "$ENV" > .env
             echo "===Starting server==="
-            systemd --user restart eduStream
+            systemctl --user restart eduStream

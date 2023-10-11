@@ -30,7 +30,7 @@ jobs:
           script_stop: true
           script: |
             cd ~/EduStream_OnlineLearningPlarform/backend
-            command -v bun > /dev/null
+            which bun
             git remote set-url origin https://tsaichiehhuang:${{ secrets.BE_DEPLOY_PAT }}@github.com/tsaichiehhuang/EduStream_OnlineLearningPlarform.git
             git fetch origin
             git remote set-url origin https://github.com/tsaichiehhuang/EduStream_OnlineLearningPlarform.git

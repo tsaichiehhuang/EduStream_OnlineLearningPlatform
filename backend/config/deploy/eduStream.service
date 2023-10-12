@@ -2,7 +2,7 @@
 
 [Service]
 Type=simple
-WorkingDirectory=/home/ubuntu/EduStream_OnlineLearningPlarform/backend
+WorkingDirectory=/home/ubuntu/EduStream_OnlineLearningPlatform/backend
 ExecStart=/home/ubuntu/.bun/bin/bun src/index.ts
 ExecStop=/bin/kill -SIGINT $MAINPID
 Restart=always

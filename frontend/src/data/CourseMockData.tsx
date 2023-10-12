@@ -1,6 +1,5 @@
 import React from 'react'
 
-// CourseMockData.ts
 const CourseMockData = {
     name: '人機互動',
     id: 1,

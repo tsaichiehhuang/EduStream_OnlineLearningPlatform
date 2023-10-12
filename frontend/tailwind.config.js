@@ -11,8 +11,9 @@ module.exports = {
             },
             colors: {
                 mainBlue: '#6689CB',
-                mainGreen: '#7FE69C ',
+                mainGreen: '#5FCC7D ',
                 mainOrange: '#F2A660 ',
+                darkGray: '#B0B0B0',
             },
             minHeight: {
                 56: '14rem',
@@ -38,12 +39,13 @@ module.exports = {
                             DEFAULT: '#6689CB',
                         },
                         success: '#7FE69C',
-                        default: 'transparent',
+                        // default: 'transparent',
                         bordered: '#333',
-                    }, // light theme colors
+                        warning: { DEFAULT: '#F2A660', foreground: '#000000' },
+                    },
                 },
                 dark: {
-                    layout: {}, // dark theme layout tokens
+                    layout: {},
                     colors: {
                         background: '#171E28',
                         foreground: '#ECEDEE',
@@ -51,7 +53,7 @@ module.exports = {
                             foreground: '#FFFFFF',
                             DEFAULT: '#6689CB',
                         },
-                    }, // dark theme colors
+                    },
                 },
                 mytheme: {
                     // custom theme

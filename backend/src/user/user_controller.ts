@@ -1,9 +1,9 @@
-import * as User from "../models/user_model";
+import { User } from "../models/user";
 
-export const getUserById = (id: string) => {
-  return User.getUserById(id);
+export const getUserById = (id: number) => {
+  return User.findBy({ id: id });
 }
 
 export const signIn = () => {
-  return User.signIn();
+  // return User.signIn();
 }

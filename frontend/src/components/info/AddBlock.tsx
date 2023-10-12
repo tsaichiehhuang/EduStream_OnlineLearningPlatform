@@ -28,7 +28,7 @@ const AddBlockModal: React.FC<AddBlockModalProps> = ({ isOpen, onOpenChange }) =
                                 color="default"
                                 labelPlacement="outside"
                             />
-                            <p>內容</p>
+                            {/* <p>內容</p>
                             <Button variant="bordered" color="warning" className="text-warning  hover:shadow ">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -50,8 +50,7 @@ const AddBlockModal: React.FC<AddBlockModalProps> = ({ isOpen, onOpenChange }) =
                                     </defs>
                                 </svg>
                                 新增活動及資源
-                            </Button>
-                            {/* <Input variant="bordered" label="內容" placeholder=" " labelPlacement="outside" /> */}
+                            </Button> */}
                         </ModalBody>
                         <ModalFooter>
                             <Button color="default" variant="light" onPress={onClose}>

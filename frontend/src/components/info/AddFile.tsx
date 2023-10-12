@@ -77,6 +77,14 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
         setSelectedDate(date)
     }
     const outerTheme = useTheme()
+    const [selectedFile, setSelectedFile] = useState<any>(null)
+
+    const handleFileChange = (event: any) => {
+        const file = event.target.files[0]
+        setSelectedFile(file)
+
+        // 可以在这里执行上传文件的其他操作
+    }
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent>
@@ -86,26 +94,17 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
                             {status === 'submitted' ? '開啟繳交區' : '新增資源'}
                         </ModalHeader>
                         <ModalBody>
-                            <Input
-                                variant="bordered"
-                                label="標題"
-                                placeholder=" "
-                                color="default"
-                                labelPlacement="outside"
-                            />
                             {status === 'submitted' ? (
                                 <>
+                                    <Input
+                                        variant="bordered"
+                                        label="標題"
+                                        placeholder=" "
+                                        color="default"
+                                        labelPlacement="outside"
+                                    />
                                     <p>到期日期</p>
                                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-cn">
-                                        {/* <DesktopDatePicker
-                                            value={selectedDate} // 传入日期状态
-                                            onChange={handleDateChange} // 处理日期变化的函数
-                                            viewRenderers={{
-                                                hours: renderTimeViewClock,
-                                                minutes: renderTimeViewClock,
-                                                seconds: renderTimeViewClock,
-                                            }}
-                                        /> */}
                                         <p className="text-sm">日期</p>
 
                                         <ThemeProvider theme={customTheme(outerTheme)}>
@@ -138,12 +137,29 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
                                                 </clipPath>
                                             </defs>
                                         </svg>
-                                        新增活動及資源
+                                        <label
+                                            htmlFor="fileInput"
+                                            className="cursor-pointer bg-transparent  px-4 py-2 rounded-lg w-full "
+                                        >
+                                            選擇檔案
+                                        </label>
+                                        <input
+                                            type="file"
+                                            id="fileInput"
+                                            className="hidden"
+                                            onChange={handleFileChange}
+                                        />
                                     </Button>
+                                    {selectedFile && <div className="mt-2">已選擇: {selectedFile.name}</div>}
+                                    <Input
+                                        variant="bordered"
+                                        label="更改檔案名稱(Optional)"
+                                        placeholder=" "
+                                        color="default"
+                                        labelPlacement="outside"
+                                    />
                                 </>
                             )}
-
-                            {/* <Input variant="bordered" label="內容" placeholder=" " labelPlacement="outside" /> */}
                         </ModalBody>
                         <ModalFooter>
                             <Button color="default" variant="light" onPress={onClose}>

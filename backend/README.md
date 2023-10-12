@@ -1,11 +1,21 @@
-# Elysia with Bun runtime
+## Prerequisites
 
-## Getting Started
+To run the applications, you need to install dependencies:
 
-To get started with this template, simply paste this command into your terminal:
+1. Install bun
+2. Install packages
+   ```sh
+   # try this first
+   bun install --frozen-lockfile
+   # if failed, use this and commit the lock file
+   bun install
+   ```
 
-```bash
-bun create elysia ./elysia-example
+After that, fill secrets in `.env` file using the following format:
+
+```env
+API_TOKEN=xxxxx
+X_BV_ORG_ID=xxxxx
 ```
 
 ## Development
@@ -15,5 +25,3 @@ To start the development server run:
 ```bash
 bun run dev
 ```
-
-Open http://localhost:3000/ with your browser to see the result.

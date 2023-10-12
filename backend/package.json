@@ -3,12 +3,18 @@
   "version": "1.0.50",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "MODE=test bun run --watch src/index.ts",
+    "start": "bun run src/index.ts"
   },
   "dependencies": {
     "@elysiajs/cors": "^0.7.1",
+    "axios": "^1.5.1",
     "elysia": "latest",
-    "prettier": "2.8.8"
+    "mysql2": "^3.6.1",
+    "prettier": "2.8.8",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.3.17",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "bun-types": "latest"

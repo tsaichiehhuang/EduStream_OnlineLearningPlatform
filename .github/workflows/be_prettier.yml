@@ -15,7 +15,7 @@ permissions:
 jobs:
   Prettier:
     name: Prettier
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     outputs:
       prettier_fmt_errs: ${{ steps.fmt.outputs.prettier_fmt_errs }}
     steps:

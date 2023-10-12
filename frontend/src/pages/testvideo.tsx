@@ -1,13 +1,17 @@
 // /pages/upload.js
 
-import { useState } from 'react';
+import { useState,ChangeEvent } from 'react';
 
 export default function Upload() {
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState<null | File>(null);
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files && e.target.files[0];
+  
+    if (selectedFile) {
+      setFile(selectedFile as File);
+    }
   };
 
   const handleUpload = async () => {
@@ -26,10 +30,11 @@ export default function Upload() {
       const end = Math.min(start + chunkSize, file.size);
       const chunk = file.slice(start, end);
 
+      
       const formData = new FormData();
       formData.append('chunk', chunk);
-      formData.append('totalChunks', totalChunks);
-      formData.append('chunkIndex', i);
+      formData.append('totalChunks', String(totalChunks));
+      formData.append('chunkIndex', String(i));
 
       try {
         const response = await fetch('/api/upload', {
@@ -43,7 +48,9 @@ export default function Upload() {
           console.log(`Chunk ${i + 1} uploaded successfully`);
         }
       } catch (error) {
-        console.error(`Error uploading chunk ${i + 1}: ${error.message}`);
+        if (error instanceof Error) {
+          console.error(`Error uploading chunk ${i + 1}: ${error.message}`);
+        }
       }
     }
 

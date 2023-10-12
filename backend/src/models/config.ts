@@ -28,3 +28,16 @@ export const Database = new DataSource({
   connectTimeout: 3000,
   debug: env.MODE === "test",
 })
+
+export async function initDatabase() {
+  while (1) {
+    try {
+      await Database.initialize();
+      break;
+    } catch (err) {
+      console.warn("Can't connect to database. Try again in 3 seconds.");
+      console.info(err, "\n");
+      await new Promise(resolve => setTimeout(resolve, 3000));
+    }
+  }
+}

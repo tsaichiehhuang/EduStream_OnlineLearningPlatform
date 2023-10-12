@@ -32,7 +32,7 @@ export default function Header({ toggleTheme, theme }: DarkModeProps) {
                         EduStream
                     </Link>
                     <div className="flex row items-center justify-center">
-                        <Button color="default" onClick={toggleTheme}>
+                        <Button className="bg-transparent	" onClick={toggleTheme}>
                             {theme === 'light' ? (
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +66,7 @@ export default function Header({ toggleTheme, theme }: DarkModeProps) {
 
                         <Dropdown>
                             <DropdownTrigger>
-                                <Button variant="bordered">
+                                <Button className="bg-transparent	">
                                     <div className="light flex row items-center dark:text-white text-mainBlue gap-2 ">
                                         <div className="bg-mainBlue w-6 h-6 rounded-full flex justify-center items-center">
                                             <svg

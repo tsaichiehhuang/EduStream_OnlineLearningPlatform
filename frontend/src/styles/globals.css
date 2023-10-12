@@ -17,13 +17,6 @@ html {
 body {
     @apply font-sans;
     font-family: 'Noto Sans TC', sans-serif;
-    &.dark {
-        @apply bg-gray-700;
-    }
-
-    &.light {
-        @apply bg-gray-100;
-    }
 }
 
 a {

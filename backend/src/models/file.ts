@@ -6,6 +6,7 @@ export class File {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
+  // see this when using this hook: https://github.com/typeorm/typeorm/issues/5493
   @BeforeInsert()
   generateId() {
     this.id = uuid();

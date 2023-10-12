@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, BaseEntity } from 'typeorm';
 import { Class } from './class';
 
 @Entity('Stream')
-export class Stream {
+export class Stream extends BaseEntity {
     @PrimaryGeneratedColumn("increment", { type: 'int', unsigned: true })
     id!: number;
 

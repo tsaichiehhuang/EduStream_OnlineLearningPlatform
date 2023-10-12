@@ -1,11 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, BaseEntity } from 'typeorm';
 import { File } from './file';
 import { Homework } from './homework';
 import { Announcement } from './announcement';
 import { Week } from './week';
 
 @Entity('Block')
-export class Block {
+export class Block extends BaseEntity {
     @PrimaryGeneratedColumn("increment", { type: 'int', unsigned: true })
     id!: number;
 

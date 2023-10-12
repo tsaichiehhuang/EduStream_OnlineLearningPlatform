@@ -1,8 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BaseEntity } from "typeorm";
 import { randomUUID as uuid } from "crypto";
 
 @Entity("File")
-export class File {
+export class File extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 

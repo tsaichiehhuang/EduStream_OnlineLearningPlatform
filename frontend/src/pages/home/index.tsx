@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from '@nextui-org/react'
-import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Image } from '@nextui-org/react'
+
+import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button } from '@nextui-org/react'
 
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import Header from '@/components/header'
+import userMockData from '@/data/userMockData'
+import { AddCourseButton } from '@/components/home/AddCourse'
 
 export default function Home() {
     const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
@@ -62,12 +64,12 @@ export default function Home() {
                     </div>
                     <div className="w-full md:w-5/12 flex-col  gap-8 flex">
                         <h3 className=" text-mainOrange font-bold text-2xl">你的課程</h3>
+                        {userMockData.status === 'admin' && <AddCourseButton />}
                         <div className="flex-col w-full gap-2 flex ">
                             <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]" isPressable>
                                 <Link href="/info" className="w-full text-black ">
                                     <CardBody className="flex-row justify-between">
                                         <p>人機互動</p>
-                                        <p>三234</p>
                                     </CardBody>
                                 </Link>
                             </Card>
@@ -75,7 +77,6 @@ export default function Home() {
                                 <Link href="/info" className="w-full text-black ">
                                     <CardBody className="flex-row justify-between">
                                         <p>設計理論與方法</p>
-                                        <p>三234</p>
                                     </CardBody>
                                 </Link>
                             </Card>

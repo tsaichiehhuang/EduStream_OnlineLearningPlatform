@@ -1,3 +1,4 @@
+name: backend_deploy
 on:
   push:
     branches:
@@ -36,6 +37,8 @@ jobs:
             echo "git switching to $BRANCH"
             git switch --force $BRANCH
             echo "$ENV" > .env
-            bun install --frozen-lockfile
+            export BUN_INSTALL="$HOME/.bun"
+            export PATH=$BUN_INSTALL/bin:$PATH
+            /home/ubuntu/.bun/bin/bun install --frozen-lockfile
             echo "===Starting server==="
             systemctl --user restart eduStream

@@ -1,7 +1,8 @@
 import React from 'react'
-import { Card, CardHeader, CardBody, Divider, Link, Button } from '@nextui-org/react'
+import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button } from '@nextui-org/react'
 import getFileIcon from './fileUtils'
 import { Delete, Edit } from './editMode'
+import { AddSubmittedArea, AddFileButton } from './AddFile'
 
 type WeekBlockProps = {
     data: WeekData
@@ -96,6 +97,12 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode }) => {
                     </div>
                 ))}
             </CardBody>
+            {editMode && (
+                <CardFooter className="justify-end gap-4">
+                    <AddSubmittedArea />
+                    <AddFileButton />
+                </CardFooter>
+            )}
         </Card>
     )
 }

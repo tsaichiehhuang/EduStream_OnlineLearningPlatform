@@ -4,7 +4,7 @@ export const Edit = () => {
     return (
         <Button
             size="sm"
-            className="w-fit rounded-full border border-zinc-400 flex-row flex items-center  box-border	gap-2"
+            className="bg-transparent w-fit rounded-full border border-zinc-400 flex-row flex items-center  box-border	gap-2"
         >
             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
                 <path
@@ -20,7 +20,7 @@ export const Delete = () => {
     return (
         <Button
             size="sm"
-            className="w-fit rounded-full border border-zinc-400 flex-row flex items-center  box-border	gap-2"
+            className="bg-transparent w-fit rounded-full border border-zinc-400 flex-row flex items-center  box-border	gap-2"
         >
             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
                 <path

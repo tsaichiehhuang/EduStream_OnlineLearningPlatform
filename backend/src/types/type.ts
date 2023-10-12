@@ -16,7 +16,7 @@ enum BlockType {
 }
 
 // Interfaces
-interface User {
+export interface User {
   id: string;
   name: string;
   email: string;
@@ -24,33 +24,33 @@ interface User {
   role: UserRole;
 }
 
-interface Class {
+export interface Class {
   id: string;
   name: string;
   instructorId: string;
   time: string;
 }
 
-interface Enroll {
+export interface Enroll {
   id: string;
   classId: string;
   studentId: string;
 }
 
-interface Files {
+export interface Files {
   id: string;
   name: string;
   path: string;
   location: FileLocation;
 }
 
-interface Homework {
+export interface Homework {
   id: string;
   endTime: Date;
   description: string;
 }
 
-interface Submission {
+export interface Submission {
   id: string;
   hwId: string;
   userId: string;
@@ -59,20 +59,20 @@ interface Submission {
   score?: number;
 }
 
-interface Stream {
+export interface Stream {
   id: string;
   name: string;
   startTime: Date;
   classId: string;
 }
 
-interface Announcement {
+export interface Announcement {
   id: string;
   date: Date;
   content: string;
 }
 
-interface Block {
+export interface Block {
   id: string;
   type: BlockType;
   weekId: string;
@@ -81,9 +81,14 @@ interface Block {
   announceId?: string;
 }
 
-interface Week {
+export interface Week {
   id: string;
   classId: string;
   description: string;
   week: number;
+}
+
+export interface ErrMessage {
+  code: number;
+  message: string;
 }

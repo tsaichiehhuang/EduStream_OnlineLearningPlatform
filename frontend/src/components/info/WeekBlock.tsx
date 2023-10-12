@@ -1,19 +1,11 @@
 import React from 'react'
 import { Card, CardHeader, CardBody, Divider, Link, Button } from '@nextui-org/react'
 import getFileIcon from './fileUtils'
-interface File {
-    name: string
-    path: string
-}
-interface WeekData {
-    week: number
-    description: string
-    file: File[]
-    hw: { name: string; endTime: string; done: boolean; uploadTime: string }[]
-}
-interface WeekBlockProps {
+
+type WeekBlockProps = {
     data: WeekData
 }
+
 const WeekBlock: React.FC<WeekBlockProps> = ({ data }) => {
     return (
         <div className="py-4 gap-6 flex flex-col justify-between">

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Card, CardHeader, CardBody, Button, Divider, Link, Chip } from '@nextui-org/react'
 import Header from '@/components/header'
-import WeekBlock from './WeekBlock'
-import getFileIcon from './fileUtils'
+import WeekBlock from '@/components/info/WeekBlock'
+import getFileIcon from '@/components/info/fileUtils'
 import WeekMockData from '@/data/WeekMockData'
 import CourseMockData from '@/data/CourseMockData'
 

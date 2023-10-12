@@ -29,7 +29,7 @@ jobs:
           envs: BRANCH,ENV
           script_stop: true
           script: |
-            cd ~/EduStream_OnlineLearningPlarform/backend
+            cd ~/EduStream_OnlineLearningPlatform/backend
             git remote set-url origin https://tsaichiehhuang:${{ secrets.BE_DEPLOY_PAT }}@github.com/tsaichiehhuang/EduStream_OnlineLearningPlatform.git
             git fetch origin
             git remote set-url origin https://github.com/tsaichiehhuang/EduStream_OnlineLearningPlatform.git

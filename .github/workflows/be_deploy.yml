@@ -2,9 +2,6 @@ on:
   push:
     branches:
       - backend_develop
-  pull_request:
-    branches:
-      - backend_develop
   workflow_dispatch:
 
 jobs:

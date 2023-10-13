@@ -6,9 +6,10 @@ import Header from '@/components/header'
 import WeekBlock from '@/components/info/WeekBlock'
 import WeekMockData from '@/data/WeekMockData'
 import CourseMockData from '@/data/CourseMockData'
-import DefaultBlock from '@/components/info/defaultBlock'
-import userMockData from '@/data/userMockData'
+import DefaultBlock from '@/components/info/DefaultBlock'
+import userMockData from '@/data/UserMockData'
 import { AddBlockButton, AddBlockSquare } from '@/components/info/AddBlock'
+import DefaultMockData from '@/data/DeafultMockData'
 
 export default function Info() {
     const [theme, setTheme] = useState('light')
@@ -29,7 +30,7 @@ export default function Info() {
                     <div className="text-2xl font-medium py-10 md:p-6">{CourseMockData.name}</div>
                     <div className="flex w-full  justify-end md:flex-row flex-col-reverse md:justify-around ">
                         <div className="  w-full mt-5 md:w-7/12 md:mt-0   border-none gap-4 flex-col flex mb-12">
-                            <DefaultBlock data={CourseMockData} editMode={editMode} />
+                            <DefaultBlock data={DefaultMockData} editMode={editMode} />
 
                             {WeekMockData.map((data, index) => (
                                 <WeekBlock key={index} data={data} editMode={editMode} />

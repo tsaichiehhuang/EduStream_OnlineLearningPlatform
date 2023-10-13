@@ -23,7 +23,7 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onOpenChange })
                         <ModalBody>
                             <Input
                                 variant="bordered"
-                                label="標題"
+                                label="課程名稱"
                                 placeholder=" "
                                 color="default"
                                 labelPlacement="outside"

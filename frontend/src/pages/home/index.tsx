@@ -5,7 +5,7 @@ import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button } from '@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import Header from '@/components/header'
-import userMockData from '@/data/userMockData'
+import userMockData from '@/data/UserMockData'
 import { AddCourseButton } from '@/components/home/AddCourse'
 
 export default function Home() {

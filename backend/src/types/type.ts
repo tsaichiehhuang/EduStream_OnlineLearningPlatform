@@ -1,57 +1,58 @@
 // Enums
-enum UserRole {
-  Instructor = "instructor",
-  Student = "student",
+export enum UserRole {
+  instructor = "instructor",
+  student = "student",
 }
 
-enum FileLocation {
+export enum FileLocation {
   KKCompany = "kkCompany",
   Local = "local",
 }
 
-enum BlockType {
+export enum BlockType {
   Homework = "homework",
   Announcement = "announcement",
   Filee = "file",
 }
 
 // Interfaces
-export interface User {
-  id: string;
+export interface IUser {
+  id: number;
   name: string;
   email: string;
-  password: string;
+  salt?: string;
+  password?: string;
   role: UserRole;
 }
 
-export interface Class {
-  id: string;
+export interface IClass {
+  id: number;
   name: string;
   instructorId: string;
   time: string;
 }
 
-export interface Enroll {
-  id: string;
+export interface IEnroll {
+  id: number;
   classId: string;
   studentId: string;
 }
 
-export interface Files {
-  id: string;
+export interface IFiles {
+  id: number;
   name: string;
   path: string;
   location: FileLocation;
 }
 
-export interface Homework {
-  id: string;
+export interface IHomework {
+  id: number;
   endTime: Date;
   description: string;
 }
 
-export interface Submission {
-  id: string;
+export interface ISubmission {
+  id: number;
   hwId: string;
   userId: string;
   fileId?: string;
@@ -59,21 +60,21 @@ export interface Submission {
   score?: number;
 }
 
-export interface Stream {
-  id: string;
+export interface IStream {
+  id: number;
   name: string;
   startTime: Date;
   classId: string;
 }
 
-export interface Announcement {
-  id: string;
+export interface IAnnouncement {
+  id: number;
   date: Date;
   content: string;
 }
 
-export interface Block {
-  id: string;
+export interface IBlock {
+  id: number;
   type: BlockType;
   weekId: string;
   fileId?: string;
@@ -81,14 +82,9 @@ export interface Block {
   announceId?: string;
 }
 
-export interface Week {
-  id: string;
+export interface IWeek {
+  id: number;
   classId: string;
   description: string;
   week: number;
-}
-
-export interface ErrMessage {
-  code: number;
-  message: string;
 }

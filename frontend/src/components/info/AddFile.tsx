@@ -10,18 +10,12 @@ import {
     Card,
 } from '@nextui-org/react'
 import { useState } from 'react'
-import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import { DesktopDatePicker, LocalizationProvider, DateTimeField } from '@mui/x-date-pickers'
+import { LocalizationProvider, DateTimeField } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { DateField } from '@mui/x-date-pickers/DateField'
-import { TimeField } from '@mui/x-date-pickers/TimeField'
-import TextField from '@mui/material/TextField'
-import { outlinedInputClasses } from '@mui/material/OutlinedInput'
-import Box from '@mui/material/Box'
 import { createTheme, ThemeProvider, Theme, useTheme } from '@mui/material/styles'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
-import { customTheme } from './customTheme'
+import { customTheme } from '@components/info/customTheme'
 
 type AddFileModalProps = {
     isOpen: any

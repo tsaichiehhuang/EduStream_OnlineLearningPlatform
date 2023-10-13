@@ -25,7 +25,6 @@ export const Database = new DataSource({
   database: env.MODE === "test" ? "EduStream_test" : "EduStream",
   entities: [User, Class, Enroll, File, Homework, Submission, Stream, Announcement, Block, Week],
   connectTimeout: 3000,
-  debug: env.MODE === "test",
 })
 
 export async function initDatabase() {

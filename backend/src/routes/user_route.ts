@@ -1,12 +1,21 @@
-import { Elysia, t } from "elysia";
-import { getUserById, signIn } from "../user/user_controller";
+import { Elysia } from "elysia";
 
-export const userRoute = new Elysia().group("user", (app) =>
-  app
-    .get("/id/:id", ({ params: { id } }) => getUserById(id), {
-      params: t.Object({
-        id: t.Integer({ minimum: 0 }),
-      }),
-    })
-    .post("/signin", () => signIn())
+import { signup } from "../user/signup";
+import { signin } from "../user/signin";
+
+export const userRoute = new Elysia().group(
+  "user",
+  (app) => app.use(signup).use(signin)
+  // .post("/signin", ({ body, set }) => signIn(body.name, body.password, set), {
+  //   body: t.Object({
+  //     name: t.String(),
+  //     password: t.String(),
+  //   }),
+  // })
+  // .get("/id/:id", ({ params: { id } }) => getUserById(id)),
+  // {
+  //   params: t.Object({
+  //     id: t.Integer({ minimum: 0 }),
+  //   }),
+  // }
 );

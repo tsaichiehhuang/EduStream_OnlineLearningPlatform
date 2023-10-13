@@ -3,6 +3,8 @@ import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button } from '@
 import getFileIcon from './FileUtils'
 import { Delete, Edit } from './EditMode'
 import { AddSubmittedArea, AddFileButton } from './AddFile'
+import 'dayjs/locale/zh-cn'
+import dayjs from 'dayjs'
 
 type WeekBlockProps = {
     data: WeekData
@@ -33,7 +35,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode }) => {
                         {editMode && (
                             <div className="gap-1 flex flex-row items-start">
                                 <Delete />
-                                <Edit />
+                                <Edit file={file} status="file" />
                             </div>
                         )}
                     </div>
@@ -64,7 +66,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode }) => {
                                                 stroke-linejoin="round"
                                             />
                                         </svg>
-                                    </div>{' '}
+                                    </div>
                                     {submit.name}
                                 </Link>
                             </CardHeader>
@@ -82,7 +84,8 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode }) => {
                                         </>
                                     ) : (
                                         <>
-                                            <p className=" text-sm md:flex hidden">尚未繳交</p>Due {submit.endTime}
+                                            <p className=" text-sm md:flex hidden">尚未繳交</p>Due{' '}
+                                            {dayjs(submit.endTime).format('YYYY年MM月DD日')}
                                         </>
                                     )}
                                 </Button>
@@ -91,7 +94,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode }) => {
                         {editMode && (
                             <div className="gap-1 flex flex-row items-start">
                                 <Delete />
-                                <Edit />
+                                <Edit file={submit} status="submit" />
                             </div>
                         )}
                     </div>

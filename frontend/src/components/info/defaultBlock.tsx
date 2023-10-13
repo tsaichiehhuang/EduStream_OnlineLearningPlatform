@@ -13,12 +13,6 @@ type DefaultBlockProps = {
 const DefaultBlock: React.FC<DefaultBlockProps> = ({ data, editMode }) => {
     return (
         <Card className=" bg-white rounded-[10px]  w-full mt-5  md:mt-0 py-8 md:px-12 border-none " shadow="sm">
-            {editMode && (
-                <CardHeader className="justify-end gap-1 flex flex-row">
-                    <Delete />
-                    <Edit />
-                </CardHeader>
-            )}
             <CardBody className="  flex gap-4">
                 {data.announcement && (
                     <div className="flex flex-row justify-between">
@@ -31,32 +25,26 @@ const DefaultBlock: React.FC<DefaultBlockProps> = ({ data, editMode }) => {
                         {editMode && (
                             <div className="gap-1 flex flex-row items-start">
                                 <Delete />
-                                <Edit />
+                                <Edit file={data.announcement} status="announce" />
                             </div>
                         )}
                     </div>
                 )}
-                <div className="flex flex-row justify-between">
-                    {data.file &&
-                        data.file.map((file, index) => (
-                            <Link
-                                key={index}
-                                className="flex-row gap-2 flex ml-5"
-                                color="foreground"
-                                href="#"
-                                underline="hover"
-                            >
+                {data.file &&
+                    data.file.map((file, index) => (
+                        <div key={index} className="flex-row gap-2 flex ml-5 justify-between">
+                            <Link className="flex-row gap-2" color="foreground" href="#" underline="hover">
                                 {getFileIcon(file.path)}
                                 {file.name}
                             </Link>
-                        ))}
-                    {editMode && (
-                        <div className="gap-1 flex flex-row items-start">
-                            <Delete />
-                            <Edit />
+                            {editMode && (
+                                <div className="gap-1 flex flex-row items-start">
+                                    <Delete />
+                                    <Edit file={file} status="file" />
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
+                    ))}
             </CardBody>
         </Card>
     )

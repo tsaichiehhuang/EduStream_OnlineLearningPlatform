@@ -11,65 +11,24 @@ import {
 } from '@nextui-org/react'
 import { useState } from 'react'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
-import { DesktopDatePicker, LocalizationProvider } from '@mui/x-date-pickers'
+import { DesktopDatePicker, LocalizationProvider, DateTimeField } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DateField } from '@mui/x-date-pickers/DateField'
 import { TimeField } from '@mui/x-date-pickers/TimeField'
-import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers'
 import TextField from '@mui/material/TextField'
 import { outlinedInputClasses } from '@mui/material/OutlinedInput'
 import Box from '@mui/material/Box'
 import { createTheme, ThemeProvider, Theme, useTheme } from '@mui/material/styles'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
+import { customTheme } from './CustomTheme'
+
 type AddFileModalProps = {
     isOpen: any
     onOpenChange: any
     status: string
 }
-const customTheme = (outerTheme: Theme) =>
-    createTheme({
-        palette: {
-            mode: outerTheme.palette.mode,
-        },
-        components: {
-            MuiTextField: {
-                styleOverrides: {
-                    root: {
-                        borderRadius: '10px',
-                        '--TextField-brandBorderColor': '#E0E3E7',
-                        '--TextField-brandBorderHoverColor': '#B0B0B0',
-                        '--TextField-brandBorderFocusedColor': '#000000',
-                        '& label.Mui-focused': {
-                            color: 'var(--TextField-brandBorderFocusedColor)',
-                        },
-                    },
-                },
-            },
-            MuiOutlinedInput: {
-                styleOverrides: {
-                    notchedOutline: {
-                        borderColor: 'var(--TextField-brandBorderColor)',
-                        borderRadius: '10px',
-                        borderWidth: '1.5px',
-                        boxShadow: '0px 0px 0px 1px var(--TextField-brandBorderColor)',
-                    },
-                    input: {
-                        padding: '10px',
-                    },
-                    root: {
-                        borderRadius: '10px',
-                        [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
-                            borderColor: 'var(--TextField-brandBorderHoverColor)',
-                        },
-                        [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
-                            borderColor: 'var(--TextField-brandBorderFocusedColor)',
-                        },
-                    },
-                },
-            },
-        },
-    })
+
 const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, status }) => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
 
@@ -82,8 +41,6 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
     const handleFileChange = (event: any) => {
         const file = event.target.files[0]
         setSelectedFile(file)
-
-        // 可以在这里执行上传文件的其他操作
     }
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -103,14 +60,13 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
                                         color="default"
                                         labelPlacement="outside"
                                     />
-                                    <p>到期日期</p>
+                                    <p className="text-sm">到期日期</p>
                                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-cn">
-                                        <p className="text-sm">日期</p>
-
                                         <ThemeProvider theme={customTheme(outerTheme)}>
-                                            <DateField label="" defaultValue={dayjs(selectedDate)} />
-                                            <p className="text-sm">時間</p>
-                                            <TimeField label="" defaultValue={dayjs(selectedDate)} />
+                                            <DateTimeField
+                                                label=""
+                                                defaultValue={dayjs(selectedDate)} //Fri Jan 18 2023 23:13:40 GMT+0800 (台北標準時間)
+                                            />
                                         </ThemeProvider>
                                     </LocalizationProvider>
                                 </>

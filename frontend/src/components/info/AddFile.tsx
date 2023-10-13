@@ -15,7 +15,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { createTheme, ThemeProvider, Theme, useTheme } from '@mui/material/styles'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
-import { customTheme } from '@components/info/customTheme'
+import { customTheme } from '@/components/info/customTheme'
 
 type AddFileModalProps = {
     isOpen: any

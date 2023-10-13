@@ -6,7 +6,7 @@ export const download = (
   config: ConstructorParameters<typeof Elysia>[0] = {}
 ) =>
   new Elysia(config).get(
-    "/:fileId/download",
+    "/:fileId",
     async ({ params, set }) => {
       // TODO: wait for Anna completing login system
       const access_token = env.API_TOKEN;

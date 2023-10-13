@@ -3,7 +3,7 @@ import { Card, CardHeader, CardBody, Button, Divider, Link, Chip } from '@nextui
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@nextui-org/react'
 
 import Header from '@/components/header'
-import WeekBlock from '@/components/info/WeekBlock'
+import WeekBlock from '@/components/info/weekBlock'
 import WeekMockData from '@/data/WeekMockData'
 import CourseMockData from '@/data/CourseMockData'
 import DefaultBlock from '@/components/info/defaultBlock'

@@ -6,9 +6,9 @@ import Header from '@/components/header'
 import WeekBlock from '@/components/info/WeekBlock'
 import WeekMockData from '@/data/WeekMockData'
 import CourseMockData from '@/data/CourseMockData'
-import DefaultBlock from '@/components/info/DefaultBlock'
+import DefaultBlock from '@/components/info/defaultBlock'
 import userMockData from '@/data/UserMockData'
-import { AddBlockButton, AddBlockSquare } from '@/components/info/AddBlock'
+import { AddBlockButton, AddBlockSquare } from '@/components/info/addBlock'
 import DefaultMockData from '@/data/DeafultMockData'
 
 export default function Info() {

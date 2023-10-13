@@ -3,7 +3,7 @@ import { Card, CardHeader, CardBody, Divider, Link, Button, Chip } from '@nextui
 import getFileIcon from './fileUtils'
 import CourseMockData from '@/data/CourseMockData'
 import userMockData from '@/data/UserMockData'
-import { Delete, Edit } from './EditMode'
+import { Delete, Edit } from './editMode'
 
 type DefaultBlockProps = {
     data: DefaultData

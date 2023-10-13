@@ -21,7 +21,7 @@ import Box from '@mui/material/Box'
 import { createTheme, ThemeProvider, Theme, useTheme } from '@mui/material/styles'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
-import { customTheme } from './CustomTheme'
+import { customTheme } from './customTheme'
 
 type AddFileModalProps = {
     isOpen: any

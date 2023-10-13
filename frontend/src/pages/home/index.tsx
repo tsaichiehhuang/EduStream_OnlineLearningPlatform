@@ -6,7 +6,7 @@ import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import Header from '@/components/header'
 import userMockData from '@/data/UserMockData'
-import { AddCourseButton } from '@/components/home/AddCourse'
+import { AddCourseButton } from '@/components/home/addCourse'
 
 export default function Home() {
     const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches

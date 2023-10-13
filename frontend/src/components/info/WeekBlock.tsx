@@ -21,7 +21,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode }) => {
                 {editMode && (
                     <div className="gap-1 flex flex-row items-start">
                         <Delete />
-                        <Edit />
+                        <Edit status="title" file={data.title} />
                     </div>
                 )}
             </CardHeader>

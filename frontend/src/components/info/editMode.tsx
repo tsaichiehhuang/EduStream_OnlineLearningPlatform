@@ -53,13 +53,17 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
                         <ModalBody>
                             <Input
                                 variant="bordered"
-                                label={status === 'announce' ? '更改公告' : '更改名稱'}
-                                defaultValue={status === 'announce' ? file : file.name}
+                                label={
+                                    status === 'announce' ? '更改公告' : status === 'title' ? '更改標題' : '更改名稱'
+                                }
+                                defaultValue={status === 'announce' ? file : status === 'title' ? file : file.name}
                                 color="default"
                                 labelPlacement="outside"
                                 className="mt-4"
                             />
-                            {status !== 'announce' && <Divider className="text-darkGray">or</Divider>}
+                            {status !== 'announce' && status !== 'title' && (
+                                <Divider className="text-darkGray">or</Divider>
+                            )}
 
                             {status === 'file' ? (
                                 <>

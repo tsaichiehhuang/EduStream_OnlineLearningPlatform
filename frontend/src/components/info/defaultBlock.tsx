@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, CardHeader, CardBody, Divider, Link, Button, Chip } from '@nextui-org/react'
-import getFileIcon from './FileUtils'
+import getFileIcon from './fileUtils'
 import CourseMockData from '@/data/CourseMockData'
 import userMockData from '@/data/UserMockData'
 import { Delete, Edit } from './EditMode'

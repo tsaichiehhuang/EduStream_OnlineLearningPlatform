@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button } from '@nextui-org/react'
-import getFileIcon from './FileUtils'
+import getFileIcon from './fileUtils'
 import { Delete, Edit } from './EditMode'
 import { AddSubmittedArea, AddFileButton } from './AddFile'
 import 'dayjs/locale/zh-cn'

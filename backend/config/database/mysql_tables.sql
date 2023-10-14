@@ -43,7 +43,7 @@ DROP TABLE IF EXISTS File;
 CREATE TABLE File (
     id CHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    path VARCHAR(255) NOT NULL,
+    path VARCHAR(255),
     location ENUM('kkCompany', 'local') NOT NULL
 );
 

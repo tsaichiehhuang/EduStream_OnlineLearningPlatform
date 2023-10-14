@@ -43,6 +43,10 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
         // console.log(date.$d.toString())
         console.log(JSON.stringify(date))
     }
+    const handleCloseModal = () => {
+        setSelectedFile(null)
+        onOpenChange(false)
+    }
 
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -82,6 +86,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
                                             onChange={handleFileChange}
                                         />
                                     </Button>
+                                    {selectedFile && <div className="mt-2">已選擇: {selectedFile.name}</div>}
                                 </>
                             ) : (
                                 status === 'submit' && (
@@ -101,7 +106,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
                             )}
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="default" variant="light" onPress={onClose}>
+                            <Button color="default" variant="light" onPress={handleCloseModal}>
                                 取消
                             </Button>
                             <Button color="primary" className="text-white" onPress={onClose}>

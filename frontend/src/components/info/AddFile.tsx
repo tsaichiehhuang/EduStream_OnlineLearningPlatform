@@ -26,15 +26,16 @@ type AddFileModalProps = {
 const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, status }) => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
 
-    const handleDateChange = (date: Date | null) => {
-        setSelectedDate(date)
-    }
     const outerTheme = useTheme()
     const [selectedFile, setSelectedFile] = useState<any>(null)
 
     const handleFileChange = (event: any) => {
         const file = event.target.files[0]
         setSelectedFile(file)
+    }
+    const handleCloseModal = () => {
+        setSelectedFile(null)
+        onOpenChange(false)
     }
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -112,7 +113,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
                             )}
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="default" variant="light" onPress={onClose}>
+                            <Button color="default" variant="light" onPress={handleCloseModal}>
                                 取消
                             </Button>
                             <Button color="warning" className="text-white" onPress={onClose}>

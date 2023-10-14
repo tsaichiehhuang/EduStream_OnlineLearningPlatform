@@ -18,16 +18,15 @@ type AddFileModalProps = {
 }
 
 const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data }) => {
-    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
     const [selectedFile, setSelectedFile] = useState<any>(null)
-
-    const handleDateChange = (date: Date | null) => {
-        setSelectedDate(date)
-    }
 
     const handleFileChange = (event: any) => {
         const file = event.target.files[0]
         setSelectedFile(file)
+    }
+    const handleCloseModal = () => {
+        setSelectedFile(null)
+        onOpenChange(false)
     }
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -77,7 +76,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data 
                             />
                         </ModalBody>
                         <ModalFooter>
-                            <Button color="default" variant="light" onPress={onClose}>
+                            <Button color="default" variant="light" onPress={handleCloseModal}>
                                 取消
                             </Button>
                             <Button color="warning" className="text-white" onPress={onClose}>
@@ -127,7 +126,8 @@ export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode }) =
 
                     <CardBody className="gap-1 items-center overflow-visible py-4">
                         <Button
-                            onPress={userMockData.status === 'student' ? onOpen : undefined}
+                            onPress={onOpen}
+                            // onPress={userMockData.status === 'student' ? onOpen : undefined}
                             color={`${data.done ? 'success' : 'danger'}`}
                             variant="solid"
                             className="relative  rounded-lg hover:-translate-y-1 md:px-12 after:absolute after:rounded-lg after:inset-0 after:bg-background/40  after:transition  hover:after:scale-150 hover:after:opacity-0"

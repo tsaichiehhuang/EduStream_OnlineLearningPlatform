@@ -1,6 +1,3 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
 import { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
 import Swal from 'sweetalert2'
@@ -31,25 +28,26 @@ export default function Login() {
 
     const formikLogin = useFormik({
         initialValues: {
-            email1: '',
-            password1: '',
+            email: '',
+            password: '',
         },
         validationSchema: loginValidationSchema,
         onSubmit: async (values) => {
-            const { email1, password1 } = values
+            const { email, password } = values
             setlogininging(true)
 
             try {
-                const loginResponse = await fetch(`${apiUrl}/users/signin`, {
-                    method: 'POST',
+                const loginResponse = await fetch(`${apiUrl}/`, {
+                    // method: 'POST',
+                    method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify({
-                        provider: 'native',
-                        email: String(email1),
-                        password: String(password1),
-                    }),
+                    // body: JSON.stringify({
+                    //     provider: 'native',
+                    //     email: String(email),
+                    //     password: String(password),
+                    // }),
                 })
 
                 const loginData = await loginResponse.json()
@@ -104,8 +102,8 @@ export default function Login() {
                                         placeholder="例: shirney@appworks.tw"
                                         {...formikLogin.getFieldProps('email1')}
                                     />
-                                    {formikLogin.touched.email1 && formikLogin.errors.email1 && (
-                                        <div className="text-red-500 mt-1">{formikLogin.errors.email1}</div>
+                                    {formikLogin.touched.email && formikLogin.errors.email && (
+                                        <div className="text-red-500 mt-1">{formikLogin.errors.email}</div>
                                     )}
                                 </div>
 
@@ -119,8 +117,8 @@ export default function Login() {
                                         className="w-full h-12 px-3 rounded border  focus:outline-none focus:border-black"
                                         {...formikLogin.getFieldProps('password1')}
                                     />
-                                    {formikLogin.touched.password1 && formikLogin.errors.password1 && (
-                                        <div className="text-red-500 mt-1">{formikLogin.errors.password1}</div>
+                                    {formikLogin.touched.password && formikLogin.errors.password && (
+                                        <div className="text-red-500 mt-1">{formikLogin.errors.password}</div>
                                     )}
                                 </div>
                                 {logining ? (

@@ -15,6 +15,7 @@ CREATE TABLE User (
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     role ENUM('instructor', 'student') NOT NULL
+    UNIQUE (email)
 );
 
 DROP TABLE IF EXISTS Class;

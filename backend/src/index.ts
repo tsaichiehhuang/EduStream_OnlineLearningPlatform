@@ -19,8 +19,11 @@ const app = new Elysia()
       name: t.String(),
     }),
   })
-  .group("user", (app) => app.use(signup).use(signin).use(info))
-  .group("/file", (app) => app.use(download()))
+  .group("/api/v1", (app) =>
+    app
+      .group("user", (app) => app.use(signup).use(signin).use(info))
+      .group("/file", (app) => app.use(download()))
+  )
   .listen(3050);
 
 console.log(

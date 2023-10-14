@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
+import Swal from 'sweetalert2'
 
 const apiUrl = process.env.API_DOMAIN
 

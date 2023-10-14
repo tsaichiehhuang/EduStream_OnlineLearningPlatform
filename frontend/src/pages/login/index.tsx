@@ -1,15 +1,17 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
-
-import Header from '@/components/header'
+import { useRouter } from 'next/router'
+import Cookies from 'js-cookie'
+import swal from 'sweetalert'
 import React, { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import Link from 'next/link'
-
+const apiUrl = process.env.API_DOMAIN
 export default function Login() {
     const [logining, setlogininging] = useState(false)
+    const router = useRouter()
 
     const [theme, setTheme] = useState('light')
 
@@ -38,7 +40,7 @@ export default function Login() {
             setlogininging(true)
 
             try {
-                const loginResponse = await fetch('https://penny-canchu-api.octave.vip/api/1.0/users/signin', {
+                const loginResponse = await fetch(`${apiUrl}/users/signin`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -54,24 +56,27 @@ export default function Login() {
                 console.log(loginData)
 
                 if (loginResponse.ok) {
-                    console.log('登入成功')
+                    Swal.fire({
+                        icon: 'success',
+                        title: '成功登入',
+                        showConfirmButton: false,
+                        timer: 1000,
+                    })
                     document.cookie = `token=${loginData.data.access_token}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`
                     document.cookie = `userId=${loginData.data.user.id}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`
-                    window.location.href = '/'
+                    setTimeout(() => {
+                        router.push('/')
+                        window.location.reload()
+                    }, 1000)
                 } else {
-                    console.error('登入失敗:', loginData.error)
-
-                    if (loginResponse.status >= 500 && loginResponse.status <= 599) {
-                        alert('出現錯誤。請稍後再試或通知我們的工程團隊。')
-                        window.location.href = '/login'
-                    } else {
-                        const errorMessage = `登入失敗: ${loginData.error}`
-                        alert(errorMessage)
-                        window.location.href = '/login'
-                    }
+                    Swal.fire('電子郵件或是密碼錯誤', '', 'warning')
                 }
             } catch (error) {
-                console.error('請求錯誤:', error)
+                Swal.fire({
+                    icon: 'error',
+                    title: '網路請求錯誤',
+                    text: '請稍後再試或通知我們的工程團隊。',
+                })
             }
         },
     })
@@ -145,7 +150,7 @@ export default function Login() {
                                 </div>
                             </div>
                         </div>
-                        <div className="md:w-[35%] hidden bg-mainBlue rounded-r-lg"></div>
+                        <div className="md:w-[35%] md:flex hidden bg-mainBlue rounded-r-lg"></div>
                     </div>
                 </div>
             </div>

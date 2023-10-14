@@ -39,7 +39,6 @@ module.exports = {
                             DEFAULT: '#6689CB',
                         },
                         success: '#7FE69C',
-                        // default: 'transparent',
                         bordered: '#333',
                         warning: { DEFAULT: '#F2A660', foreground: '#000000' },
                     },

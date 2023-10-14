@@ -12,11 +12,6 @@ const app = new Elysia()
   .use(cors())
   .use(userRoute)
   .get("/", () => "Hello World!")
-  .post("/hello", ({ body }) => `Hello ${body.name}`, {
-    body: t.Object({
-      name: t.String(),
-    }),
-  })
   .group("/file", (app) => app.use(download()))
   .listen(3050);
 

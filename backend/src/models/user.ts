@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import { UserRole } from '../types/type';
 
 @Entity('User')
 export class User extends BaseEntity {
@@ -15,5 +16,5 @@ export class User extends BaseEntity {
     password!: string;
 
     @Column('enum', { enum: ['instructor', 'student'], nullable: false })
-    role!: 'instructor' | 'student';
+    role!: UserRole;
 }

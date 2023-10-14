@@ -3,7 +3,7 @@ import { Elysia, t } from "elysia";
 import { bearer } from "@elysiajs/bearer";
 import { jwt } from "@elysiajs/jwt";
 import { IUser, UserRole } from "../types/type";
-
+import { User } from "../models/user";
 
 export const info = (app: Elysia) =>
   app
@@ -14,26 +14,38 @@ export const info = (app: Elysia) =>
       })
     )
     .use(bearer())
+    .derive(async ({ jwt, bearer }) => {
+      const profile = await jwt.verify(bearer);
+
+      return {
+        profile: profile,
+      };
+    })
     .get(
       "/info/:id",
-      async ({ jwt, bearer, set, params: { id }, cookie: { auth } }) => {
-        // check the info in bearer
-        if (!bearer) {
-          set.status = 401;
-          return "Error: Unauthorized";
-        }
-        const profile = await jwt.verify(bearer);
-        console.log(profile);
+      async ({ profile, set, params: { id } }) => {
         if (!profile) {
           set.status = 401;
           return "Unauthorized";
         }
 
+        if (Number(profile.id) !== Number(id)) {
+          set.status = 403;
+          return "Permission Denied";
+        }
+
+        const user = await User.findOneBy({ id: Number(id) });
+
+        if (!user) {
+          set.status = 404;
+          return "User Not Found";
+        }
+
         const userObj: IUser = {
-          id: Number(profile.id),
-          name: profile.name,
-          email: profile.email,
-          role: profile.role as UserRole,
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          role: user.role as UserRole,
         };
 
         return {
@@ -43,6 +55,16 @@ export const info = (app: Elysia) =>
         };
       },
       {
+        async beforeHandle({ bearer, set }) {
+          if (!bearer) {
+            set.status = 401;
+            set.headers[
+              "WWW-Authenticate"
+            ] = `Bearer realm='sign', error="invalid_request"`;
+
+            return "Error: Unauthorized";
+          }
+        },
         params: t.Object({
           id: t.String(),
         }),

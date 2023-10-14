@@ -3,10 +3,12 @@ import { cors } from "@elysiajs/cors";
 
 import { download } from "./file/download";
 import { userRoute } from "./routes/user_route";
+import { liveRoute } from "./routes/live_route";
 
 const app = new Elysia()
   .use(cors())
   .use(userRoute)
+  .use(liveRoute)
   .get("/", () => "Hello World!")
   .post("/hello", ({ body }) => `Hello ${body.name}`, {
     body: t.Object({

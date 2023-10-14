@@ -6,6 +6,7 @@ import axios from "axios";
 import z, { ZodError } from "zod";
 
 import { File } from "../../models/file";
+import { User } from "../../models/user";
 import { IToken } from "../../types/type";
 
 // skipped unused fields
@@ -109,6 +110,11 @@ export const init = (config: ConstructorParameters<typeof Elysia>[0] = {}) =>
           set.status = 401;
           return "Unauthorized";
         }
+        if ((await User.findOneBy({ id: Number(profile.id) })) === null) {
+          set.status = 403;
+          return "Permission Denied";
+        }
+
         try {
           const kkFileMeta = await kkUpload(body.name, body.size);
           return {

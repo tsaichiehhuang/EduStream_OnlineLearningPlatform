@@ -1,9 +1,13 @@
 import { Elysia, t } from "elysia";
 import { cors } from "@elysiajs/cors";
 
+import { initDatabase } from "./models/config";
+
 import { download } from "./file/download";
 import { userRoute } from "./routes/user_route";
 import { liveRoute } from "./routes/live_route";
+
+await initDatabase();
 
 const app = new Elysia()
   .use(cors())

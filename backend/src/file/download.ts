@@ -2,6 +2,8 @@ import { env } from "process";
 import { Elysia, t } from "elysia";
 import axios, { AxiosError } from "axios";
 
+import { KK_API_ENDPOINT } from "../util/constant";
+
 export const download = (
   config: ConstructorParameters<typeof Elysia>[0] = {}
 ) =>
@@ -17,7 +19,7 @@ export const download = (
               `cms/v1/library/files/${params.fileId}:download`,
               {},
               {
-                baseURL: "https://api.one-stage.kkstream.io/bv/",
+                baseURL: KK_API_ENDPOINT,
                 headers: {
                   Authorization: `Bearer ${access_token}`,
                   "x-bv-org-id": env.X_BV_ORG_ID,

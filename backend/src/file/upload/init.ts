@@ -8,6 +8,7 @@ import z, { ZodError } from "zod";
 import { File } from "../../models/file";
 import { User } from "../../models/user";
 import { IToken } from "../../types/type";
+import { KK_API_ENDPOINT } from "../../util/constant";
 
 // skipped unused fields
 const kkSuccessBody = z.object({
@@ -46,7 +47,7 @@ async function kkUpload(name: string, size: number) {
               },
             },
             {
-              baseURL: "https://api.one-stage.kkstream.io/bv/",
+              baseURL: KK_API_ENDPOINT,
               headers: {
                 Authorization: `Bearer ${env.API_TOKEN}`,
                 "x-bv-org-id": env.X_BV_ORG_ID,

@@ -3,12 +3,12 @@ import { Card, CardHeader, CardBody, Button, Divider, Link, Chip } from '@nextui
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@nextui-org/react'
 
 import Header from '@/components/header'
-import WeekBlock from '@/components/info/weekBlock'
+import WeekBlock from '@/components/info/WeekBlock'
 import WeekMockData from '@/data/WeekMockData'
 import CourseMockData from '@/data/CourseMockData'
-import DefaultBlock from '@/components/info/defaultBlock'
+import DefaultBlock from '@/components/info/DefaultBlock'
 import userMockData from '@/data/UserMockData'
-import { AddBlockButton, AddBlockSquare } from '@/components/info/addBlock'
+import { AddBlockButton, AddBlockSquare } from '@/components/info/AddBlock'
 import DefaultMockData from '@/data/DeafultMockData'
 
 export default function Info() {

@@ -1,9 +1,9 @@
 import React from 'react'
 import { Card, CardHeader, CardBody, Divider, Link, Button, Chip } from '@nextui-org/react'
-import getFileIcon from './fileUtils'
+import getFileIcon from './FileUtils'
 import CourseMockData from '@/data/CourseMockData'
 import userMockData from '@/data/UserMockData'
-import { Delete, Edit } from './editMode'
+import { Delete, Edit } from './EditMode'
 
 type DefaultBlockProps = {
     data: DefaultData

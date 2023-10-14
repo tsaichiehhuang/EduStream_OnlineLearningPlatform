@@ -17,7 +17,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DateField } from '@mui/x-date-pickers/DateField'
 import { TimeField } from '@mui/x-date-pickers/TimeField'
 import { createTheme, ThemeProvider, Theme, useTheme } from '@mui/material/styles'
-import { customTheme } from './customTheme'
+import { customTheme } from './CustomTheme'
 import 'dayjs/locale/zh-cn'
 import dayjs from 'dayjs'
 

@@ -3,20 +3,23 @@ import { cors } from "@elysiajs/cors";
 
 import { initDatabase } from "./models/config";
 
+import { signup } from "./user/signup";
+import { signin } from "./user/signin";
+import { info } from "./user/info";
+
 import { download } from "./file/download";
-import { userRoute } from "./routes/user_route";
 
 await initDatabase();
 
 const app = new Elysia()
   .use(cors())
-  .use(userRoute)
   .get("/", () => "Hello World!")
   .post("/hello", ({ body }) => `Hello ${body.name}`, {
     body: t.Object({
       name: t.String(),
     }),
   })
+  .group("user", (app) => app.use(signup).use(signin).use(info))
   .group("/file", (app) => app.use(download()))
   .listen(3050);
 

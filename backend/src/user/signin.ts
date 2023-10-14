@@ -52,6 +52,7 @@ export const signin = (app: Elysia) =>
                 id: String(userObj.id),
                 name: userObj.name,
                 email: userObj.email,
+                role: userObj.role,
               }),
               user: userObj,
             },

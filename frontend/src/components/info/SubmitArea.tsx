@@ -33,8 +33,13 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data 
             <ModalContent>
                 {(onClose) => (
                     <>
-                        <ModalHeader className="flex flex-col gap-1">上傳檔案</ModalHeader>
+                        <ModalHeader className="flex flex-col gap-1">上傳檔案：{data.name}</ModalHeader>
                         <ModalBody>
+                            <p className="text-sm">詳細說明</p>
+                            <p className="text-sm text-gray-500">{data.description}</p>
+                            <Divider />
+                            <p className="text-sm">上傳檔案</p>
+
                             <Button variant="bordered" color="warning" className="text-warning  hover:shadow ">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -95,9 +100,9 @@ export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode }) =
     return (
         <>
             <div className="flex flex-row justify-between">
-                <Card className="p-1 md:w-fit hover:bg-neutral-50 " shadow="sm">
+                <Card onPress={onOpen} isPressable className="p-1 md:w-fit hover:bg-neutral-50 " shadow="sm">
                     <CardHeader className="pb-0 pt-2 px-4 flex-row items-start ">
-                        <Link className=" gap-2" color="foreground" href="#" underline="hover">
+                        <Link onPress={onOpen} className=" gap-2 cursor-pointer		" color="foreground" underline="hover">
                             <div className="w-[24px] h-[24px] bg-mainOrange rounded-full flex justify-center items-center">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"

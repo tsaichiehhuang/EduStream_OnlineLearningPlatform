@@ -17,8 +17,8 @@ export default function Login() {
     }
 
     const loginValidationSchema = Yup.object().shape({
-        email1: Yup.string().required('Email is required').email('Invalid email address'),
-        password1: Yup.string()
+        email: Yup.string().required('Email is required').email('Invalid email address'),
+        password: Yup.string()
             .required('Password is required')
             .matches(
                 /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
@@ -35,19 +35,16 @@ export default function Login() {
         onSubmit: async (values) => {
             const { email, password } = values
             setlogininging(true)
-
             try {
-                const loginResponse = await fetch(`${apiUrl}/`, {
-                    // method: 'POST',
-                    method: 'GET',
+                const loginResponse = await fetch(`${apiUrl}/user/signin`, {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    // body: JSON.stringify({
-                    //     provider: 'native',
-                    //     email: String(email),
-                    //     password: String(password),
-                    // }),
+                    body: JSON.stringify({
+                        email: String(email),
+                        password: String(password),
+                    }),
                 })
 
                 const loginData = await loginResponse.json()
@@ -60,8 +57,8 @@ export default function Login() {
                         showConfirmButton: false,
                         timer: 1000,
                     })
-                    document.cookie = `token=${loginData.data.access_token}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`
-                    document.cookie = `userId=${loginData.data.user.id}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`
+                    // document.cookie = `token=${loginData.data.access_token}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`
+                    // document.cookie = `userId=${loginData.data.user.id}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`
                     setTimeout(() => {
                         router.push('/')
                         window.location.reload()
@@ -99,8 +96,8 @@ export default function Login() {
                                         type="email"
                                         id="email1"
                                         className="w-full h-12 px-3 rounded border  focus:outline-none focus:border-black"
-                                        placeholder="例: shirney@appworks.tw"
-                                        {...formikLogin.getFieldProps('email1')}
+                                        placeholder="例: a12345678@gmail.com"
+                                        {...formikLogin.getFieldProps('email')}
                                     />
                                     {formikLogin.touched.email && formikLogin.errors.email && (
                                         <div className="text-red-500 mt-1">{formikLogin.errors.email}</div>
@@ -115,7 +112,7 @@ export default function Login() {
                                         type="password"
                                         id="password1"
                                         className="w-full h-12 px-3 rounded border  focus:outline-none focus:border-black"
-                                        {...formikLogin.getFieldProps('password1')}
+                                        {...formikLogin.getFieldProps('password')}
                                     />
                                     {formikLogin.touched.password && formikLogin.errors.password && (
                                         <div className="text-red-500 mt-1">{formikLogin.errors.password}</div>

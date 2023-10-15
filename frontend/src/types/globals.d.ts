@@ -16,6 +16,7 @@ declare global {
         }[]
         submit: {
             name: string
+            description: string
             endTime: string
             done: boolean
             uploadTime: string

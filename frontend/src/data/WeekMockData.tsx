@@ -10,6 +10,7 @@ export const WeekMockData: WeekData[] = [
         submit: [
             {
                 name: 'week1作業繳交',
+                description: '請繳交作業',
                 endTime: '2023-01-18T15:05:40.000Z',
                 done: true,
                 uploadTime: '2023年10月7日',
@@ -25,6 +26,7 @@ export const WeekMockData: WeekData[] = [
         submit: [
             {
                 name: 'week2作業繳交',
+                description: '請繳交作業',
                 endTime: '2023-01-18T15:05:40.000Z',
                 done: false,
                 uploadTime: '',
@@ -40,6 +42,7 @@ export const WeekMockData: WeekData[] = [
         submit: [
             {
                 name: 'week3作業繳交',
+                description: '請繳交作業',
                 endTime: '2023-01-18T15:05:40.000Z',
                 done: false,
                 uploadTime: '',

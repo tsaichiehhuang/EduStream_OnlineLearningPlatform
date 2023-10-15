@@ -1,12 +1,34 @@
 import process from "process";
 import { Elysia, t } from "elysia";
+import { bearer } from "@elysiajs/bearer";
+import { jwt } from "@elysiajs/jwt";
 import axios, { AxiosError } from "axios";
 
-export const getLive = () =>
-  new Elysia().get(
+export const getLive = (app: Elysia) =>
+  app
+  .use(
+    jwt({
+      name: "jwt",
+      secret: process.env.JWT_SECRET ? process.env.JWT_SECRET : "",
+    })
+  )
+  .use(bearer())
+  .derive(async ({ jwt, bearer }) => {
+    const profile = await jwt.verify(bearer);
+
+    return {
+      profile: profile,
+    };
+  })
+  .get(
     "/:liveId",
-    async ({ params, set }) => {
-      // TODO: wait for Anna completing login system
+    async ({ profile, params, set }) => {
+
+      if (!profile) {
+        set.status = 401;
+        return "Unauthorized";
+      }
+
       const access_token = process.env.API_TOKEN;
       const result = await (async function () {
         try {
@@ -23,40 +45,34 @@ export const getLive = () =>
             )
           ).data;
         } catch (err) {
-          if (err instanceof AxiosError) {
-            set.status = err.response?.status;
-            if (set.status !== 404) {
-              console.warn(
-                `failed to get live. :\n\treason:${err.response}`
-              );
-              return `Unknown error when get live. Status ${err.response?.status}`;
-            } else {
-              return "";
-            }
-          } else {
-            set.status = "Internal Server Error";
-            return "";
-          }
+          console.warn("Error status：",err.response?.status,"Reason：",err.response?.statusText)
+          console.warn("Details：",err.response?.data)
+          return { error: err }
         }
       })();
 
-      set.status = 200;
-      return {
-        data: {
-          live:{
-            id: result.id,
-            name: result.name,
-            created_at: result.created_at,
-            updated_at: result.updated_at,
-            status: result.status,
-            setup: {
-                links: result.setup.rtmp.links[0].url,
-                key: result.setup.rtmp.links[0].stream_key
-            },
-            url: result.stream[0].manifests[0].uris[0].uri
-          }
-        },
-      };
+      if(result.error){
+        set.status = result.error.response.status;
+        return { error: result.error.response.data }
+      } else {
+        set.status = 200;
+        return {
+          data: {
+            live:{
+              id: result.live.id,
+              name: result.live.name,
+              created_at: result.live.created_at,
+              updated_at: result.live.updated_at,
+              status: result.live.status,
+              setup: {
+                  links: result.live.setup.rtmp.links[0].url,
+                  key: result.live.setup.rtmp.links[0].stream_key
+              },
+              url: result.live.stream[0].manifests[0].uris[0].uri
+            }
+          },
+        };
+      }
     },
     {
       params: t.Object({

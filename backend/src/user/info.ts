@@ -1,8 +1,8 @@
 // get user info api
 import { Elysia, t } from "elysia";
 import { bearer } from "@elysiajs/bearer";
-import { jwt } from "@elysiajs/jwt";
-import { IUser, UserRole } from "../types/type";
+import { JWTPayloadSpec, jwt } from "@elysiajs/jwt";
+import { IToken, IUser, UserRole } from "../types/type";
 import { User } from "../models/user";
 
 export const info = (app: Elysia) =>
@@ -18,7 +18,7 @@ export const info = (app: Elysia) =>
       const profile = await jwt.verify(bearer);
 
       return {
-        profile: profile,
+        profile: profile as false | (IToken & JWTPayloadSpec),
       };
     })
     .get(

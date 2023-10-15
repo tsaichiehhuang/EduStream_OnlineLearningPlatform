@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BaseEntity } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  BeforeInsert,
+  BaseEntity,
+} from "typeorm";
 import { randomUUID as uuid } from "crypto";
 
 @Entity("File")
@@ -15,8 +21,9 @@ export class File extends BaseEntity {
   @Column({ type: "varchar", length: 255, nullable: false })
   name!: string;
 
-  @Column({ type: "varchar", length: 255, nullable: false })
-  path!: string;
+  // no path if file saved in kkCompany
+  @Column({ type: "varchar", length: 255 })
+  path?: string;
 
   @Column("enum", { enum: ["kkCompany", "local"], nullable: false })
   location!: "kkCompany" | "local";

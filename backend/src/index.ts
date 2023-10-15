@@ -16,23 +16,21 @@ import { archiveLive } from "./live/archive";
 import { previewLive } from "./live/preview";
 
 import { download } from "./file/download";
+import { init } from "./file/upload/init";
 
 await initDatabase();
 
 const app = new Elysia()
   .use(cors())
   .get("/", () => "Hello World!")
-  .post("/hello", ({ body }) => `Hello ${body.name}`, {
-    body: t.Object({
-      name: t.String(),
-    }),
-  })
   .group("user", (app) => app.use(signup).use(signin).use(info))
   .group("live", (app) => 
     app.use(getLive).use(endLive).use(startLive).use(cancelLive)
     .use(createLive).use(archiveLive).use(previewLive)
   )
-  .group("/file", (app) => app.use(download()))
+  .group("/file", (app) =>
+    app.use(download()).group("/upload", (app) => app.use(init()))
+  )
   .listen(3050);
 
 console.log(

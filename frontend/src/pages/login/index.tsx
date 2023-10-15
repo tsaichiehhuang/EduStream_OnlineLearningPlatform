@@ -6,15 +6,24 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import Link from 'next/link'
 const apiUrl = process.env.API_DOMAIN
+
+export async function getServerSideProps(context: any) {
+    const { req, res } = context
+    const accessToken = req.cookies.accessToken
+    if (accessToken) {
+        res.writeHead(302, { Location: '/' })
+        res.end()
+        return { props: {} }
+    }
+
+    return {
+        props: {},
+    }
+}
+
 export default function Login() {
     const [logining, setlogininging] = useState(false)
     const router = useRouter()
-
-    const [theme, setTheme] = useState('light')
-
-    const toggleTheme = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light')
-    }
 
     const loginValidationSchema = Yup.object().shape({
         email: Yup.string().required('Email is required').email('Invalid email address'),
@@ -57,11 +66,13 @@ export default function Login() {
                         showConfirmButton: false,
                         timer: 1000,
                     })
-                    // document.cookie = `token=${loginData.data.access_token}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`
-                    // document.cookie = `userId=${loginData.data.user.id}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`
+                    Cookies.set('accessToken', loginData.data.access_token)
+                    Cookies.set('userName', loginData.data.user.name)
+                    Cookies.set('userRole', loginData.data.user.role)
+
                     setTimeout(() => {
-                        router.push('/')
-                        window.location.reload()
+                        router.push('/home')
+                        // window.location.reload()
                     }, 1000)
                 } else {
                     Swal.fire('電子郵件或是密碼錯誤', '', 'warning')

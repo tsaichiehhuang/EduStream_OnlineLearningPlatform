@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react'
-
 import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button } from '@nextui-org/react'
-
-import Head from 'next/head'
-import { Inter } from 'next/font/google'
 import Header from '@/components/header'
 import userMockData from '@/data/UserMockData'
 import { AddCourseButton } from '@/components/home/AddCourse'
+import Cookies from 'js-cookie'
 
+export async function getServerSideProps(context: any) {
+    const { req, res } = context
+    const accessToken = req.cookies.accessToken
+    if (!accessToken) {
+        res.writeHead(302, { Location: '/login' })
+        res.end()
+        return { props: {} }
+    }
+
+    return {
+        props: {},
+    }
+}
 export default function Home() {
-    const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
-
+    const userRole = Cookies.get('userRole')
     const [theme, setTheme] = useState('light')
 
     const toggleTheme = () => {
@@ -64,7 +73,7 @@ export default function Home() {
                     </div>
                     <div className="w-full md:w-5/12 flex-col  gap-8 flex">
                         <h3 className=" text-mainOrange font-bold text-2xl">你的課程</h3>
-                        {userMockData.status === 'admin' && <AddCourseButton />}
+                        {userRole === 'instructor' && <AddCourseButton />}
                         <div className="flex-col w-full gap-2 flex ">
                             <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]" isPressable>
                                 <Link href="/info" className="w-full text-black ">

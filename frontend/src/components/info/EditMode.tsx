@@ -91,6 +91,16 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
                             ) : (
                                 status === 'submit' && (
                                     <>
+                                        <Input
+                                            variant="bordered"
+                                            label="更改說明"
+                                            defaultValue={file.description}
+                                            color="default"
+                                            labelPlacement="outside"
+                                            className="mt-4"
+                                        />
+                                        <Divider className="text-darkGray">or</Divider>
+
                                         <p className="text-sm">更改到期日期</p>
                                         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-cn">
                                             <ThemeProvider theme={customTheme(outerTheme)}>

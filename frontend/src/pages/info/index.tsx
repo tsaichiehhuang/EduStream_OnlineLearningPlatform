@@ -7,11 +7,25 @@ import WeekBlock from '@/components/info/WeekBlock'
 import WeekMockData from '@/data/WeekMockData'
 import CourseMockData from '@/data/CourseMockData'
 import DefaultBlock from '@/components/info/DefaultBlock'
-import userMockData from '@/data/UserMockData'
+import Cookies from 'js-cookie'
 import { AddBlockButton, AddBlockSquare } from '@/components/info/AddBlock'
 import DefaultMockData from '@/data/DeafultMockData'
+export async function getServerSideProps(context: any) {
+    const { req, res } = context
+    const accessToken = req.cookies.accessToken
+    if (!accessToken) {
+        res.writeHead(302, { Location: '/login' })
+        res.end()
+        return { props: {} }
+    }
 
+    return {
+        props: {},
+    }
+}
 export default function Info() {
+    const userRole = Cookies.get('userRole')
+
     const [theme, setTheme] = useState('light')
     const [editMode, setEditMode] = useState(false)
 
@@ -38,7 +52,7 @@ export default function Info() {
                             {editMode && <AddBlockSquare />}
                         </div>
                         <div className="flex-col  gap-8 flex  w-full md:w-1/3">
-                            {userMockData.status !== 'admin' ? (
+                            {userRole !== 'instructor' ? (
                                 <>
                                     <Link href="/live">
                                         <Button className="w-full" size="lg" color="primary" variant="shadow">

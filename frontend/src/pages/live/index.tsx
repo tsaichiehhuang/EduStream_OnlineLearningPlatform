@@ -5,7 +5,19 @@ import Head from 'next/head'
 import { Inter } from 'next/font/google'
 import Header from '@/components/header'
 import { NextUIProvider } from '@nextui-org/react'
+export async function getServerSideProps(context: any) {
+    const { req, res } = context
+    const accessToken = req.cookies.accessToken
+    if (!accessToken) {
+        res.writeHead(302, { Location: '/login' })
+        res.end()
+        return { props: {} }
+    }
 
+    return {
+        props: {},
+    }
+}
 export default function Live() {
     const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
 

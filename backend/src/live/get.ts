@@ -52,7 +52,8 @@ export const getLive = () =>
             setup: {
                 links: result.setup.rtmp.links[0].url,
                 key: result.setup.rtmp.links[0].stream_key
-            }
+            },
+            url: result.stream[0].manifests[0].uris[0].uri
           }
         },
       };

@@ -93,7 +93,7 @@ export default function Home() {
                                 >
                                     <CardBody className="flex-row justify-between">
                                         <p>{data.name}</p>
-                                        {userRole === 'student' && <p>{data.teacher}</p>}
+                                        {userRole === 'student' && 'teacher' in data && <p>{data.teacher}</p>}
                                     </CardBody>
                                 </Card>
                             ))}

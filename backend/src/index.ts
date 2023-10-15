@@ -24,9 +24,15 @@ const app = new Elysia()
   .use(cors())
   .get("/", () => "Hello World!")
   .group("user", (app) => app.use(signup).use(signin).use(info))
-  .group("live", (app) => 
-    app.use(getLive).use(endLive).use(startLive).use(cancelLive)
-    .use(createLive).use(archiveLive).use(previewLive)
+  .group("live", (app) =>
+    app
+      .use(getLive)
+      .use(endLive)
+      .use(startLive)
+      .use(cancelLive)
+      .use(createLive)
+      .use(archiveLive)
+      .use(previewLive)
   )
   .group("/file", (app) =>
     app.use(download()).group("/upload", (app) => app.use(init()))

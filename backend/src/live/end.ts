@@ -1,14 +1,36 @@
 import process from "process";
 import { Elysia, t } from "elysia";
+import { bearer } from "@elysiajs/bearer";
+import { jwt } from "@elysiajs/jwt";
 import axios, { AxiosError } from "axios";
 
-export const endLive = () =>
-  new Elysia().post(
-    "/:liveId:end",
-    async ({ params, set }) => {
-      // TODO: wait for Anna completing login system
+export const endLive = (app: Elysia) =>
+  app
+  .use(
+    jwt({
+      name: "jwt",
+      secret: process.env.JWT_SECRET ? process.env.JWT_SECRET : "",
+    })
+  )
+  .use(bearer())
+  .derive(async ({ jwt, bearer }) => {
+    const profile = await jwt.verify(bearer);
+
+    return {
+      profile: profile,
+    };
+  })
+  .post(
+    "/:liveId/end",
+    async ({ profile, params, set }) => {
+
+      if (!profile) {
+        set.status = 401;
+        return "Unauthorized";
+      }
+
       const access_token = process.env.API_TOKEN;
-      await (async function () {
+      const result = await (async function () {
         try {
           return (
             await axios.post(
@@ -24,29 +46,23 @@ export const endLive = () =>
             )
           ).data;
         } catch (err) {
-          if (err instanceof AxiosError) {
-            set.status = err.response?.status;
-            if (set.status !== 404) {
-              console.warn(
-                `failed to end live. :\n\treason:${err.response}`
-              );
-              return `Unknown error when end live. Status ${err.response?.status}`;
-            } else {
-              return "";
-            }
-          } else {
-            set.status = "Internal Server Error";
-            return "";
-          }
+          console.warn("Error status：",err.response?.status,"Reason：",err.response?.statusText)
+          console.warn("Details：",err.response?.data)
+          return { error: err }
         }
       })();
 
-      set.status = 200;
-      return {
-        live: {
-            id: params.liveId
-        }
-      };
+      if(result.error){
+        set.status = result.error.response.status;
+        return { error: result.error.response.data }
+      } else {
+        set.status = 200;
+        return {
+          live: {
+              id: params.liveId
+          }
+        };
+      }
     },
     {
       params: t.Object({

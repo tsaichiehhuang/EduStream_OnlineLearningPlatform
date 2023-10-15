@@ -5,7 +5,7 @@ import { getLive } from "../live/get";
 import { endLive } from "../live/end";
 import { startLive } from "../live/start";
 import { previewLive } from "../live/preview";
-import { archiveLive } from "../live/archieve";
+import { archiveLive } from "../live/archive";
 
 export const liveRoute = new Elysia().group("live", (app) => app
   .use(getLive())

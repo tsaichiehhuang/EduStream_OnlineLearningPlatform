@@ -26,5 +26,5 @@ export class Enroll extends BaseEntity {
 
   @ManyToOne(() => User, (student) => student.enrolls)
   @JoinColumn({ name: "studentId" })
-  student?: User;
+  student?: import("./user").User;
 }

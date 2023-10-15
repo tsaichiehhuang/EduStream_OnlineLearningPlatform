@@ -23,7 +23,7 @@ export class Class extends BaseEntity {
 
   @ManyToOne(() => User)
   @JoinColumn({ name: "instructorId" })
-  instructor?: User;
+  instructor?: import("./user").User;
 
   @Column({ type: "varchar", length: 50, nullable: false })
   time!: string;

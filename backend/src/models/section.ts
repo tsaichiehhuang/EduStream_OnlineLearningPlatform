@@ -19,7 +19,7 @@ export class Section {
 
   @ManyToOne(() => Class, (cls) => cls.sections)
   @JoinColumn({ name: "classId" })
-  class?: Class;
+  class?: import("./class").Class;
 
   @Column({ type: "text", nullable: false })
   description!: string;

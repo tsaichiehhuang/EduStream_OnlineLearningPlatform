@@ -28,7 +28,7 @@ export class Block extends BaseEntity {
 
   @ManyToOne(() => Section, (section) => section.blocks)
   @JoinColumn({ name: "weekId" })
-  section?: Section;
+  section?: import("./section").Section;
 
   @Column({ type: "char", length: 36, nullable: true })
   fileId?: string;

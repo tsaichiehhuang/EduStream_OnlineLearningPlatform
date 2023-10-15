@@ -21,6 +21,7 @@ export class File extends BaseEntity {
   @Column({ type: "varchar", length: 255, nullable: false })
   name!: string;
 
+  // no path if file saved in kkCompany
   @Column({ type: "varchar", length: 255, nullable: true })
   path?: string;
 

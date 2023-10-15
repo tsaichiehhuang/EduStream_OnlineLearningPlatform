@@ -1,9 +1,10 @@
 import React from 'react'
-import { Card, CardHeader, CardBody, Divider, Link, Button, Chip } from '@nextui-org/react'
+import { Card, CardHeader, CardBody, Divider, Link, Button, Chip, CardFooter } from '@nextui-org/react'
 import getFileIcon from './FileUtils'
-import CourseMockData from '@/data/CourseMockData'
+import CourseMockData from '@/data/ClassMockData'
 import userMockData from '@/data/UserMockData'
 import { Delete, Edit } from './EditMode'
+import { AddSubmittedArea, AddFileButton } from '@/components/info/AddFile'
 
 type DefaultBlockProps = {
     data: DefaultData
@@ -46,6 +47,11 @@ const DefaultBlock: React.FC<DefaultBlockProps> = ({ data, editMode }) => {
                         </div>
                     ))}
             </CardBody>
+            {editMode && (
+                <CardFooter className="justify-end gap-4">
+                    <AddFileButton />
+                </CardFooter>
+            )}
         </Card>
     )
 }

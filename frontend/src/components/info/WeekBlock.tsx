@@ -27,7 +27,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode }) => {
             <CardBody className=" gap-6 flex flex-col justify-between">
                 {data.file.map((file, index) => (
                     <div key={index} className="flex flex-row justify-between">
-                        <Link className="ml-5 gap-2 " color="foreground" href="#" underline="hover">
+                        <Link className="ml-5 gap-2 " color="foreground" href={file.path} underline="hover">
                             {getFileIcon(file.path)}
                             {file.name}
                         </Link>

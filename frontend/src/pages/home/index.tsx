@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button } from '@nextui-org/react'
 import Header from '@/components/header'
-import userMockData from '@/data/UserMockData'
+import ClassMockData from '@/data/ClassMockData'
+import InstructorClassMockData from '@/data/InstructorClassMockData'
+
 import { AddCourseButton } from '@/components/home/AddCourse'
 import Cookies from 'js-cookie'
 
@@ -19,7 +21,7 @@ export async function getServerSideProps(context: any) {
     }
 }
 export default function Home() {
-    const userRole = Cookies.get('userRole')
+    const userRole: string | undefined = Cookies.get('userRole') ?? undefined
     const [theme, setTheme] = useState('light')
 
     const toggleTheme = () => {
@@ -29,6 +31,10 @@ export default function Home() {
     const [formattedTime, setFormattedTime] = useState<string | undefined>()
     const [formattedDate, setFormattedDate] = useState<string | undefined>()
 
+    const handleClassClick = (classId: number, className: string) => {
+        Cookies.set('className', className)
+        window.location.href = `/info/${classId}`
+    }
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCurrentTime(new Date())
@@ -40,6 +46,9 @@ export default function Home() {
             clearInterval(intervalId)
         }
     }, [currentTime])
+
+    type AllClassData = ClassData | InstructorClassData
+    const classInfoData: AllClassData[] = userRole === 'student' ? ClassMockData : InstructorClassMockData
     return (
         <>
             <Header toggleTheme={toggleTheme} theme={theme} />
@@ -75,20 +84,19 @@ export default function Home() {
                         <h3 className=" text-mainOrange font-bold text-2xl">你的課程</h3>
                         {userRole === 'instructor' && <AddCourseButton />}
                         <div className="flex-col w-full gap-2 flex ">
-                            <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]" isPressable>
-                                <Link href="/info" className="w-full text-black ">
+                            {classInfoData.map((data) => (
+                                <Card
+                                    key={data.id}
+                                    className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]"
+                                    isPressable
+                                    onPress={() => handleClassClick(data.id, data.name)}
+                                >
                                     <CardBody className="flex-row justify-between">
-                                        <p>人機互動</p>
+                                        <p>{data.name}</p>
+                                        {userRole === 'student' && <p>{data.teacher}</p>}
                                     </CardBody>
-                                </Link>
-                            </Card>
-                            <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]" isPressable>
-                                <Link href="/info" className="w-full text-black ">
-                                    <CardBody className="flex-row justify-between">
-                                        <p>設計理論與方法</p>
-                                    </CardBody>
-                                </Link>
-                            </Card>
+                                </Card>
+                            ))}
                         </div>
                     </div>
                 </main>

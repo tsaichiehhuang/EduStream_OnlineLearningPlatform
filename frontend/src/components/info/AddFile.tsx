@@ -55,6 +55,13 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
                                         color="default"
                                         labelPlacement="outside"
                                     />
+                                    <Input
+                                        variant="bordered"
+                                        label="說明"
+                                        placeholder=" "
+                                        color="default"
+                                        labelPlacement="outside"
+                                    />
                                     <p className="text-sm">到期日期</p>
                                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-cn">
                                         <ThemeProvider theme={customTheme(outerTheme)}>

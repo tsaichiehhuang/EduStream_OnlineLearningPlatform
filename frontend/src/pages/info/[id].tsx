@@ -5,11 +5,11 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure
 import Header from '@/components/header'
 import WeekBlock from '@/components/info/WeekBlock'
 import WeekMockData from '@/data/WeekMockData'
-import CourseMockData from '@/data/CourseMockData'
+import CourseMockData from '@/data/ClassMockData'
 import DefaultBlock from '@/components/info/DefaultBlock'
 import Cookies from 'js-cookie'
 import { AddBlockButton, AddBlockSquare } from '@/components/info/AddBlock'
-import DefaultMockData from '@/data/DeafultMockData'
+import DefaultMockData from '@/data/DefaultMockData'
 export async function getServerSideProps(context: any) {
     const { req, res } = context
     const accessToken = req.cookies.accessToken
@@ -35,13 +35,13 @@ export default function Info() {
     const toggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light')
     }
-
+    const courseName = Cookies.get('courseName')
     return (
         <>
             <Header toggleTheme={toggleTheme} theme={theme} />
             <div className={`${theme} text-foreground bg-background`}>
                 <main className="p-10 w-full h-screen flex flex-col ">
-                    <div className="text-2xl font-medium py-10 md:p-6">{CourseMockData.name}</div>
+                    <div className="text-2xl font-medium py-10 md:p-6">{courseName}</div>
                     <div className="flex w-full  justify-end md:flex-row flex-col-reverse md:justify-around ">
                         <div className="  w-full mt-5 md:w-7/12 md:mt-0   border-none gap-4 flex-col flex mb-12">
                             <DefaultBlock data={DefaultMockData} editMode={editMode} />

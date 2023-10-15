@@ -36,7 +36,6 @@ export const Database = new DataSource({
     Section,
   ],
   connectTimeout: 3000,
-  debug: env.MODE === "test",
 });
 
 export async function initDatabase() {

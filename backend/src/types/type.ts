@@ -20,7 +20,6 @@ export interface IUser {
   id: number;
   name: string;
   email: string;
-  salt?: string;
   password?: string;
   role: UserRole;
 }

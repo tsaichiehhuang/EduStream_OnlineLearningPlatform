@@ -47,18 +47,6 @@ export const signup = (app: Elysia) =>
         newUser.password = hashSync(password, SALT);
         newUser.role = UserRole.student;
 
-        // TODO: alter email check unique method
-        try {
-          const isregisted = await User.findOneBy({ email: newUser.email });
-          if (isregisted) {
-            set.status = 403;
-            return "Error: Email Already Exists";
-          }
-        } catch (err) {
-          set.status = 500;
-          return "Error: DB Query Failed Error";
-        }
-
         try {
           await newUser.save();
 
@@ -71,7 +59,7 @@ export const signup = (app: Elysia) =>
 
           return {
             data: {
-              access_token: jwt.sign({
+              access_token: await jwt.sign({
                 id: String(userObj.id),
                 name: userObj.name,
                 email: userObj.email,

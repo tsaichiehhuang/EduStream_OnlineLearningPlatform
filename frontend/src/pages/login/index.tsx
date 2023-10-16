@@ -7,19 +7,19 @@ import * as Yup from 'yup'
 import Link from 'next/link'
 const apiUrl = process.env.API_DOMAIN
 
-export async function getServerSideProps(context: any) {
-    const { req, res } = context
-    const accessToken = req.cookies.accessToken
-    if (accessToken) {
-        res.writeHead(302, { Location: '/' })
-        res.end()
-        return { props: {} }
-    }
+// export async function getServerSideProps(context: any) {
+//     const { req, res } = context
+//     const accessToken = req.cookies.accessToken
+//     if (accessToken) {
+//         res.writeHead(302, { Location: '/' })
+//         res.end()
+//         return { props: {} }
+//     }
 
-    return {
-        props: {},
-    }
-}
+//     return {
+//         props: {},
+//     }
+// }
 
 export default function Login() {
     const [logining, setlogininging] = useState(false)

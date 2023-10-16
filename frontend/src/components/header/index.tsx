@@ -26,6 +26,7 @@ export default function Header({ toggleTheme, theme }: DarkModeProps) {
         Cookies.remove('accessToken')
         // 重新回去登入頁面
         router.replace('/login')
+        // window.location.reload()
     }
     const items: { key: string; label: string }[] = [
         {

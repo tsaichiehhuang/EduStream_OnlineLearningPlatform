@@ -1,13 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm";
 
-@Entity('Announcement')
+@Entity("Announcement")
 export class Announcement extends BaseEntity {
-    @PrimaryGeneratedColumn("increment", { type: 'int', unsigned: true })
-    id!: number;
+  @PrimaryGeneratedColumn("increment", { type: "int", unsigned: true })
+  id!: number;
 
-    @Column('datetime', { nullable: false })
-    date!: Date;
-
-    @Column({ type: 'text', nullable: false })
-    content!: string;
+  @Column({ type: "text", nullable: false })
+  content!: string;
 }

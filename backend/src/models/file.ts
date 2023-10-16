@@ -22,9 +22,12 @@ export class File extends BaseEntity {
   name!: string;
 
   // no path if file saved in kkCompany
-  @Column({ type: "varchar", length: 255 })
+  @Column({ type: "varchar", length: 255, nullable: true })
   path?: string;
 
   @Column("enum", { enum: ["kkCompany", "local"], nullable: false })
   location!: "kkCompany" | "local";
+
+  @Column({ type: "datetime", nullable: false, default: "CURRENT_TIMESTAMP" })
+  uploadTime!: Date;
 }

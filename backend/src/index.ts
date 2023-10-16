@@ -15,7 +15,7 @@ import { createLive } from "./live/create";
 import { archiveLive } from "./live/archive";
 import { previewLive } from "./live/preview";
 
-import { getClass } from "./class/get"
+import { getClass } from "./class/get";
 
 import { download } from "./file/download";
 import { init } from "./file/upload/init";

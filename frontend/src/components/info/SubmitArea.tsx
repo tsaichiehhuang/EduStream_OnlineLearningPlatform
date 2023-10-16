@@ -3,7 +3,7 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Input, useDis
 import 'dayjs/locale/zh-cn'
 import dayjs from 'dayjs'
 import { Delete, Edit } from '@/components/info/EditMode'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
 
 type SubmitAreaProps = {
@@ -37,6 +37,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data 
                         <ModalBody>
                             <p className="text-sm">詳細說明</p>
                             <p className="text-sm text-gray-500">{data.description}</p>
+                            <p className="text-sm">繳交資料</p>
                             {userRole === 'student' && (
                                 <>
                                     <Divider />
@@ -106,13 +107,17 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data 
 }
 export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
+    const [userRole, setUserRole] = useState<string | null>('')
 
+    useEffect(() => {
+        setUserRole(Cookies.get('userRole'))
+    }, [])
     return (
         <>
             <div className="flex flex-row justify-between">
                 <Card onPress={onOpen} isPressable className="p-1 md:w-fit hover:bg-neutral-50 " shadow="sm">
                     <CardHeader className="pb-0 pt-2 px-4 flex-row items-start ">
-                        <Link onPress={onOpen} className=" gap-2 cursor-pointer		" color="foreground" underline="hover">
+                        <Link onPress={onOpen} className=" gap-2 cursor-pointer" color="foreground" underline="hover">
                             <div className="w-[24px] h-[24px] bg-mainOrange rounded-full flex justify-center items-center">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"

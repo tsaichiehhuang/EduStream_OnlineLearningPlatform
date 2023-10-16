@@ -1,15 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, CardHeader, CardBody, Button, Divider, Link, Chip } from '@nextui-org/react'
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@nextui-org/react'
-
 import Header from '@/components/header'
 import WeekBlock from '@/components/info/WeekBlock'
 import WeekMockData from '@/data/WeekMockData'
-import CourseMockData from '@/data/ClassMockData'
 import DefaultBlock from '@/components/info/DefaultBlock'
 import Cookies from 'js-cookie'
 import { AddBlockButton, AddBlockSquare } from '@/components/info/AddBlock'
 import DefaultMockData from '@/data/DefaultMockData'
+
 export async function getServerSideProps(context: any) {
     const { req, res } = context
     const accessToken = req.cookies.accessToken
@@ -24,10 +22,12 @@ export async function getServerSideProps(context: any) {
     }
 }
 export default function Info() {
-    const userRole = Cookies.get('userRole')
-
+    const [userRole, setUserRole] = useState<string | null>('')
     const [theme, setTheme] = useState('light')
     const [editMode, setEditMode] = useState(false)
+    useEffect(() => {
+        setUserRole(Cookies.get('userRole'))
+    }, [])
 
     const handleEditMode = () => {
         setEditMode(!editMode)

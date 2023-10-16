@@ -5,6 +5,11 @@ const nextConfig = {
     env: {
         API_DOMAIN: process.env.API_DOMAIN,
     },
+    // useFileSystemPublicRoutes: false,
+
+    // onDemandEntries: {
+    //     pages: false,
+    // },
 }
 
 module.exports = nextConfig

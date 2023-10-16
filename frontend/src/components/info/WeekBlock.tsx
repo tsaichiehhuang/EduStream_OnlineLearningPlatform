@@ -3,6 +3,7 @@ import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button } from '@
 import getFileIcon from '@/components/info/FileUtils'
 import { Delete, Edit } from '@/components/info/EditMode'
 import { AddSubmittedArea, AddFileButton } from '@/components/info/AddFile'
+import { AddTextButton } from './AddText'
 import { SubmitArea } from './SubmitArea'
 
 type WeekBlockProps = {
@@ -47,6 +48,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode }) => {
                 <CardFooter className="justify-end gap-4">
                     <AddSubmittedArea />
                     <AddFileButton />
+                    <AddTextButton />
                 </CardFooter>
             )}
         </Card>

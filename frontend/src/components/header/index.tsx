@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { NextUIProvider } from '@nextui-org/react'
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from '@nextui-org/react'
 
@@ -13,7 +13,14 @@ interface DarkModeProps {
 
 export default function Header({ toggleTheme, theme }: DarkModeProps) {
     const router = useRouter()
+    const [userName, setUserName] = useState('')
 
+    useEffect(() => {
+        const user = Cookies.get('userName')
+        if (user) {
+            setUserName(user)
+        }
+    }, [])
     const handleLogout = () => {
         // 登出，清除token
         Cookies.remove('accessToken')
@@ -41,7 +48,7 @@ export default function Header({ toggleTheme, theme }: DarkModeProps) {
                         EduStream
                     </Link>
                     <div className="flex row items-center justify-center">
-                        <Button className="bg-transparent	" onClick={toggleTheme}>
+                        {/* <Button className="bg-transparent	" onClick={toggleTheme}>
                             {theme === 'light' ? (
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +78,7 @@ export default function Header({ toggleTheme, theme }: DarkModeProps) {
                                     />
                                 </svg>
                             )}
-                        </Button>
+                        </Button> */}
 
                         <Dropdown>
                             <DropdownTrigger>
@@ -91,7 +98,7 @@ export default function Header({ toggleTheme, theme }: DarkModeProps) {
                                                 />
                                             </svg>
                                         </div>
-                                        {Cookies.get('userName')}
+                                        <div>{userName}</div>
                                     </div>
                                 </Button>
                             </DropdownTrigger>

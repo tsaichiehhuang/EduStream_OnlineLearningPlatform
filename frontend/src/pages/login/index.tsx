@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
 import Swal from 'sweetalert2'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import Link from 'next/link'
@@ -71,8 +71,8 @@ export default function Login() {
                     Cookies.set('userRole', loginData.data.user.role)
 
                     setTimeout(() => {
-                        router.push('/home')
-                        // window.location.reload()
+                        // router.push('/')
+                        window.location.reload()
                     }, 1000)
                 } else {
                     Swal.fire('電子郵件或是密碼錯誤', '', 'warning')

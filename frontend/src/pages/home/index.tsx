@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import Script from 'next/script'
 import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button } from '@nextui-org/react'
 import Header from '@/components/header'
 import ClassMockData from '@/data/ClassMockData'
@@ -21,8 +22,8 @@ export async function getServerSideProps(context: any) {
     }
 }
 export default function Home() {
-    const userRole: string | undefined = Cookies.get('userRole') ?? undefined
     const [theme, setTheme] = useState('light')
+    const [userRole, setUserRole] = useState<string | null>('')
 
     const toggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light')
@@ -30,24 +31,25 @@ export default function Home() {
     const [currentTime, setCurrentTime] = useState(new Date())
     const [formattedTime, setFormattedTime] = useState<string | undefined>()
     const [formattedDate, setFormattedDate] = useState<string | undefined>()
-
+    type AllClassData = ClassData | InstructorClassData
     const handleClassClick = (classId: number, className: string) => {
         Cookies.set('className', className)
         window.location.href = `/info/${classId}`
     }
     useEffect(() => {
         const intervalId = setInterval(() => {
-            setCurrentTime(new Date())
-            setFormattedTime(currentTime.toLocaleTimeString())
-            setFormattedDate(currentTime.toLocaleDateString())
+            const newTime = new Date()
+            setCurrentTime(newTime)
+            setFormattedTime(() => newTime.toLocaleTimeString())
+            setFormattedDate(() => newTime.toLocaleDateString())
         }, 1000)
+
+        setUserRole(Cookies.get('userRole'))
 
         return () => {
             clearInterval(intervalId)
         }
-    }, [currentTime])
-
-    type AllClassData = ClassData | InstructorClassData
+    }, [])
     const classInfoData: AllClassData[] = userRole === 'student' ? ClassMockData : InstructorClassMockData
     return (
         <>
@@ -58,12 +60,12 @@ export default function Home() {
                         <Card className=" border-l-5 border-mainGreen">
                             <CardHeader className="flex gap-3 justify-between">
                                 <h2 className="text-mainGreen text-xl font-bold ">今日課程</h2>
-                                <p className="text-gray-300 items-end justify-end flex flex-col">
-                                    <span id="client-time"></span>
+                                <div className="text-gray-300 items-end justify-end flex flex-col">
+                                    <span id="client-time" />
                                     {formattedDate}
                                     <br />
                                     {formattedTime}
-                                </p>
+                                </div>
                             </CardHeader>
 
                             <CardBody>
@@ -92,8 +94,8 @@ export default function Home() {
                                     onPress={() => handleClassClick(data.id, data.name)}
                                 >
                                     <CardBody className="flex-row justify-between">
-                                        <p>{data.name}</p>
-                                        {userRole === 'student' && 'teacher' in data && <p>{data.teacher}</p>}
+                                        <div>{data.name}</div>
+                                        {userRole === 'student' && 'teacher' in data && <div>{data.teacher}</div>}
                                     </CardBody>
                                 </Card>
                             ))}

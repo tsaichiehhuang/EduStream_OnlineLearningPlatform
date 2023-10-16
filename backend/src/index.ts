@@ -15,6 +15,8 @@ import { createLive } from "./live/create";
 import { archiveLive } from "./live/archive";
 import { previewLive } from "./live/preview";
 
+import { getClass } from "./class/get"
+
 import { download } from "./file/download";
 import { init } from "./file/upload/init";
 
@@ -34,6 +36,7 @@ const app = new Elysia()
       .use(archiveLive)
       .use(previewLive)
   )
+  .group("/class", (app) => app.use(getClass))
   .group("/file", (app) =>
     app.use(download()).group("/upload", (app) => app.use(init()))
   )

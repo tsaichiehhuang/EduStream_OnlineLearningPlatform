@@ -1,24 +1,33 @@
 import { useRouter } from 'next/router'
 import Cookies from 'js-cookie'
 import Swal from 'sweetalert2'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import Link from 'next/link'
 const apiUrl = process.env.API_DOMAIN
+
+// export async function getServerSideProps(context: any) {
+//     const { req, res } = context
+//     const accessToken = req.cookies.accessToken
+//     if (accessToken) {
+//         res.writeHead(302, { Location: '/' })
+//         res.end()
+//         return { props: {} }
+//     }
+
+//     return {
+//         props: {},
+//     }
+// }
+
 export default function Login() {
     const [logining, setlogininging] = useState(false)
     const router = useRouter()
 
-    const [theme, setTheme] = useState('light')
-
-    const toggleTheme = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light')
-    }
-
     const loginValidationSchema = Yup.object().shape({
-        email1: Yup.string().required('Email is required').email('Invalid email address'),
-        password1: Yup.string()
+        email: Yup.string().required('Email is required').email('Invalid email address'),
+        password: Yup.string()
             .required('Password is required')
             .matches(
                 /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
@@ -35,19 +44,16 @@ export default function Login() {
         onSubmit: async (values) => {
             const { email, password } = values
             setlogininging(true)
-
             try {
-                const loginResponse = await fetch(`${apiUrl}/`, {
-                    // method: 'POST',
-                    method: 'GET',
+                const loginResponse = await fetch(`${apiUrl}/user/signin`, {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    // body: JSON.stringify({
-                    //     provider: 'native',
-                    //     email: String(email),
-                    //     password: String(password),
-                    // }),
+                    body: JSON.stringify({
+                        email: String(email),
+                        password: String(password),
+                    }),
                 })
 
                 const loginData = await loginResponse.json()
@@ -60,11 +66,13 @@ export default function Login() {
                         showConfirmButton: false,
                         timer: 1000,
                     })
-                    document.cookie = `token=${loginData.data.access_token}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`
-                    document.cookie = `userId=${loginData.data.user.id}; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/`
+                    Cookies.set('accessToken', loginData.data.access_token)
+                    Cookies.set('userName', loginData.data.user.name)
+                    Cookies.set('userRole', loginData.data.user.role)
+
                     setTimeout(() => {
-                        router.push('/')
-                        window.location.reload()
+                        router.push('/home')
+                        // window.location.reload()
                     }, 1000)
                 } else {
                     Swal.fire('電子郵件或是密碼錯誤', '', 'warning')
@@ -99,8 +107,8 @@ export default function Login() {
                                         type="email"
                                         id="email1"
                                         className="w-full h-12 px-3 rounded border  focus:outline-none focus:border-black"
-                                        placeholder="例: shirney@appworks.tw"
-                                        {...formikLogin.getFieldProps('email1')}
+                                        placeholder="例: a12345678@gmail.com"
+                                        {...formikLogin.getFieldProps('email')}
                                     />
                                     {formikLogin.touched.email && formikLogin.errors.email && (
                                         <div className="text-red-500 mt-1">{formikLogin.errors.email}</div>
@@ -115,7 +123,7 @@ export default function Login() {
                                         type="password"
                                         id="password1"
                                         className="w-full h-12 px-3 rounded border  focus:outline-none focus:border-black"
-                                        {...formikLogin.getFieldProps('password1')}
+                                        {...formikLogin.getFieldProps('password')}
                                     />
                                     {formikLogin.touched.password && formikLogin.errors.password && (
                                         <div className="text-red-500 mt-1">{formikLogin.errors.password}</div>

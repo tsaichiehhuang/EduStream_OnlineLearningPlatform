@@ -1,12 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { NextUIProvider } from '@nextui-org/react'
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from '@nextui-org/react'
 
 import Link from 'next/link'
-
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
+import Cookies from 'js-cookie'
+import { useRouter } from 'next/router'
 
 interface DarkModeProps {
     toggleTheme: () => void
@@ -14,6 +12,22 @@ interface DarkModeProps {
 }
 
 export default function Header({ toggleTheme, theme }: DarkModeProps) {
+    const router = useRouter()
+    const [userName, setUserName] = useState('')
+
+    useEffect(() => {
+        const user = Cookies.get('userName')
+        if (user) {
+            setUserName(user)
+        }
+    }, [])
+    const handleLogout = () => {
+        // 登出，清除token
+        Cookies.remove('accessToken')
+        // 重新回去登入頁面
+        router.replace('/login')
+        // window.location.reload()
+    }
     const items: { key: string; label: string }[] = [
         {
             key: 'setting',
@@ -28,11 +42,14 @@ export default function Header({ toggleTheme, theme }: DarkModeProps) {
         <NextUIProvider>
             <div className={`${theme} text-foreground bg-background `}>
                 <div className="light  dark:bg-gray-800 dark:text-white bg-white text-black h-16  shadow-md w-full flex flex-row justify-between items-center p-10 ">
-                    <Link className="light dark:text-white text-mainBlue font-zen-dots text-xl font-normal" href="/">
+                    <Link
+                        className="light dark:text-white text-mainBlue font-zen-dots text-xl font-normal"
+                        href="/home"
+                    >
                         EduStream
                     </Link>
                     <div className="flex row items-center justify-center">
-                        <Button className="bg-transparent	" onClick={toggleTheme}>
+                        {/* <Button className="bg-transparent	" onClick={toggleTheme}>
                             {theme === 'light' ? (
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +79,7 @@ export default function Header({ toggleTheme, theme }: DarkModeProps) {
                                     />
                                 </svg>
                             )}
-                        </Button>
+                        </Button> */}
 
                         <Dropdown>
                             <DropdownTrigger>
@@ -82,7 +99,7 @@ export default function Header({ toggleTheme, theme }: DarkModeProps) {
                                                 />
                                             </svg>
                                         </div>
-                                        黃采婕
+                                        <div>{userName}</div>
                                     </div>
                                 </Button>
                             </DropdownTrigger>
@@ -92,6 +109,7 @@ export default function Header({ toggleTheme, theme }: DarkModeProps) {
                                         key={item.key}
                                         color={item.key === 'logout' ? 'danger' : 'default'}
                                         className={item.key === 'logout' ? 'text-danger' : ''}
+                                        onPress={item.key === 'logout' ? handleLogout : undefined}
                                     >
                                         {item.label}
                                     </DropdownItem>

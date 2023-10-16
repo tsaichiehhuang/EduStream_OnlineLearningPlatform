@@ -3,6 +3,7 @@ import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button } from '@
 import getFileIcon from '@/components/info/FileUtils'
 import { Delete, Edit } from '@/components/info/EditMode'
 import { AddSubmittedArea, AddFileButton } from '@/components/info/AddFile'
+import { AddTextButton } from './AddText'
 import { SubmitArea } from './SubmitArea'
 
 type WeekBlockProps = {
@@ -27,7 +28,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode }) => {
             <CardBody className=" gap-6 flex flex-col justify-between">
                 {data.file.map((file, index) => (
                     <div key={index} className="flex flex-row justify-between">
-                        <Link className="ml-5 gap-2 " color="foreground" href="#" underline="hover">
+                        <Link className="ml-5 gap-2 " color="foreground" href={file.path} underline="hover">
                             {getFileIcon(file.path)}
                             {file.name}
                         </Link>
@@ -47,6 +48,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode }) => {
                 <CardFooter className="justify-end gap-4">
                     <AddSubmittedArea />
                     <AddFileButton />
+                    <AddTextButton />
                 </CardFooter>
             )}
         </Card>

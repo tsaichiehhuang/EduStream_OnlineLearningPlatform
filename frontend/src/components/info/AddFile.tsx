@@ -8,6 +8,8 @@ import {
     useDisclosure,
     Input,
     Card,
+    Textarea,
+    Tooltip,
 } from '@nextui-org/react'
 import { useState } from 'react'
 import { LocalizationProvider, DateTimeField } from '@mui/x-date-pickers'
@@ -43,7 +45,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
                 {(onClose) => (
                     <>
                         <ModalHeader className="flex flex-col gap-1">
-                            {status === 'submitted' ? '開啟繳交區' : '新增資源'}
+                            {status === 'submitted' ? '新增繳交區' : '新增資源'}
                         </ModalHeader>
                         <ModalBody>
                             {status === 'submitted' ? (
@@ -54,6 +56,13 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
                                         placeholder=" "
                                         color="default"
                                         labelPlacement="outside"
+                                    />
+                                    <Textarea
+                                        label="說明"
+                                        variant="bordered"
+                                        labelPlacement="outside"
+                                        placeholder="輸入說明"
+                                        className="max-w-full"
                                     />
                                     <p className="text-sm">到期日期</p>
                                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-cn">
@@ -145,34 +154,35 @@ export const AddSubmittedArea = () => {
 
     return (
         <>
-            <Button onPress={onOpen} variant="bordered" color="warning" className="  hover:shadow ">
-                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="12" viewBox="0 0 11 12" fill="none">
-                    <path
-                        d="M1.99976 11H8.99976C9.26497 11 9.51933 10.8946 9.70686 10.7071C9.8944 10.5196 9.99976 10.2652 9.99976 10V3.75L7.24976 1H2.99976C2.73454 1 2.48019 1.10536 2.29265 1.29289C2.10511 1.48043 1.99976 1.73478 1.99976 2V4"
-                        stroke="#F2A660"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    />
-                    <path
-                        d="M7 1V4H10M1 7.5H6M6 7.5L4.5 9M6 7.5L4.5 6"
-                        stroke="#F2A660"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    />
-                </svg>
-                開啟繳交區
-            </Button>
-            <AddFileModal isOpen={isOpen} onOpenChange={onOpenChange} status="submitted" />
-        </>
-    )
-}
-export const AddFileButton = () => {
-    const { isOpen, onOpen, onOpenChange } = useDisclosure()
-
-    return (
-        <>
-            <Button onPress={onOpen} color="warning" className="text-white hover:bg-warning-300 hover:shadow-lg ">
-                <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+            <Tooltip
+                showArrow={true}
+                content="新增作業或資料繳交區"
+                delay={0}
+                closeDelay={0}
+                placement="bottom"
+                className="bg-yellow-300"
+            >
+                <Button
+                    size="sm"
+                    onPress={onOpen}
+                    color="warning"
+                    className="text-white hover:bg-warning-300 hover:shadow-lg "
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="11" height="12" viewBox="0 0 11 12" fill="none">
+                        <path
+                            d="M1.99976 11H8.99976C9.26497 11 9.51933 10.8946 9.70686 10.7071C9.8944 10.5196 9.99976 10.2652 9.99976 10V3.75L7.24976 1H2.99976C2.73454 1 2.48019 1.10536 2.29265 1.29289C2.10511 1.48043 1.99976 1.73478 1.99976 2V4"
+                            stroke="#Ffffff"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                        <path
+                            d="M7 1V4H10M1 7.5H6M6 7.5L4.5 9M6 7.5L4.5 6"
+                            stroke="#Ffffff"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                    </svg>
+                    {/* <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
                     <g clip-path="url(#clip0_120_195)">
                         <path
                             d="M6.5625 12.5C6.5625 12.7486 6.66127 12.9871 6.83709 13.1629C7.0129 13.3387 7.25136 13.4375 7.5 13.4375C7.74864 13.4375 7.9871 13.3387 8.16291 13.1629C8.33873 12.9871 8.4375 12.7486 8.4375 12.5V8.4375H12.5C12.7486 8.4375 12.9871 8.33873 13.1629 8.16291C13.3387 7.9871 13.4375 7.74864 13.4375 7.5C13.4375 7.25136 13.3387 7.0129 13.1629 6.83709C12.9871 6.66127 12.7486 6.5625 12.5 6.5625H8.4375V2.5C8.4375 2.25136 8.33873 2.0129 8.16291 1.83709C7.9871 1.66127 7.74864 1.5625 7.5 1.5625C7.25136 1.5625 7.0129 1.66127 6.83709 1.83709C6.66127 2.0129 6.5625 2.25136 6.5625 2.5V6.5625H2.5C2.25136 6.5625 2.0129 6.66127 1.83709 6.83709C1.66127 7.0129 1.5625 7.25136 1.5625 7.5C1.5625 7.74864 1.66127 7.9871 1.83709 8.16291C2.0129 8.33873 2.25136 8.4375 2.5 8.4375H6.5625V12.5Z"
@@ -184,9 +194,49 @@ export const AddFileButton = () => {
                             <rect width="15" height="15" fill="white" />
                         </clipPath>
                     </defs>
-                </svg>
-                新增資源
-            </Button>
+                </svg> */}
+                    新增繳交區
+                </Button>
+            </Tooltip>
+            <AddFileModal isOpen={isOpen} onOpenChange={onOpenChange} status="submitted" />
+        </>
+    )
+}
+export const AddFileButton = () => {
+    const { isOpen, onOpen, onOpenChange } = useDisclosure()
+
+    return (
+        <>
+            <Tooltip
+                showArrow={true}
+                content="新增講義、影片等等資源"
+                delay={0}
+                closeDelay={0}
+                placement="bottom"
+                className="bg-yellow-300"
+            >
+                <Button
+                    size="sm"
+                    onPress={onOpen}
+                    color="warning"
+                    className="text-white hover:bg-warning-300 hover:shadow-lg "
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                        <g clip-path="url(#clip0_120_195)">
+                            <path
+                                d="M6.5625 12.5C6.5625 12.7486 6.66127 12.9871 6.83709 13.1629C7.0129 13.3387 7.25136 13.4375 7.5 13.4375C7.74864 13.4375 7.9871 13.3387 8.16291 13.1629C8.33873 12.9871 8.4375 12.7486 8.4375 12.5V8.4375H12.5C12.7486 8.4375 12.9871 8.33873 13.1629 8.16291C13.3387 7.9871 13.4375 7.74864 13.4375 7.5C13.4375 7.25136 13.3387 7.0129 13.1629 6.83709C12.9871 6.66127 12.7486 6.5625 12.5 6.5625H8.4375V2.5C8.4375 2.25136 8.33873 2.0129 8.16291 1.83709C7.9871 1.66127 7.74864 1.5625 7.5 1.5625C7.25136 1.5625 7.0129 1.66127 6.83709 1.83709C6.66127 2.0129 6.5625 2.25136 6.5625 2.5V6.5625H2.5C2.25136 6.5625 2.0129 6.66127 1.83709 6.83709C1.66127 7.0129 1.5625 7.25136 1.5625 7.5C1.5625 7.74864 1.66127 7.9871 1.83709 8.16291C2.0129 8.33873 2.25136 8.4375 2.5 8.4375H6.5625V12.5Z"
+                                fill="white"
+                            />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_120_195">
+                                <rect width="15" height="15" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                    新增資源
+                </Button>
+            </Tooltip>
             <AddFileModal isOpen={isOpen} onOpenChange={onOpenChange} status="addFile" />
         </>
     )

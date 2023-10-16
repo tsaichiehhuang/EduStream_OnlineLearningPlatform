@@ -91,6 +91,16 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
                             ) : (
                                 status === 'submit' && (
                                     <>
+                                        <Input
+                                            variant="bordered"
+                                            label="更改說明"
+                                            defaultValue={file.description}
+                                            color="default"
+                                            labelPlacement="outside"
+                                            className="mt-4"
+                                        />
+                                        <Divider className="text-darkGray">or</Divider>
+
                                         <p className="text-sm">更改到期日期</p>
                                         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-cn">
                                             <ThemeProvider theme={customTheme(outerTheme)}>
@@ -155,7 +165,7 @@ export const Edit: React.FC<EditProps> = ({ file, status }) => {
             <Button
                 onPress={onOpen}
                 size="sm"
-                className="bg-transparent w-fit rounded-full border border-zinc-400 flex-row flex items-center  box-border	gap-2"
+                className="bg-transparent w-fit rounded-full border border-zinc-400 flex-row flex items-center  box-border	gap-2 text-zinc-400 text-[8px] font-normal font-['Noto Sans TC']"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
                     <path

@@ -1,17 +1,29 @@
-import React, { useState, useEffect } from 'react'
-
+import { useState, useEffect } from 'react'
+import Script from 'next/script'
 import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button } from '@nextui-org/react'
-
-import Head from 'next/head'
-import { Inter } from 'next/font/google'
 import Header from '@/components/header'
-import userMockData from '@/data/UserMockData'
+import ClassMockData from '@/data/ClassMockData'
+import InstructorClassMockData from '@/data/InstructorClassMockData'
+
 import { AddCourseButton } from '@/components/home/AddCourse'
+import Cookies from 'js-cookie'
 
+export async function getServerSideProps(context: any) {
+    const { req, res } = context
+    const accessToken = req.cookies.accessToken
+    if (!accessToken) {
+        res.writeHead(302, { Location: '/login' })
+        res.end()
+        return { props: {} }
+    }
+
+    return {
+        props: {},
+    }
+}
 export default function Home() {
-    const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
-
     const [theme, setTheme] = useState('light')
+    const [userRole, setUserRole] = useState<string | null>('')
 
     const toggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light')
@@ -19,18 +31,26 @@ export default function Home() {
     const [currentTime, setCurrentTime] = useState(new Date())
     const [formattedTime, setFormattedTime] = useState<string | undefined>()
     const [formattedDate, setFormattedDate] = useState<string | undefined>()
-
+    type AllClassData = ClassData | InstructorClassData
+    const handleClassClick = (classId: number, className: string) => {
+        Cookies.set('className', className)
+        window.location.href = `/info/${classId}`
+    }
     useEffect(() => {
         const intervalId = setInterval(() => {
-            setCurrentTime(new Date())
-            setFormattedTime(currentTime.toLocaleTimeString())
-            setFormattedDate(currentTime.toLocaleDateString())
+            const newTime = new Date()
+            setCurrentTime(newTime)
+            setFormattedTime(() => newTime.toLocaleTimeString())
+            setFormattedDate(() => newTime.toLocaleDateString())
         }, 1000)
+
+        setUserRole(Cookies.get('userRole'))
 
         return () => {
             clearInterval(intervalId)
         }
-    }, [currentTime])
+    }, [])
+    const classInfoData: AllClassData[] = userRole === 'student' ? ClassMockData : InstructorClassMockData
     return (
         <>
             <Header toggleTheme={toggleTheme} theme={theme} />
@@ -40,12 +60,12 @@ export default function Home() {
                         <Card className=" border-l-5 border-mainGreen">
                             <CardHeader className="flex gap-3 justify-between">
                                 <h2 className="text-mainGreen text-xl font-bold ">今日課程</h2>
-                                <p className="text-gray-300 items-end justify-end flex flex-col">
-                                    <span id="client-time"></span>
+                                <div className="text-gray-300 items-end justify-end flex flex-col">
+                                    <span id="client-time" />
                                     {formattedDate}
                                     <br />
                                     {formattedTime}
-                                </p>
+                                </div>
                             </CardHeader>
 
                             <CardBody>
@@ -64,22 +84,21 @@ export default function Home() {
                     </div>
                     <div className="w-full md:w-5/12 flex-col  gap-8 flex">
                         <h3 className=" text-mainOrange font-bold text-2xl">你的課程</h3>
-                        {userMockData.status === 'admin' && <AddCourseButton />}
+                        {userRole === 'instructor' && <AddCourseButton />}
                         <div className="flex-col w-full gap-2 flex ">
-                            <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]" isPressable>
-                                <Link href="/info" className="w-full text-black ">
+                            {classInfoData.map((data) => (
+                                <Card
+                                    key={data.id}
+                                    className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]"
+                                    isPressable
+                                    onPress={() => handleClassClick(data.id, data.name)}
+                                >
                                     <CardBody className="flex-row justify-between">
-                                        <p>人機互動</p>
+                                        <div>{data.name}</div>
+                                        {userRole === 'student' && 'teacher' in data && <div>{data.teacher}</div>}
                                     </CardBody>
-                                </Link>
-                            </Card>
-                            <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]" isPressable>
-                                <Link href="/info" className="w-full text-black ">
-                                    <CardBody className="flex-row justify-between">
-                                        <p>設計理論與方法</p>
-                                    </CardBody>
-                                </Link>
-                            </Card>
+                                </Card>
+                            ))}
                         </div>
                     </div>
                 </main>

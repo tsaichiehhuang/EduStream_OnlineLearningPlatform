@@ -71,8 +71,8 @@ export default function Login() {
                     Cookies.set('userRole', loginData.data.user.role)
 
                     setTimeout(() => {
-                        // router.push('/')
-                        window.location.reload()
+                        router.push('/home')
+                        // window.location.reload()
                     }, 1000)
                 } else {
                     Swal.fire('電子郵件或是密碼錯誤', '', 'warning')

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import Script from 'next/script'
 import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button } from '@nextui-org/react'
 import Header from '@/components/header'
 import ClassMockData from '@/data/ClassMockData'
@@ -8,19 +7,19 @@ import InstructorClassMockData from '@/data/InstructorClassMockData'
 import { AddCourseButton } from '@/components/home/AddCourse'
 import Cookies from 'js-cookie'
 
-export async function getServerSideProps(context: any) {
-    const { req, res } = context
-    const accessToken = req.cookies.accessToken
-    if (!accessToken) {
-        res.writeHead(302, { Location: '/login' })
-        res.end()
-        return { props: {} }
-    }
+// export async function getServerSideProps(context: any) {
+//     const { req, res } = context
+//     const accessToken = req.cookies.accessToken
+//     if (!accessToken) {
+//         res.writeHead(302, { Location: '/login' })
+//         res.end()
+//         return { props: {} }
+//     }
 
-    return {
-        props: {},
-    }
-}
+//     return {
+//         props: {},
+//     }
+// }
 export default function Home() {
     const [theme, setTheme] = useState('light')
     const [userRole, setUserRole] = useState<string | null>('')

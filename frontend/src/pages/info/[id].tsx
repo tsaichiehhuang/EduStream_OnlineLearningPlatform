@@ -18,17 +18,17 @@ import { CreateLiveButton } from "@/components/info/CreateLive";
 import DefaultMockData from "@/data/DefaultMockData";
 
 export async function getServerSideProps(context: any) {
-  const { req, res } = context;
-  const accessToken = req.cookies.accessToken;
-  if (!accessToken) {
-    res.writeHead(302, { Location: "/login" });
-    res.end();
-    return { props: {} };
-  }
+    const { req, res } = context
+    const accessToken = req.cookies.accessToken
+    if (!accessToken) {
+        res.writeHead(302, { Location: '/login' })
+        res.end()
+        return { props: {} }
+    }
 
-  return {
-    props: {},
-  };
+    return {
+        props: {},
+    }
 }
 export default function Info() {
   const [userRole, setUserRole] = useState<string | null>("");

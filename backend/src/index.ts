@@ -7,6 +7,11 @@ import { signup } from "./user/signup";
 import { signin } from "./user/signin";
 import { info } from "./user/info";
 
+import { enroll } from "./enroll/enroll";
+import { drop } from "./enroll/drop";
+import { classlist } from "./class/classlist";
+import { create } from "./class/create";
+import { update } from "./class/update";
 import { getLive } from "./live/get";
 import { endLive } from "./live/end";
 import { startLive } from "./live/start";
@@ -23,6 +28,8 @@ await initDatabase();
 const app = new Elysia()
   .use(cors())
   .get("/", () => "Hello World!")
+  .group("/enroll", (app) => app.use(enroll).use(drop))
+  .group("/class", (app) => app.use(classlist).use(create).use(update))
   .group("user", (app) => app.use(signup).use(signin).use(info))
   .group("live", (app) =>
     app

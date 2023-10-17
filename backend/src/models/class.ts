@@ -9,6 +9,9 @@ export class Class extends BaseEntity {
     @Column({ type: 'varchar', length: 255, nullable: false })
     name!: string;
 
+    @Column({ type: 'text', nullable: true })
+    announcement!: string;
+
     @Column({ type: 'int', unsigned: true, nullable: false })
     instructorId!: number;
 

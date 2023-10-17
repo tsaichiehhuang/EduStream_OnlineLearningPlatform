@@ -37,11 +37,9 @@ jobs:
         run: |
           cd backend
           rm -f .failed
-          # ignore file patterns not found
-          shopt -s nullglob
           echo "Prettifying files..."
           echo "Files:"
-          bun prettier --write **/*.{ts,js,md,json} *.{ts,js,md,json} --config .prettierrc.json \
+          bun prettier --write . --config .prettierrc.json \
             || echo 'failed' > .failed
           
           if [ -s .failed ]; then

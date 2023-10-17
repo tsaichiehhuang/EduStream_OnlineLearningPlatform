@@ -87,3 +87,10 @@ export interface IWeek {
   description: string;
   week: number;
 }
+
+export interface IToken {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+}

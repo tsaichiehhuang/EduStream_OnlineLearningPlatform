@@ -14,7 +14,7 @@ CREATE TABLE User (
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    role ENUM('instructor', 'student') NOT NULL
+    role ENUM('instructor', 'student') NOT NULL,
     UNIQUE (email)
 );
 
@@ -25,6 +25,7 @@ CREATE TABLE Class (
     name VARCHAR(255) NOT NULL,
     instructorId INT UNSIGNED NOT NULL,
     time VARCHAR(50) NOT NULL,
+    announcement TEXT NOT NULL,
     FOREIGN KEY (instructorId) REFERENCES User(id)
 );
 
@@ -43,8 +44,9 @@ DROP TABLE IF EXISTS File;
 CREATE TABLE File (
     id CHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    path VARCHAR(255) NOT NULL,
-    location ENUM('kkCompany', 'local') NOT NULL
+    path VARCHAR(255),
+    location ENUM('kkCompany', 'local') NOT NULL,
+    uploadTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 DROP TABLE IF EXISTS Homework;
@@ -72,7 +74,7 @@ CREATE TABLE Submission (
 DROP TABLE IF EXISTS Stream;
 
 CREATE TABLE Stream (
-    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    id CHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     startTime DATETIME NOT NULL,
     classId INT UNSIGNED NOT NULL,
@@ -83,13 +85,12 @@ DROP TABLE IF EXISTS Announcement;
 
 CREATE TABLE Announcement (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    date DATETIME NOT NULL,
     content TEXT NOT NULL
 );
 
-DROP TABLE IF EXISTS Week;
+DROP TABLE IF EXISTS Section;
 
-CREATE TABLE Week (
+CREATE TABLE Section (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     classId INT UNSIGNED NOT NULL,
     description TEXT NOT NULL,
@@ -102,11 +103,11 @@ DROP TABLE IF EXISTS Block;
 CREATE TABLE Block (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     type ENUM('homework', 'announcement', 'file') NOT NULL,
-    weekId INT UNSIGNED NOT NULL,
+    sectionId INT UNSIGNED NOT NULL,
     fileId CHAR(36),
     hwId INT UNSIGNED,
     announceId INT UNSIGNED,
-    FOREIGN KEY (weekId) REFERENCES Week(id),
+    FOREIGN KEY (sectionId) REFERENCES Section(id),
     FOREIGN KEY (fileId) REFERENCES File(id),
     FOREIGN KEY (hwId) REFERENCES Homework(id),
     FOREIGN KEY (announceId) REFERENCES Announcement(id)

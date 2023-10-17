@@ -7,6 +7,12 @@ import { signup } from "./user/signup";
 import { signin } from "./user/signin";
 import { info } from "./user/info";
 
+import { enroll } from "./enroll/enroll";
+import { drop } from "./enroll/drop";
+import { classlist } from "./class/classlist";
+import { create } from "./class/create";
+import { update } from "./class/update";
+
 import { download } from "./file/download";
 
 await initDatabase();
@@ -19,6 +25,8 @@ const app = new Elysia()
       name: t.String(),
     }),
   })
+  .group("/enroll", (app) => app.use(enroll).use(drop))
+  .group("/class", (app) => app.use(classlist).use(create).use(update))
   .group("user", (app) => app.use(signup).use(signin).use(info))
   .group("/file", (app) => app.use(download()))
   .listen(3050);

@@ -5,12 +5,13 @@ import {
   ManyToOne,
   JoinColumn,
   OneToMany,
+  BaseEntity,
 } from "typeorm";
 import { Class } from "./class";
 import { Block } from "./block";
 
 @Entity("Section")
-export class Section {
+export class Section extends BaseEntity {
   @PrimaryGeneratedColumn("increment", { type: "int", unsigned: true })
   id!: number;
 

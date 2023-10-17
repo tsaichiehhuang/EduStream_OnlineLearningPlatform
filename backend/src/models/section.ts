@@ -24,8 +24,8 @@ export class Section {
   @Column({ type: "text", nullable: false })
   description!: string;
 
-  @Column({ type: "smallint", unsigned: true, nullable: false })
-  week!: number;
+  @Column({ type: "mediumint", unsigned: true, nullable: false, unique: true })
+  order!: number;
 
   @OneToMany(() => Block, (block) => block.section)
   blocks?: Block[];

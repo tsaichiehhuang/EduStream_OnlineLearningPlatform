@@ -28,28 +28,32 @@ export const getClass = (app: Elysia) =>
           set.status = 401;
           return "Unauthorized";
         }
-
+        
         const result = await Class.createQueryBuilder("class")
           .leftJoinAndSelect("class.sections", "sections")
           .leftJoinAndSelect("sections.blocks", "blocks")
           .where("class.id = :classId", { classId: params.classId })
           .getOne();
 
-        console.warn(result);
-
         if (!result) {
           set.status = 404;
           return { error: "No resources were found with given class ID." };
         } else {
+
           set.status = 200;
           return {
-            data: {},
+            data: {
+              class:{
+                id: result.id,
+                sections: result.sections
+              }
+            },
           };
         }
       },
       {
         params: t.Object({
           classId: t.String(),
-        }),
+        })
       }
     );

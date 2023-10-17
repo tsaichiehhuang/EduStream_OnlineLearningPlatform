@@ -7,8 +7,8 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
 interface DarkModeProps {
-    toggleTheme: () => void
-    theme: string
+    toggleTheme: () => void | undefined
+    theme: string | null
 }
 
 export default function Header({ toggleTheme, theme }: DarkModeProps) {

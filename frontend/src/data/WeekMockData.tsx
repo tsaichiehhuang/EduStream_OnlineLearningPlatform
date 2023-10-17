@@ -5,7 +5,11 @@ export const WeekMockData: WeekData[] = [
         title: 'Week1 Introduction',
         blockId: 1,
         file: [
-            { name: 'week1講義', path: 'syllabus.pdf', fileId: 1 },
+            {
+                name: 'week1講義',
+                path: './1111 設計理論與方法 Week 1 (1).pptx',
+                fileId: 1,
+            },
             { name: 'week1影片', path: 'vedio.mp4', fileId: 2 },
         ],
         submit: [
@@ -23,8 +27,8 @@ export const WeekMockData: WeekData[] = [
         title: 'Week2 Communication and HCI',
         blockId: 2,
         file: [
-            { name: 'week2講義', path: 'syllabus.pdf', fileId: 4 },
-            { name: 'week2影片', path: 'vedio.mov', fileId: 5 },
+            { name: 'week2講義', path: './東京五天.pdf', fileId: 4 },
+            { name: 'week2影片', path: './範例.jpeg', fileId: 5 },
         ],
         submit: [
             {

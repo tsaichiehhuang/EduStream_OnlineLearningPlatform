@@ -81,12 +81,6 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index }) => {
                 <div className="text-lg gap-4 flex flex-row items-center font-bold mb-4">
                     <div>{data.title}</div>
                 </div>
-                {editMode && (
-                    <div className="gap-1 flex flex-row items-start">
-                        <Delete />
-                        <Edit status="title" file={data.title} />
-                    </div>
-                )}
             </CardHeader>
             <CardBody className="gap-6 flex flex-col justify-between">
                 {data.file.map((file, index) => (
@@ -95,12 +89,6 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index }) => {
                             {getFileIcon(file.path)}
                             {file.name}
                         </Link>
-                        {editMode && (
-                            <div className="gap-1 flex flex-row items-start">
-                                <Delete />
-                                <Edit file={file} status="file" />
-                            </div>
-                        )}
                     </div>
                 ))}
                 {data.submit.map((submit, index) => (

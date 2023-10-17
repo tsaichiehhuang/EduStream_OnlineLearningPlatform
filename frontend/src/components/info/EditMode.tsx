@@ -38,6 +38,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
     const handleFileChange = (event: any) => {
         const file = event.target.files[0]
         setSelectedFile(file)
+        console.log('Selected file:', file)
     }
     const handleDateValue = (date: any) => {
         // console.log(date.$d.toString())

@@ -27,14 +27,14 @@ export interface IUser {
 export interface IClass {
   id: number;
   name: string;
-  instructorId: string;
+  instructorId: number;
   time: string;
 }
 
 export interface IEnroll {
   id: number;
-  classId: string;
-  studentId: string;
+  classId: number;
+  studentId: number;
 }
 
 export interface IFiles {
@@ -52,9 +52,9 @@ export interface IHomework {
 
 export interface ISubmission {
   id: number;
-  hwId: string;
-  userId: string;
-  fileId?: string;
+  hwId: number;
+  userId: number;
+  fileId?: number;
   content?: string;
   score?: number;
 }
@@ -63,7 +63,7 @@ export interface IStream {
   id: number;
   name: string;
   startTime: Date;
-  classId: string;
+  classId: number;
 }
 
 export interface IAnnouncement {
@@ -75,15 +75,15 @@ export interface IAnnouncement {
 export interface IBlock {
   id: number;
   type: BlockType;
-  weekId: string;
-  fileId?: string;
-  hwId?: string;
-  announceId?: string;
+  weekId: number;
+  fileId?: number;
+  hwId?: number;
+  announceId?: number;
 }
 
 export interface IWeek {
   id: number;
-  classId: string;
+  classId: number;
   description: string;
   week: number;
 }

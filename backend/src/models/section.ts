@@ -25,7 +25,7 @@ export class Section {
   description!: string;
 
   @Column({ type: "smallint", unsigned: true, nullable: false })
-  week!: number;
+  order!: number;
 
   @OneToMany(() => Block, (block) => block.section)
   blocks?: Block[];

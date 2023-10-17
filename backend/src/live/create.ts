@@ -3,6 +3,7 @@ import { Elysia, t } from "elysia";
 import { bearer } from "@elysiajs/bearer";
 import { jwt } from "@elysiajs/jwt";
 import axios, { AxiosError } from "axios";
+import { Stream } from "../models/stream"
 
 export const createLive = (app: Elysia) =>
   app
@@ -36,7 +37,7 @@ export const createLive = (app: Elysia) =>
                 `cms/v1/lives`,
                 {
                   live: {
-                    name: body.live.name,
+                    name: body.name,
                     type: "LIVE_TYPE_LIVE",
                     broadcast_mode: "BROADCAST_MODE_TRADITIONAL_LIVE",
                     metadata: {
@@ -113,132 +114,43 @@ export const createLive = (app: Elysia) =>
         })();
 
         if (result.live.id) {
-          set.status = 200;
-          return {
-            data: {
-              live: {
-                id: result.live.id,
+          
+
+          const newStream = new Stream();
+          newStream.name = body.name;
+          newStream.startTime = new Date();
+          newStream.classId = body.classID;
+
+          try {
+            await newStream.save();
+            set.status = 200;
+            return {
+              data: {
+                live: {
+                  id: result.live.id,
+                },
               },
-            },
-          };
+            };
+          } catch (err) {
+            set.status = 500;
+            return {
+              api: "Create Live",
+              error: "Save live to database failed."
+            }
+          }
+
         } else {
           set.status = result.error.response.status;
-          return { error: result.error.response.data };
+          return { 
+            api: "Create Live",
+            error: result.error.response.data 
+          };
         }
       },
       {
         body: t.Object({
-          live: t.Object({
-            name: t.String(),
-            type: t.Union([
-              t.Literal("LIVE_TYPE_LIVE"),
-              t.Literal("LIVE_TYPE_SIMULIVE"),
-            ]),
-            broadcast_mode: t.Union([
-              t.Literal("BROADCAST_MODE_TRADITIONAL_LIVE"),
-              t.Literal("BROADCAST_MODE_PLAYBACK"),
-              t.Literal("BROADCAST_MODE_DVR"),
-            ]),
-            metadata: t.Object({
-              long_description: t.String(),
-              short_description: t.String(),
-            }),
-            security: t.Object({
-              privacy: t.Object({
-                type: t.Union([
-                  t.Literal("SECURITY_PRIVACY_TYPE_PUBLIC"),
-                  t.Literal("SECURITY_PRIVACY_TYPE_TOKEN"),
-                ]),
-                token: t.Optional(
-                  t.Object({
-                    device_limit: t.Integer(),
-                  })
-                ),
-              }),
-              watermark: t.Object({
-                enabled: t.Boolean(),
-                type: t.String(),
-                position: t.String(),
-              }),
-              domain_control: t.Object({
-                enabled: t.Boolean(),
-                domains: t.Array(t.String()),
-              }),
-              geo_control: t.Array(t.Optional(t.Any())),
-            }),
-            resolution: t.Union([
-              t.Literal("LIVE_RESOLUTION_HD"),
-              t.Literal("LIVE_RESOLUTION_FHD"),
-              t.Literal("LIVE_RESOLUTION_4K"),
-            ]),
-            interaction: t.Object({
-              poll_enabled: t.Boolean(),
-              chatroom: t.Object({
-                live: t.Object({
-                  enabled: t.Boolean(),
-                  theme: t.Optional(
-                    t.Union([
-                      t.Literal("CHATROOM_THEME_LIGHT"),
-                      t.Literal("CHATROOM_THEME_DARK"),
-                    ])
-                  ),
-                }),
-                vod: t.Object({
-                  enabled: t.Boolean(),
-                }),
-              }),
-            }),
-            cover_images: t.Object({
-              ready_to_start: t.Object({
-                type: t.Union([
-                  t.Literal("COVER_IMAGE_TYPE_AUTO"),
-                  t.Literal("COVER_IMAGE_TYPE_CUSTOMIZE"),
-                ]),
-                customize: t.Optional(
-                  t.Object({
-                    library_id: t.String(),
-                  })
-                ),
-              }),
-              preview: t.Object({
-                type: t.Union([
-                  t.Literal("COVER_IMAGE_TYPE_AUTO"),
-                  t.Literal("COVER_IMAGE_TYPE_CUSTOMIZE"),
-                ]),
-                customize: t.Optional(
-                  t.Object({
-                    library_id: t.String(),
-                  })
-                ),
-              }),
-              end: t.Object({
-                type: t.Union([
-                  t.Literal("COVER_IMAGE_TYPE_AUTO"),
-                  t.Literal("COVER_IMAGE_TYPE_CUSTOMIZE"),
-                ]),
-                customize: t.Optional(
-                  t.Object({
-                    library_id: t.String(),
-                  })
-                ),
-              }),
-              close: t.Object({
-                type: t.Union([
-                  t.Literal("COVER_IMAGE_TYPE_AUTO"),
-                  t.Literal("COVER_IMAGE_TYPE_CUSTOMIZE"),
-                ]),
-                customize: t.Optional(
-                  t.Object({
-                    library_id: t.String(),
-                  })
-                ),
-              }),
-            }),
-            save_for_download_enabled: t.Boolean(),
-            player: t.Object({
-              player_setting_id: t.String(),
-            }),
-          }),
+          name: t.String(),
+          classID: t.Number()
         }),
       }
     );

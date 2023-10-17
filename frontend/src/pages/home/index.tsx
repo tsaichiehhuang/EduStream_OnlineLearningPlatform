@@ -3,7 +3,7 @@ import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button } from '@
 import Header from '@/components/header'
 import ClassMockData from '@/data/ClassMockData'
 import InstructorClassMockData from '@/data/InstructorClassMockData'
-
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { AddCourseButton } from '@/components/home/AddCourse'
 import Cookies from 'js-cookie'
 

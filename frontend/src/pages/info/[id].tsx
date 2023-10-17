@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+
 import { Card, CardHeader, CardBody, Button, Divider, Link, Chip } from '@nextui-org/react'
 import Header from '@/components/header'
 import WeekBlock from '@/components/info/WeekBlock'
@@ -25,7 +27,14 @@ export default function Info() {
     const [userRole, setUserRole] = useState<string | null>('')
     const [theme, setTheme] = useState('light')
     const [editMode, setEditMode] = useState(false)
+    const [weekData, setWeekData] = useState(WeekMockData)
+    const [isBrowser, setIsBrowser] = useState(false)
+    const [blockPositions, setBlockPositions] = useState<Record<number, number>>({})
+
     useEffect(() => {
+        if (typeof window !== 'undefined') {
+            setIsBrowser(true)
+        }
         setUserRole(Cookies.get('userRole'))
     }, [])
 
@@ -36,22 +45,73 @@ export default function Info() {
         setTheme(theme === 'light' ? 'dark' : 'light')
     }
     const courseName = Cookies.get('courseName')
+    const onDragEnd = (event: any) => {
+        const { source, destination } = event
+        if (!destination) {
+            return
+        }
+        // 获取被拖动的块的位置
+        const sourceIndex = source.index
+        const destinationIndex = destination.index
+
+        // 复制当前的 blockPositions
+        const newBlockPositions: Record<number, number> = { ...blockPositions }
+
+        // 更新被拖动块的位置信息
+        const [draggedBlock] = weekData.splice(sourceIndex, 1)
+        weekData.splice(destinationIndex, 0, draggedBlock)
+
+        // 更新 blockPositions 对象
+        weekData.forEach((item, index) => {
+            newBlockPositions[item.blockId] = index
+        })
+
+        // 设置新的 blockPositions 和 weekData
+        setBlockPositions(newBlockPositions)
+        setWeekData(weekData)
+    }
+
     return (
         <>
             <Header toggleTheme={toggleTheme} theme={theme} />
             <div className={`${theme} text-foreground bg-background`}>
-                <main className="p-10 w-full h-screen flex flex-col ">
+                <main className="p-10 w-full h-screen flex flex-col">
                     <div className="text-2xl font-medium py-10 md:p-6">{courseName}</div>
-                    <div className="flex w-full  justify-end md:flex-row flex-col-reverse md:justify-around ">
-                        <div className="  w-full mt-5 md:w-7/12 md:mt-0   border-none gap-4 flex-col flex mb-12">
+                    <div className="flex w-full justify-end md:flex-row flex-col-reverse md:justify-around">
+                        <div className="w-full mt-5 md:w-7/12 md:mt-0 border-none gap-4 flex-col flex mb-12">
                             <DefaultBlock data={DefaultMockData} editMode={editMode} />
-
-                            {WeekMockData.map((data, index) => (
-                                <WeekBlock key={index} data={data} editMode={editMode} />
-                            ))}
+                            {editMode ? (
+                                <DragDropContext onDragEnd={onDragEnd}>
+                                    {isBrowser ? (
+                                        <Droppable droppableId="weekBlocks">
+                                            {(provided) => (
+                                                <div
+                                                    {...provided.droppableProps}
+                                                    ref={provided.innerRef}
+                                                    className="gap-4 flex flex-col"
+                                                >
+                                                    {weekData.map((data, index) => (
+                                                        <WeekBlock
+                                                            key={data.blockId}
+                                                            data={data}
+                                                            editMode={editMode}
+                                                            index={index}
+                                                        />
+                                                    ))}
+                                                    {provided.placeholder}
+                                                </div>
+                                            )}
+                                        </Droppable>
+                                    ) : null}
+                                </DragDropContext>
+                            ) : (
+                                weekData.map((data, index) => (
+                                    <WeekBlock key={data.blockId} data={data} editMode={editMode} index={index} />
+                                ))
+                            )}
                             {editMode && <AddBlockSquare />}
                         </div>
-                        <div className="flex-col  gap-8 flex  w-full md:w-1/3">
+                        <div className="flex-col gap-8 flex w-full md:w-1/3">
                             {userRole !== 'instructor' ? (
                                 <>
                                     <Link href="/live">
@@ -86,7 +146,7 @@ export default function Info() {
                                 <>
                                     <Button
                                         disableRipple
-                                        className={` relative overflow-visible  hover:-translate-y-1 px-12 shadow-xl  after:content-[''] after:absolute  after:inset-0  ${
+                                        className={`relative overflow-visible hover:-translate-y-1 px-12 shadow-xl after:content-[''] after:absolute after:inset-0 ${
                                             editMode ? ' text-danger' : ' text-mainGreen'
                                         } after:z-[-1] after:transition after:!duration-500 hover:after:scale-150 hover:after:opacity-0`}
                                         size="lg"

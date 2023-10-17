@@ -28,7 +28,7 @@ export const getClass = (app: Elysia) =>
           set.status = 401;
           return "Unauthorized";
         }
-        
+
         const result = await Class.createQueryBuilder("class")
           .leftJoinAndSelect("class.sections", "sections")
           .leftJoinAndSelect("sections.blocks", "blocks")
@@ -39,14 +39,13 @@ export const getClass = (app: Elysia) =>
           set.status = 404;
           return { error: "No resources were found with given class ID." };
         } else {
-
           set.status = 200;
           return {
             data: {
-              class:{
+              class: {
                 id: result.id,
-                sections: result.sections
-              }
+                sections: result.sections,
+              },
             },
           };
         }
@@ -54,6 +53,6 @@ export const getClass = (app: Elysia) =>
       {
         params: t.Object({
           classId: t.String(),
-        })
+        }),
       }
     );

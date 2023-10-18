@@ -6,13 +6,14 @@ import {
   ManyToOne,
   JoinColumn,
   OneToMany,
+  BaseEntity,
 } from "typeorm";
 import { Class } from "./class";
 import { Block } from "./block";
 import exp from "constants";
 
 @Entity("Section")
-export class Section extends BaseEntity{
+export class Section extends BaseEntity {
   @PrimaryGeneratedColumn("increment", { type: "int", unsigned: true })
   id!: number;
 
@@ -26,7 +27,7 @@ export class Section extends BaseEntity{
   @Column({ type: "text", nullable: false })
   description!: string;
 
-  @Column({ type: "smallint", unsigned: true, nullable: false })
+  @Column({ type: "mediumint", unsigned: true, nullable: false, unique: true })
   order!: number;
 
   @OneToMany(() => Block, (block) => block.section)

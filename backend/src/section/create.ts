@@ -7,11 +7,7 @@ export const create = (app: Elysia) =>
   app.use(auth).post(
     "/:id/section",
     async ({ profile, set, body, params: { id } }) => {
-      if (set.status !== 200) return "Unauthorized";
-      if (!profile) {
-        set.status = 401;
-        return "Unauthorized";
-      }
+      if (set.status !== 200 || !profile) return "Unauthorized";
 
       const isClass = await Class.findOneBy({
         instructorId: Number(profile.id),

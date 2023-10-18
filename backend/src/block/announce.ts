@@ -9,7 +9,6 @@ const createAnnounce = (app: Elysia) =>
   app.post(
     "/:id/announce",
     async ({ body, profile, set, params: { id } }) => {
-
       const isClass = await Class.findOneBy({
         instructorId: Number(profile.id),
         id: Number(id),
@@ -97,7 +96,6 @@ const deleteAnnounce = (app: Elysia) =>
   app.delete(
     "/announce/:id",
     async ({ profile, set, params: { id } }) => {
-
       // TODO: validate instructor
 
       try {

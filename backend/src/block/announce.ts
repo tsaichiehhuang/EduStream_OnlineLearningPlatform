@@ -1,5 +1,4 @@
 import { Elysia, t } from "elysia";
-import { auth } from "../utils/auth";
 import { Announcement } from "../models/announcement";
 import { Class } from "../models/class";
 import { createBlock } from "./block";
@@ -7,10 +6,9 @@ import { BlockType } from "../types/type";
 
 // create block and announce
 const createAnnounce = (app: Elysia) =>
-  app.use(auth).post(
+  app.post(
     "/:id/announce",
     async ({ body, profile, set, params: { id } }) => {
-      if (set.status !== 200 || !profile) return "Unauthorized";
 
       const isClass = await Class.findOneBy({
         instructorId: Number(profile.id),
@@ -61,11 +59,9 @@ const createAnnounce = (app: Elysia) =>
 
 // update block and announce
 const updateAnnounce = (app: Elysia) =>
-  app.use(auth).put(
+  app.put(
     "/announce/:id",
     async ({ body, profile, set, params: { id } }) => {
-      if (set.status !== 200 || !profile) return "Unauthorized";
-
       // TODO: validate instructor
 
       try {
@@ -98,10 +94,9 @@ const updateAnnounce = (app: Elysia) =>
 
 // delete block and announce
 const deleteAnnounce = (app: Elysia) =>
-  app.use(auth).delete(
+  app.delete(
     "/announce/:id",
     async ({ profile, set, params: { id } }) => {
-      if (set.status !== 200 || !profile) return "Unauthorized";
 
       // TODO: validate instructor
 

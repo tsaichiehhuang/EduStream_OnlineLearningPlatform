@@ -1,16 +1,10 @@
 import { Elysia, t } from "elysia";
-import { auth } from "../utils/auth";
 import { Enroll } from "../models/enroll";
 import { Class } from "../models/class";
 import { UserRole } from "../types/type";
 
 export const classlist = (app: Elysia) =>
-  app.use(auth).get("/", async ({ profile, set }) => {
-    if (set.status !== 200) return "Unauthorized";
-    if (!profile) {
-      set.status = 401;
-      return "Unauthorized";
-    }
+  app.get("/", async ({ profile, set }) => {
     try {
       const classlist =
         profile.role === UserRole.student

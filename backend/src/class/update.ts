@@ -1,17 +1,10 @@
 import { Elysia, t } from "elysia";
-import { auth } from "../utils/auth";
 import { Class } from "../models/class";
 
 export const update = (app: Elysia) =>
-  app.use(auth).put(
+  app.put(
     "/:id",
     async ({ profile, set, body, params: { id } }) => {
-      if (set.status !== 200) return "Unauthorized";
-      if (!profile) {
-        set.status = 401;
-        return "Unauthorized";
-      }
-
       const isClass = await Class.findOneBy({
         instructorId: Number(profile.id),
         id: Number(id),

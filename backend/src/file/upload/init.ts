@@ -141,7 +141,7 @@ export const init = (config: ConstructorParameters<typeof Elysia>[0] = {}) =>
       {
         body: t.Object({
           name: t.RegExp(/^\S+$/gu, { default: "file.name" }),
-          size: t.Numeric({ minimum: 0 }),
+          size: t.Numeric({ minimum: 1 }),
         }),
       }
     );

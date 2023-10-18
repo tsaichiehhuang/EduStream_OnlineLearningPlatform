@@ -1,4 +1,3 @@
-// update class announcement
 import { Elysia, t } from "elysia";
 import { auth } from "../utils/auth";
 import { Class } from "../models/class";
@@ -13,12 +12,16 @@ export const update = (app: Elysia) =>
         return "Unauthorized";
       }
 
-      const announcement = body.announcement;
-
-      if (!announcement) {
-        set.status = 400;
-        return "Field should not be empty";
+      const isClass = await Class.findOneBy({
+        instructorId: Number(profile.id),
+        id: Number(id),
+      });
+      if (!isClass) {
+        set.status = 404;
+        return "Class Not Found";
       }
+
+      const announcement = body.announcement;
 
       try {
         await Class.createQueryBuilder("class")

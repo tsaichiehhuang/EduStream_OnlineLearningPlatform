@@ -58,15 +58,15 @@ export const endLive = (app: Elysia) =>
 
         if (result.error) {
           set.status = result.error.response.status;
-          return { 
+          return {
             api: "End Live",
-            error: result.error.response.data 
+            error: result.error.response.data,
           };
         } else {
           set.status = 200;
           return {
             live: {
-              id: params.liveId
+              id: params.liveId,
             },
           };
         }

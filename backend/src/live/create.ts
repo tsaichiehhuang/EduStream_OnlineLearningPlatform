@@ -3,7 +3,7 @@ import { Elysia, t } from "elysia";
 import { bearer } from "@elysiajs/bearer";
 import { jwt } from "@elysiajs/jwt";
 import axios, { AxiosError } from "axios";
-import { Stream } from "../models/stream"
+import { Stream } from "../models/stream";
 
 export const createLive = (app: Elysia) =>
   app
@@ -114,8 +114,6 @@ export const createLive = (app: Elysia) =>
         })();
 
         if (result.live.id) {
-          
-
           const newStream = new Stream();
           newStream.name = body.name;
           newStream.startTime = new Date();
@@ -135,22 +133,21 @@ export const createLive = (app: Elysia) =>
             set.status = 500;
             return {
               api: "Create Live",
-              error: "Save live to database failed."
-            }
+              error: "Save live to database failed.",
+            };
           }
-
         } else {
           set.status = result.error.response.status;
-          return { 
+          return {
             api: "Create Live",
-            error: result.error.response.data 
+            error: result.error.response.data,
           };
         }
       },
       {
         body: t.Object({
           name: t.String(),
-          classID: t.Number()
+          classID: t.Number(),
         }),
       }
     );

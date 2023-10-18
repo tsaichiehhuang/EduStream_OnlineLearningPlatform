@@ -3,7 +3,7 @@ import { Elysia, t } from "elysia";
 import { bearer } from "@elysiajs/bearer";
 import { jwt } from "@elysiajs/jwt";
 import axios, { AxiosError } from "axios";
-import { Stream } from "../models/stream"
+import { Stream } from "../models/stream";
 
 export const archiveLive = (app: Elysia) =>
   app
@@ -59,26 +59,25 @@ export const archiveLive = (app: Elysia) =>
 
         if (result.error) {
           set.status = result.error.response.status;
-          return { 
+          return {
             api: "Archive Live",
-            error: result.error.response.data 
+            error: result.error.response.data,
           };
         } else {
-
           const stream = await Stream.findOneBy({
-            classId: Number(body.classID)
+            classId: Number(body.classID),
           });
 
           if (!stream) {
             set.status = 404;
-            return { 
+            return {
               api: "Archive Live",
-              error: "No live were found with given class ID"
+              error: "No live were found with given class ID",
             };
           }
 
           try {
-            await stream.remove()
+            await stream.remove();
             set.status = 200;
             return {
               live: {
@@ -89,10 +88,9 @@ export const archiveLive = (app: Elysia) =>
             set.status = 500;
             return {
               api: "Archive Live",
-              error: "Delete live from database failed."
-            }
+              error: "Delete live from database failed.",
+            };
           }
-          
         }
       },
       {
@@ -103,7 +101,7 @@ export const archiveLive = (app: Elysia) =>
           }),
         }),
         body: t.Object({
-          classID: t.Number()
-        })
+          classID: t.Number(),
+        }),
       }
     );

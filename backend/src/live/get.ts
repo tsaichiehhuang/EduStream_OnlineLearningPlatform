@@ -54,9 +54,9 @@ export const getLive = (app: Elysia) =>
 
         if (result.error) {
           set.status = result.error.response.status;
-          return { 
+          return {
             api: "Get Live",
-            error: result.error.response.data 
+            error: result.error.response.data,
           };
         } else {
           set.status = 200;

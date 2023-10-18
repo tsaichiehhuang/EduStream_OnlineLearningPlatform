@@ -15,6 +15,7 @@ import { update } from "./class/update";
 import { defaultclass } from "./class/defaultclass";
 import { create as createSection } from "./section/create";
 import { update as updateSection } from "./section/update";
+import { deleteSection } from "./section/delete";
 
 import { getLive } from "./live/get";
 import { endLive } from "./live/end";
@@ -40,7 +41,7 @@ const app = new Elysia()
       .use(update)
       .use(defaultclass)
       .use(createSection)
-      .group("/section", (app) => app.use(updateSection))
+      .group("/section", (app) => app.use(updateSection).use(deleteSection))
   )
   .group("user", (app) => app.use(signup).use(signin).use(info))
   .group("live", (app) =>

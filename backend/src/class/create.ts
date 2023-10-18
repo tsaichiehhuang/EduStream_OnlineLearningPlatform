@@ -14,7 +14,7 @@ export const create = (app: Elysia) =>
         return "Unauthorized";
       }
 
-      if(profile.role !== UserRole.instructor){
+      if (profile.role !== UserRole.instructor) {
         set.status = 403;
         return "Forbidden to Create a Class";
       }
@@ -39,7 +39,7 @@ export const create = (app: Elysia) =>
         })
         .execute();
 
-      const newSection = await Section.createQueryBuilder("section")
+      await Section.createQueryBuilder("section")
         .insert()
         .into(Section)
         .values({

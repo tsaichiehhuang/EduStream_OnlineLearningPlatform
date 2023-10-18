@@ -29,6 +29,7 @@ import { getClass } from "./class/get";
 
 import { download } from "./file/download";
 import { init } from "./file/upload/init";
+import { binary } from "./file/upload/binary";
 
 await initDatabase();
 
@@ -58,7 +59,7 @@ const app = new Elysia()
   )
   .group("/class", (app) => app.use(getClass))
   .group("/file", (app) =>
-    app.use(download()).group("/upload", (app) => app.use(init()))
+    app.use(download()).group("/upload", (app) => app.use(init()).use(binary()))
   )
   .listen(3050);
 

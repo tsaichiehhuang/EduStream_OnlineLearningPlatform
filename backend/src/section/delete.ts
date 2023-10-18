@@ -1,11 +1,12 @@
 import { Elysia, t } from "elysia";
 import { auth } from "../utils/auth";
+import { Section } from "../models/section";
 import { Class } from "../models/class";
 
-export const update = (app: Elysia) =>
-  app.use(auth).put(
-    "/:id",
-    async ({ profile, set, body, params: { id } }) => {
+export const deleteSection = (app: Elysia) =>
+  app
+    .use(auth)
+    .delete("/:id", async ({ profile, set, params: { id } }) => {
       if (set.status !== 200) return "Unauthorized";
       if (!profile) {
         set.status = 401;
@@ -21,35 +22,25 @@ export const update = (app: Elysia) =>
         return "Class Not Found";
       }
 
-      const announcement = body.announcement;
-
       try {
-        await Class.createQueryBuilder("class")
-          .update(Class)
-          .set({
-            announcement: announcement,
-          })
+        await Section.createQueryBuilder("section")
+          .delete()
+          .from(Section)
           .where("id = :id", { id: id })
           .execute();
+      } catch (err) {
+        set.status = 500;
+        console.log(err);
+        return "Query Failed";
+      }
 
-        return {
-          data: {
-            class: {
+      return {
+        data: {
+          class: {
+            section: {
               id: id,
             },
           },
-        };
-      } catch (err) {
-        set.status = 500;
-        return "Query Failed";
-      }
-    },
-    {
-      body: t.Object({
-        announcement: t.String(),
-      }),
-      params: t.Object({
-        id: t.Numeric(),
-      }),
-    }
-  );
+        },
+      };
+    });

@@ -1,16 +1,13 @@
 import { Elysia, t } from "elysia";
 import { auth } from "../utils/auth";
+import { Section } from "../models/section";
 import { Class } from "../models/class";
 
 export const update = (app: Elysia) =>
   app.use(auth).put(
     "/:id",
     async ({ profile, set, body, params: { id } }) => {
-      if (set.status !== 200) return "Unauthorized";
-      if (!profile) {
-        set.status = 401;
-        return "Unauthorized";
-      }
+      if (set.status !== 200 || !profile) return "Unauthorized";
 
       const isClass = await Class.findOneBy({
         instructorId: Number(profile.id),
@@ -21,13 +18,13 @@ export const update = (app: Elysia) =>
         return "Class Not Found";
       }
 
-      const announcement = body.announcement;
+      const title = body.title;
 
       try {
-        await Class.createQueryBuilder("class")
-          .update(Class)
+        await Section.createQueryBuilder("section")
+          .update(Section)
           .set({
-            announcement: announcement,
+            description: title,
           })
           .where("id = :id", { id: id })
           .execute();
@@ -35,7 +32,9 @@ export const update = (app: Elysia) =>
         return {
           data: {
             class: {
-              id: id,
+              section: {
+                id: id,
+              },
             },
           },
         };
@@ -46,7 +45,7 @@ export const update = (app: Elysia) =>
     },
     {
       body: t.Object({
-        announcement: t.String(),
+        title: t.String(),
       }),
       params: t.Object({
         id: t.Numeric(),

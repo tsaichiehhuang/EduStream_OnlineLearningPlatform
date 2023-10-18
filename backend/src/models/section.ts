@@ -2,6 +2,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
+  BaseEntity,
   ManyToOne,
   JoinColumn,
   OneToMany,
@@ -9,6 +10,7 @@ import {
 } from "typeorm";
 import { Class } from "./class";
 import { Block } from "./block";
+import exp from "constants";
 
 @Entity("Section")
 export class Section extends BaseEntity {

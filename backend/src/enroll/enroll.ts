@@ -1,7 +1,6 @@
 import { Elysia, t } from "elysia";
 import { auth } from "../utils/auth";
 import { Enroll } from "../models/enroll";
-import { UserRole } from "../types/type";
 
 export const enroll = (app: Elysia) =>
   app.use(auth).post(

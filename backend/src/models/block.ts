@@ -11,6 +11,7 @@ import { File } from "./file";
 import { Homework } from "./homework";
 import { Announcement } from "./announcement";
 import { Section } from "./section";
+import { BlockType } from "../types/type";
 
 @Entity("Block")
 export class Block extends BaseEntity {
@@ -21,7 +22,7 @@ export class Block extends BaseEntity {
     enum: ["homework", "announcement", "file"],
     nullable: false,
   })
-  type!: "homework" | "announcement" | "file";
+  type!: BlockType.File | BlockType.Announcement | BlockType.Homework;
 
   @Column({ type: "int", unsigned: true, nullable: false })
   sectionId!: number;

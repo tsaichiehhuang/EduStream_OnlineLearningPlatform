@@ -2,15 +2,17 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
+  BaseEntity,
   ManyToOne,
   JoinColumn,
   OneToMany,
 } from "typeorm";
 import { Class } from "./class";
 import { Block } from "./block";
+import exp from "constants";
 
 @Entity("Section")
-export class Section {
+export class Section extends BaseEntity{
   @PrimaryGeneratedColumn("increment", { type: "int", unsigned: true })
   id!: number;
 
@@ -25,7 +27,7 @@ export class Section {
   description!: string;
 
   @Column({ type: "smallint", unsigned: true, nullable: false })
-  week!: number;
+  order!: number;
 
   @OneToMany(() => Block, (block) => block.section)
   blocks?: Block[];

@@ -54,7 +54,10 @@ export const binary = (config: ConstructorParameters<typeof Elysia>[0] = {}) =>
         }
 
         let filePath = path.resolve(staticRoot, dbFile.name);
-        if (path.dirname(filePath) != staticRoot || ( !dbFile.path && await fs.exists(filePath))) {
+        if (
+          path.dirname(filePath) != staticRoot ||
+          (!dbFile.path && (await fs.exists(filePath)))
+        ) {
           filePath = path.resolve("static/", uuid());
         }
         console.log("\twriting file to", filePath);

@@ -114,8 +114,6 @@ export const createLive = (app: Elysia) =>
         })();
 
         if (result.live) {
-          
-
           const newStream = new Stream();
           newStream.name = body.name;
           newStream.startTime = new Date();

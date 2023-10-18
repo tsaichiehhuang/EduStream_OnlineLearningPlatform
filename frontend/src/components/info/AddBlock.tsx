@@ -9,11 +9,26 @@ import {
     Input,
     Card,
 } from '@nextui-org/react'
+import useAddSection from '@/hooks/Info/useAddSection'
+import { useState } from 'react'
 type AddBlockModalProps = {
     isOpen: any
     onOpenChange: any
 }
 const AddBlockModal: React.FC<AddBlockModalProps> = ({ isOpen, onOpenChange }) => {
+    const { addSection } = useAddSection()
+    const [title, setTitle] = useState('')
+    // const [selectedDay, setSelectedDay] = useState('Mon')
+
+    const requestBody = {
+        title: title,
+        order: 1,
+    }
+    const handleSubmit = () => {
+        addSection(requestBody)
+        onOpenChange(false)
+    }
+
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent>
@@ -27,13 +42,14 @@ const AddBlockModal: React.FC<AddBlockModalProps> = ({ isOpen, onOpenChange }) =
                                 placeholder=" "
                                 color="default"
                                 labelPlacement="outside"
+                                onChange={(e) => setTitle(e.target.value)}
                             />
                         </ModalBody>
                         <ModalFooter>
                             <Button color="default" variant="light" onPress={onClose}>
                                 取消
                             </Button>
-                            <Button color="warning" className="text-white" onPress={onClose}>
+                            <Button color="warning" className="text-white" onPress={handleSubmit}>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="22"
@@ -59,7 +75,6 @@ const AddBlockModal: React.FC<AddBlockModalProps> = ({ isOpen, onOpenChange }) =
 }
 export const AddBlockButton = () => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
-
     return (
         <>
             <Button onPress={onOpen} className="w-full text-white" size="lg" color="warning" variant="shadow">

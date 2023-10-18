@@ -8,12 +8,29 @@ import {
     useDisclosure,
     Input,
     Card,
+    RadioGroup,
+    Radio,
 } from '@nextui-org/react'
+import { useState } from 'react'
+import useCreateClass from '@/hooks/home/useCreateClass'
 type AddCourseModalProps = {
     isOpen: any
     onOpenChange: any
 }
 const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onOpenChange }) => {
+    const { createClass } = useCreateClass()
+    const [courseName, setCourseName] = useState('')
+    const [selectedDay, setSelectedDay] = useState('Mon')
+    const [announcement, setAnnouncement] = useState('')
+    const requestBody = {
+        name: courseName,
+        time: selectedDay,
+        announcement: announcement,
+    }
+    const handleSubmit = () => {
+        createClass(requestBody)
+        onOpenChange(false)
+    }
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent>
@@ -27,13 +44,38 @@ const AddCourseModal: React.FC<AddCourseModalProps> = ({ isOpen, onOpenChange })
                                 placeholder=" "
                                 color="default"
                                 labelPlacement="outside"
+                                onChange={(e) => setCourseName(e.target.value)}
+                            />
+                            <RadioGroup
+                                label="選擇上課時間"
+                                orientation="horizontal"
+                                size="sm"
+                                className="text-sm"
+                                defaultValue="Mon"
+                                onChange={(e) => setSelectedDay(e.target.value)}
+                            >
+                                <Radio value="Mon">星期一</Radio>
+                                <Radio value="Tue">星期二</Radio>
+                                <Radio value="Wed">星期三</Radio>
+                                <Radio value="Thu">星期四</Radio>
+                                <Radio value="Fri">星期五</Radio>
+                                <Radio value="Sat">星期六</Radio>
+                                <Radio value="tSun">星期日</Radio>
+                            </RadioGroup>
+                            <Input
+                                variant="bordered"
+                                label="公告"
+                                placeholder="若「無公告」請輸入「無」"
+                                color="default"
+                                labelPlacement="outside"
+                                onChange={(e) => setAnnouncement(e.target.value)}
                             />
                         </ModalBody>
                         <ModalFooter>
                             <Button color="default" variant="light" onPress={onClose}>
                                 取消
                             </Button>
-                            <Button color="warning" className="text-white" onPress={onClose}>
+                            <Button color="warning" className="text-white" onPress={handleSubmit}>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="22"

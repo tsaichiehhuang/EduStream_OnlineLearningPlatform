@@ -28,7 +28,7 @@ export const WeekMockData: WeekData[] = [
         blockId: 2,
         file: [
             { name: 'week2講義', path: './東京五天.pdf', fileId: 4 },
-            { name: 'week2影片', path: './範例.jpeg', fileId: 5 },
+            // { name: 'week2圖片', path: './範例.jpeg', fileId: 5 },
         ],
         submit: [
             {

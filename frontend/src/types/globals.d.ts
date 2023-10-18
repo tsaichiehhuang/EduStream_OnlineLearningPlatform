@@ -33,8 +33,8 @@ declare global {
         id: number
         teacher: string
     }
-    interface InstructorClassData {
-        name: string
-        id: number
-    }
+    // interface InstructorClassData {
+    //     name: string
+    //     id: number
+    // }
 }

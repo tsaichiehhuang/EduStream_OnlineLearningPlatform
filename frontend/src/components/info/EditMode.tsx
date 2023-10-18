@@ -20,21 +20,26 @@ import { createTheme, ThemeProvider, Theme, useTheme } from '@mui/material/style
 import { customTheme } from './CustomTheme'
 import 'dayjs/locale/zh-cn'
 import dayjs from 'dayjs'
+import useUpdateSection from '@/hooks/Info/useUpdateSection'
 
 type EditModalProps = {
     isOpen: any
     onOpenChange: any
     file: any
     status: string
+    id: number
 }
 type DeleteModalProps = {
     isOpen: any
     onOpenChange: any
 }
-const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, status }) => {
+const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, status, id }) => {
     const [selectedFile, setSelectedFile] = useState<any>(null)
+    const [title, setTitle] = useState<string>('')
     const outerTheme = useTheme()
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
+    const { updateSection } = useUpdateSection()
+
     const handleFileChange = (event: any) => {
         const file = event.target.files[0]
         setSelectedFile(file)
@@ -47,6 +52,9 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
     const handleCloseModal = () => {
         setSelectedFile(null)
         onOpenChange(false)
+    }
+    const handleSubmit = () => {
+        updateSection(title, id)
     }
 
     return (
@@ -65,6 +73,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
                                 color="default"
                                 labelPlacement="outside"
                                 className="mt-4"
+                                onChange={(e) => setTitle(e.target.value)}
                             />
                             {status !== 'announce' && status !== 'title' && (
                                 <Divider className="text-darkGray">or</Divider>
@@ -120,7 +129,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
                             <Button color="default" variant="light" onPress={handleCloseModal}>
                                 取消
                             </Button>
-                            <Button color="primary" className="text-white" onPress={onClose}>
+                            <Button color="primary" className="text-white" onPress={handleSubmit}>
                                 確定
                             </Button>
                         </ModalFooter>
@@ -157,8 +166,9 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onOpenChange }) => {
 type EditProps = {
     file: any
     status: string
+    id: number
 }
-export const Edit: React.FC<EditProps> = ({ file, status }) => {
+export const Edit: React.FC<EditProps> = ({ file, status, id }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
     return (
@@ -176,7 +186,7 @@ export const Edit: React.FC<EditProps> = ({ file, status }) => {
                 </svg>
                 <div className="text-zinc-400 text-[8px] font-normal font-['Noto Sans TC']">編輯</div>
             </Button>
-            <EditModal isOpen={isOpen} onOpenChange={onOpenChange} file={file} status={status} />
+            <EditModal isOpen={isOpen} onOpenChange={onOpenChange} file={file} status={status} id={id} />
         </>
     )
 }

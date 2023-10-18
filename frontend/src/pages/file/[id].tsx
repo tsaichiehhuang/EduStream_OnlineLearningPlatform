@@ -1,15 +1,18 @@
+import { useState, useEffect } from 'react'
 import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer'
 import Header from '@/components/header'
+import Cookies from 'js-cookie'
 
 export default function File() {
-    const docs = [
-        {
-            uri: 'https://health99.hpa.gov.tw/storage/pdf/materials/22104.pdf',
-        },
-        { uri: './範例.jpeg' }, // Local File
-        { uri: './1111 設計理論與方法 Week 1 (1).pptx' },
-        { uri: './東京五天.pdf' },
-    ]
+    const [filePath, setFilePath] = useState<string | null>('')
+
+    useEffect(() => {
+        if (filePath === '') {
+            setFilePath(Cookies.get('filePath'))
+            console.log('filePath:', filePath)
+        }
+    }, [filePath])
+    const docs = [{ uri: filePath }]
 
     return (
         <>

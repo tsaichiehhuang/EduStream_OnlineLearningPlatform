@@ -6,6 +6,7 @@ import InstructorClassMockData from '@/data/InstructorClassMockData'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { AddCourseButton } from '@/components/home/AddCourse'
 import Cookies from 'js-cookie'
+import useGetClass from '@/hooks/home/useGetClass'
 
 // export async function getServerSideProps(context: any) {
 //     const { req, res } = context
@@ -20,9 +21,11 @@ import Cookies from 'js-cookie'
 //         props: {},
 //     }
 // }
+
 export default function Home() {
     const [theme, setTheme] = useState('light')
     const [userRole, setUserRole] = useState<string | null>('')
+    const { getClass, classData } = useGetClass()
 
     const toggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light')
@@ -30,12 +33,12 @@ export default function Home() {
     const [currentTime, setCurrentTime] = useState(new Date())
     const [formattedTime, setFormattedTime] = useState<string | undefined>()
     const [formattedDate, setFormattedDate] = useState<string | undefined>()
-    type AllClassData = ClassData | InstructorClassData
     const handleClassClick = (classId: number, className: string) => {
         Cookies.set('className', className)
         window.location.href = `/info/${classId}`
     }
     useEffect(() => {
+        getClass()
         const intervalId = setInterval(() => {
             const newTime = new Date()
             setCurrentTime(newTime)
@@ -49,7 +52,7 @@ export default function Home() {
             clearInterval(intervalId)
         }
     }, [])
-    const classInfoData: AllClassData[] = userRole === 'student' ? ClassMockData : InstructorClassMockData
+    // const classInfoData: AllClassData[] = userRole === 'student' ? classData : InstructorClassMockData
     return (
         <>
             <Header toggleTheme={toggleTheme} theme={theme} />
@@ -85,15 +88,15 @@ export default function Home() {
                         <h3 className=" text-mainOrange font-bold text-2xl">你的課程</h3>
                         {userRole === 'instructor' && <AddCourseButton />}
                         <div className="flex-col w-full gap-2 flex ">
-                            {classInfoData.map((data) => (
+                            {classData.map((data: any) => (
                                 <Card
                                     key={data.id}
                                     className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]"
                                     isPressable
-                                    onPress={() => handleClassClick(data.id, data.name)}
+                                    onPress={() => handleClassClick(data.id, data.className)}
                                 >
                                     <CardBody className="flex-row justify-between">
-                                        <div>{data.name}</div>
+                                        <div>{data.className}</div>
                                         {userRole === 'student' && 'teacher' in data && <div>{data.teacher}</div>}
                                     </CardBody>
                                 </Card>

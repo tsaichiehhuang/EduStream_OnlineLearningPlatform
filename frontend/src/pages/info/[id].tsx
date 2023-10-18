@@ -9,20 +9,27 @@ import Cookies from 'js-cookie'
 import { AddBlockButton, AddBlockSquare } from '@/components/info/AddBlock'
 import DefaultMockData from '@/data/DefaultMockData'
 import { CreateLiveButton } from '@/components/info/CreateLive'
+import useGetDefault from '@/hooks/Info/useGetDefault'
+import useGetWeeks from '@/hooks/Info/useGetWeek'
 
 export default function Info() {
     const [userRole, setUserRole] = useState<string | null>('')
     const [theme, setTheme] = useState('light')
     const [editMode, setEditMode] = useState(false)
-    const [weekData, setWeekData] = useState(WeekMockData)
     const [isBrowser, setIsBrowser] = useState(false)
     const [blockPositions, setBlockPositions] = useState<Record<number, number>>({})
-
+    const { getDefault, defaultInfoData } = useGetDefault()
+    const { getWeeks, weeksData } = useGetWeeks()
+    const [weekData, setWeekData] = useState(weeksData)
+    const [className, setClassName] = useState<string | null>('')
     useEffect(() => {
+        getDefault()
+        getWeeks()
         if (typeof window !== 'undefined') {
             setIsBrowser(true)
         }
         setUserRole(Cookies.get('userRole'))
+        setClassName(Cookies.get('className'))
     }, [])
 
     const handleEditMode = () => {
@@ -31,7 +38,7 @@ export default function Info() {
     const toggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light')
     }
-    const courseName = Cookies.get('courseName')
+
     const onDragEnd = (event: any) => {
         const { source, destination } = event
         if (!destination) {
@@ -63,10 +70,10 @@ export default function Info() {
             <Header toggleTheme={toggleTheme} theme={theme} />
             <div className={`${theme} text-foreground bg-background`}>
                 <main className="p-10 w-full h-screen flex flex-col">
-                    <div className="text-2xl font-medium py-10 md:p-6">{courseName}</div>
+                    <div className="text-2xl font-medium py-10 md:p-6">{className}</div>
                     <div className="flex w-full justify-end md:flex-row flex-col-reverse md:justify-around">
                         <div className="w-full mt-5 md:w-7/12 md:mt-0 border-none gap-4 flex-col flex mb-12">
-                            <DefaultBlock data={DefaultMockData} editMode={editMode} />
+                            <DefaultBlock data={defaultInfoData} editMode={editMode} />
                             {editMode ? (
                                 <DragDropContext onDragEnd={onDragEnd}>
                                     {isBrowser ? (
@@ -77,7 +84,7 @@ export default function Info() {
                                                     ref={provided.innerRef}
                                                     className="gap-4 flex flex-col"
                                                 >
-                                                    {weekData.map((data, index) => (
+                                                    {weeksData.map((data, index) => (
                                                         <WeekBlock
                                                             key={data.blockId}
                                                             data={data}
@@ -92,7 +99,7 @@ export default function Info() {
                                     ) : null}
                                 </DragDropContext>
                             ) : (
-                                weekData.map((data, index) => (
+                                weeksData.map((data, index) => (
                                     <WeekBlock key={data.blockId} data={data} editMode={editMode} index={index} />
                                 ))
                             )}
@@ -145,7 +152,7 @@ export default function Info() {
                                     </Button>
 
                                     <CreateLiveButton />
-                                    <AddBlockButton />
+                                    {editMode && <AddBlockButton />}
                                 </>
                             )}
                         </div>

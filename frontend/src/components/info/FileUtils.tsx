@@ -6,6 +6,7 @@ function getFileIcon(filePath: string) {
         switch (extension) {
             case 'pdf':
             case 'ppt':
+            case 'pptx':
             case 'doc':
                 return (
                     <div className="w-[24px] h-[24px] bg-mainGreen rounded-full flex justify-center items-center">

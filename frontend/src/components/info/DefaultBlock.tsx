@@ -1,8 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Card, CardHeader, CardBody, Divider, Link, Button, Chip, CardFooter } from '@nextui-org/react'
 import getFileIcon from './FileUtils'
-import CourseMockData from '@/data/ClassMockData'
-import userMockData from '@/data/UserMockData'
 import { Delete, Edit } from './EditMode'
 import { AddSubmittedArea, AddFileButton } from '@/components/info/AddFile'
 

@@ -2,8 +2,6 @@ import { Homework } from "../models/homework";
 
 // create block and homework
 
-
-
 // CRUD homework
 const create = async (endTime: Date, description: string) => {
   try {

@@ -1,13 +1,10 @@
 import { Elysia, t } from "elysia";
-import { auth } from "../utils/auth";
 import { Enroll } from "../models/enroll";
 
 export const enroll = (app: Elysia) =>
-  app.use(auth).post(
+  app.post(
     "/:id",
     async ({ profile, set, params: { id } }) => {
-      if (set.status !== 200 || !profile) return "Unauthorized";
-
       const enroll = await Enroll.findOneBy({
         studentId: Number(profile.id),
         classId: Number(id),

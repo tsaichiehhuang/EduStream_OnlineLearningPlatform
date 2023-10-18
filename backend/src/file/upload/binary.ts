@@ -1,24 +1,14 @@
-import { env } from "process";
 import fs from "node:fs/promises";
 import { randomUUID as uuid } from "crypto";
 import path from "path";
 
 import { Elysia, t } from "elysia";
-import { JWTPayloadSpec, jwt } from "@elysiajs/jwt";
-import { bearer } from "@elysiajs/bearer";
-
-import { User } from "../../models/user";
 import { File } from "../../models/file";
-import { IToken } from "../../types/type";
 
 export const binary = (config: ConstructorParameters<typeof Elysia>[0] = {}) =>
   new Elysia(config).put(
     "/binary",
-    async ({ body, profile, set }) => {
-      if ((await User.findOneBy({ id: Number(profile.id) })) === null) {
-        set.status = 403;
-        return "Permission Denied";
-      }
+    async ({ body, set }) => {
       const dbFile = await File.findOneBy({ id: body.id, location: "local" });
       if (dbFile === null) {
         set.status = 404;

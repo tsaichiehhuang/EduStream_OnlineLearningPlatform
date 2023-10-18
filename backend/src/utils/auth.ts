@@ -1,30 +1,39 @@
 import { Elysia } from "elysia";
 import { bearer } from "@elysiajs/bearer";
-import { jwt } from "@elysiajs/jwt";
+import { JWTPayloadSpec, jwt } from "@elysiajs/jwt";
+
+import { User } from "../models/user";
+import { IToken } from "../types/type";
 
 export const auth = (app: Elysia) =>
   app
     .use(
       jwt({
         name: "jwt",
-        secret: process.env.JWT_SECRET ? process.env.JWT_SECRET : "",
+        secret: process.env.JWT_SECRET!,
       })
     )
     .use(bearer())
-    .derive(async ({ request: { headers }, jwt, bearer, set }) => {
-      if (!bearer) {
-        set.status = 401;
-      }
-
-      const profile = await jwt.verify(bearer);
-      if (!profile) {
-        set.status = 401;
-      }
+    .derive(async ({ jwt, bearer }) => {
+      const profile = (await jwt.verify(bearer)) as
+        | false
+        | (IToken & JWTPayloadSpec);
 
       return {
         profile: profile,
+        authUser:
+          profile === false
+            ? undefined
+            : await User.findOneBy({ id: Number(profile.id) }),
       };
     })
-    .onBeforeHandle(({ set }) => {
-      if (set.status !== 200) return "Unauthorized";
+    .onBeforeHandle(({ set, profile, authUser }) => {
+      if (!profile) {
+        set.status = 401;
+        return "Unauthorized";
+      }
+      if (authUser === null) {
+        set.status = 403;
+        return "Permission Denied";
+      }
     });

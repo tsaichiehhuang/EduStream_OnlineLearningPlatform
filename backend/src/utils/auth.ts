@@ -24,4 +24,7 @@ export const auth = (app: Elysia) =>
       return {
         profile: profile,
       };
+    })
+    .onBeforeHandle(({ set }) => {
+      if (set.status !== 200) return "Unauthorized";
     });

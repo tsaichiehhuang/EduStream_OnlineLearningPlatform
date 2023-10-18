@@ -6,7 +6,6 @@ export const create = (app: Elysia) =>
   app.post(
     "/:id/section",
     async ({ profile, set, body, params: { id } }) => {
-
       const isClass = await Class.findOneBy({
         instructorId: Number(profile.id),
         id: Number(id),

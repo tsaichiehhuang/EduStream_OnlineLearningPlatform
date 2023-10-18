@@ -27,6 +27,7 @@ import { previewLive } from "./live/preview";
 
 import { getClass } from "./class/get";
 
+import { auth } from "./utils/auth";
 import { download } from "./file/download";
 import { init } from "./file/upload/init";
 import { binary } from "./file/upload/binary";
@@ -36,6 +37,8 @@ await initDatabase();
 const app = new Elysia()
   .use(cors())
   .get("/", () => "Hello World!")
+  .group("user", (app) => app.use(signup).use(signin).use(info))
+  .use(auth)
   .group("/enroll", (app) => app.use(enroll).use(drop))
   .group("/class", (app) =>
     app
@@ -46,7 +49,6 @@ const app = new Elysia()
       .use(createSection)
       .group("/section", (app) => app.use(updateSection).use(deleteSection))
   )
-  .group("user", (app) => app.use(signup).use(signin).use(info))
   .group("live", (app) =>
     app
       .use(getLive)

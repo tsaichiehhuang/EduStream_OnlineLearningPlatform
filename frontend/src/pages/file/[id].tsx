@@ -12,18 +12,14 @@ export default function File() {
             console.log('filePath:', filePath)
         }
     }, [filePath])
-    const docs = [{ uri: filePath }]
+    const docs = [{ uri: 'https://pdfobject.com/pdf/sample.pdf' }]
 
     return (
         <>
             <Header toggleTheme={() => {}} theme={null} />
-            <div className="w-full flex justify-center items-center border border-black border-solid">
-                <div className="w-[800px] border border-black border-solid">
-                    <DocViewer
-                        documents={docs}
-                        pluginRenderers={DocViewerRenderers}
-                        className="w-[500px] border border-black border-solid"
-                    />
+            <div className="w-full flex justify-center items-center mt-5">
+                <div className="w-[800px] h-[800px] ">
+                    <DocViewer documents={docs} pluginRenderers={DocViewerRenderers} className="w-[500px]" />
                 </div>
             </div>
         </>

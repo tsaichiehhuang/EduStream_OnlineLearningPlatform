@@ -61,7 +61,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
         //block id
     }
     const handleAddFile = () => {
-        uploadFile(addFileRequestBody, id)
+        // uploadFile(addFileRequestBody, id)
     }
 
     return (
@@ -145,7 +145,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
                                         placeholder=" "
                                         color="default"
                                         labelPlacement="outside"
-                                        onChange={(value: any) => setFileName(value)}
+                                        // onChange={(value: any) => setFileName(value)}
                                     />
                                 </>
                             )}
@@ -270,7 +270,7 @@ export const AddFileButton = () => {
                     新增資源
                 </Button>
             </Tooltip>
-            <AddFileModal isOpen={isOpen} onOpenChange={onOpenChange} status="addFile" />
+            <AddFileModal isOpen={isOpen} onOpenChange={onOpenChange} status="addFile" id={null} />
         </>
     )
 }

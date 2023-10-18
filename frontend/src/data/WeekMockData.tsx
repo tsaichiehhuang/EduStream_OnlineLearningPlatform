@@ -7,7 +7,7 @@ export const WeekMockData: WeekData[] = [
         file: [
             {
                 name: 'week1講義',
-                path: './1111 設計理論與方法 Week 1 (1).pptx',
+                path: './東京五天.pdf',
                 fileId: 1,
             },
             { name: 'week1影片', path: 'vedio.mp4', fileId: 2 },

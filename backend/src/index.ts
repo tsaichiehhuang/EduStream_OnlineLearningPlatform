@@ -3,6 +3,8 @@ import { cors } from "@elysiajs/cors";
 
 import { initDatabase } from "./models/config";
 
+import { auth } from "./utils/auth";
+
 import { signup } from "./user/signup";
 import { signin } from "./user/signin";
 import { info } from "./user/info";
@@ -27,10 +29,10 @@ import { previewLive } from "./live/preview";
 
 import { getClass } from "./class/get";
 
-import { auth } from "./utils/auth";
 import { download } from "./file/download";
 import { init } from "./file/upload/init";
 import { binary } from "./file/upload/binary";
+import { cancel } from "./file/upload/cancel";
 
 await initDatabase();
 
@@ -61,7 +63,9 @@ const app = new Elysia()
   )
   .group("/class", (app) => app.use(getClass))
   .group("/file", (app) =>
-    app.use(download()).group("/upload", (app) => app.use(init()).use(binary()))
+    app
+      .use(download())
+      .group("/upload", (app) => app.use(init()).use(binary().use(cancel())))
   )
   .listen(3050);
 

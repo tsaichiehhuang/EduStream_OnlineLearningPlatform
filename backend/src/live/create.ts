@@ -113,7 +113,7 @@ export const createLive = (app: Elysia) =>
           }
         })();
 
-        if (result.live.id) {
+        if (result.live) {
           
 
           const newStream = new Stream();

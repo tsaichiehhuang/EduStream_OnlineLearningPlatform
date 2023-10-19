@@ -6,15 +6,6 @@ export const update = (app: Elysia) =>
   app.put(
     "/:id",
     async ({ profile, set, body, params: { id } }) => {
-      const isClass = await Class.findOneBy({
-        instructorId: Number(profile.id),
-        id: Number(id),
-      });
-      if (!isClass) {
-        set.status = 404;
-        return "Class Not Found";
-      }
-
       const title = body.title;
 
       try {
@@ -37,6 +28,7 @@ export const update = (app: Elysia) =>
         };
       } catch (err) {
         set.status = 500;
+        console.log(err);
         return "Query Failed";
       }
     },

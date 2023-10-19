@@ -20,19 +20,18 @@ export const auth = (app: Elysia) =>
         | (IToken & JWTPayloadSpec);
 
       return {
-        profile: profile,
-        authUser:
+        profile:
           profile === false
             ? undefined
             : await User.findOneBy({ id: Number(profile.id) }),
       };
     })
-    .onBeforeHandle(({ set, profile, authUser }) => {
-      if (!profile) {
+    .onBeforeHandle(({ set, profile }) => {
+      if (profile === undefined) {
         set.status = 401;
         return "Unauthorized";
       }
-      if (authUser === null) {
+      if (profile === null) {
         set.status = 403;
         return "Permission Denied";
       }

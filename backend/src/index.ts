@@ -64,8 +64,8 @@ const app = new Elysia()
   .group("/class", (app) => app.use(getClass))
   .group("/file", (app) =>
     app
-      .use(download())
-      .group("/upload", (app) => app.use(init()).use(binary().use(cancel())))
+      .use(download)
+      .group("/upload", (app) => app.use(init).use(binary).use(cancel))
   )
   .listen(3050);
 

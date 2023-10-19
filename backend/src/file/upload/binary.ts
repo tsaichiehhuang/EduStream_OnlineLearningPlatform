@@ -11,8 +11,8 @@ import { User } from "../../models/user";
 import { File } from "../../models/file";
 import { IToken } from "../../types/type";
 
-export const binary = (config: ConstructorParameters<typeof Elysia>[0] = {}) =>
-  new Elysia(config).put(
+export const binary = (app: Elysia) =>
+  app.put(
     "/binary",
     async ({ body, profile, set }) => {
       if ((await User.findOneBy({ id: Number(profile.id) })) === null) {

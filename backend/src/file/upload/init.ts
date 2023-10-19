@@ -1,13 +1,9 @@
 import { env } from "process";
 import { Elysia, t } from "elysia";
-import { JWTPayloadSpec, jwt } from "@elysiajs/jwt";
-import { bearer } from "@elysiajs/bearer";
 import axios from "axios";
 import z, { ZodError } from "zod";
 
 import { File } from "../../models/file";
-import { User } from "../../models/user";
-import { IToken } from "../../types/type";
 import { KK_API_ENDPOINT } from "../../util/constant";
 
 // skipped unused fields
@@ -95,12 +91,7 @@ async function localUpload(name: string) {
 export const init = (config: ConstructorParameters<typeof Elysia>[0] = {}) =>
   new Elysia(config).post(
     "/init",
-    async ({ body, set, profile }) => {
-      if ((await User.findOneBy({ id: Number(profile.id) })) === null) {
-        set.status = 403;
-        return "Permission Denied";
-      }
-
+    async ({ body }) => {
       try {
         const kkFileMeta = await kkUpload(body.name, body.size);
         return {

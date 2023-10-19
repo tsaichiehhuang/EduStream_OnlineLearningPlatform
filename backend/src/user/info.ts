@@ -3,7 +3,6 @@ import { Elysia, t } from "elysia";
 // import { jwt } from "@elysiajs/jwt";
 import { IUser, UserRole } from "../types/type";
 import { User } from "../models/user";
-import { auth } from "../utils/auth";
 
 export const info = (app: Elysia) =>
   app
@@ -21,7 +20,6 @@ export const info = (app: Elysia) =>
     //     profile: profile,
     //   };
     // })
-    .use(auth)
     .get(
       "/info/:id",
       async ({ profile, set, params: { id } }) => {

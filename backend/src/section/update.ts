@@ -1,26 +1,18 @@
 import { Elysia, t } from "elysia";
+import { Section } from "../models/section";
 import { Class } from "../models/class";
 
 export const update = (app: Elysia) =>
   app.put(
     "/:id",
     async ({ profile, set, body, params: { id } }) => {
-      const isClass = await Class.findOneBy({
-        instructorId: Number(profile.id),
-        id: Number(id),
-      });
-      if (!isClass) {
-        set.status = 404;
-        return "Class Not Found";
-      }
-
-      const announcement = body.announcement;
+      const title = body.title;
 
       try {
-        await Class.createQueryBuilder("class")
-          .update(Class)
+        await Section.createQueryBuilder("section")
+          .update(Section)
           .set({
-            announcement: announcement,
+            description: title,
           })
           .where("id = :id", { id: id })
           .execute();
@@ -28,18 +20,21 @@ export const update = (app: Elysia) =>
         return {
           data: {
             class: {
-              id: id,
+              section: {
+                id: id,
+              },
             },
           },
         };
       } catch (err) {
         set.status = 500;
+        console.log(err);
         return "Query Failed";
       }
     },
     {
       body: t.Object({
-        announcement: t.String(),
+        title: t.String(),
       }),
       params: t.Object({
         id: t.Numeric(),

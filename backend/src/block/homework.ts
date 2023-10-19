@@ -69,7 +69,6 @@ const createHomework = (app: Elysia) =>
         title: t.String(),
         description: t.String(),
         sectionId: t.Numeric(),
-        order: t.Numeric(),
       }),
       params: t.Object({
         id: t.Numeric(),

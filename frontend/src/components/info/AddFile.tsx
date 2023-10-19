@@ -26,9 +26,19 @@ type AddFileModalProps = {
     onOpenChange: any
     status: string
     id: any
+    sectionId: number
+    classId: number
+    blockOrder: number
 }
 
-const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, status, id }) => {
+const AddFileModal: React.FC<AddFileModalProps> = ({
+    isOpen,
+    onOpenChange,
+    status,
+    sectionId,
+    classId,
+    blockOrder,
+}) => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
     const [title, setTitle] = useState<string>('')
     const [time, setTime] = useState<string>('')
@@ -49,11 +59,14 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
     }
     const requestBody = {
         title: title,
-        time: time,
+        endTime: time,
         description: description,
+        sectionId: sectionId,
+        order: blockOrder,
     }
     const handleSubmit = () => {
-        createHW(requestBody, id)
+        createHW(requestBody, classId)
+        // onOpenChange(false)
     }
     const addFileRequestBody = {
         // name: fileName,
@@ -182,9 +195,9 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
         </Modal>
     )
 }
-export const AddSubmittedArea = (id: any) => {
+export const AddSubmittedArea = (sectionId: any, classId, blockOrder) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
-
+    console.log(sectionId)
     return (
         <>
             <Tooltip
@@ -231,7 +244,14 @@ export const AddSubmittedArea = (id: any) => {
                     新增繳交區
                 </Button>
             </Tooltip>
-            <AddFileModal isOpen={isOpen} onOpenChange={onOpenChange} status="submitted" id={id} />
+            <AddFileModal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                status="submitted"
+                sectionId={sectionId.sectionId}
+                classId={sectionId.classId}
+                blockOrder={sectionId.blockOrder}
+            />
         </>
     )
 }

@@ -1,43 +1,40 @@
 import Cookies from 'js-cookie'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 
 const apiUrl = process.env.API_DOMAIN
 
-function useCreateHW() {
-    const [classData, setClassData] = useState<ClassData[]>([])
+function useDeleteAnnounce() {
     const accessToken = Cookies.get('accessToken')
 
-    const createHW = async (requestBody: any, classId: any) => {
+    const deleteAnnounce = async (id: number) => {
         try {
-            const response = await fetch(`${apiUrl}/class/${classId}/homework`, {
-                method: 'POST',
+            const response = await fetch(`${apiUrl}/class/announce/${id}`, {
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify(requestBody),
             })
-            const responseData = await response.json()
             if (response.ok) {
                 Swal.fire({
                     icon: 'success',
-                    title: '新增成功',
+                    title: '刪除成功',
                     showConfirmButton: false,
-                    timer: 1000,
+                    timer: 500,
                 })
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
+                // setTimeout(() => {
+                //     window.location.reload()
+                // }, 800)
             }
         } catch (error) {
-            Swal.fire('新增失敗', '', 'warning')
-
             console.error('Error fetching class data:', error)
+            Swal.fire('刪除失敗', '', 'warning')
         }
     }
 
-    return { createHW }
+    return { deleteAnnounce }
 }
 
-export default useCreateHW
+export default useDeleteAnnounce

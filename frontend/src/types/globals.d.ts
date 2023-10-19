@@ -1,3 +1,5 @@
+import { type } from 'os'
+
 export {}
 
 declare global {
@@ -11,20 +13,16 @@ declare global {
         }[]
     }
     interface WeekData {
-        title: string
-        blockId: number
-        file: {
+        map(arg0: (data: any, index: any) => import('react').JSX.Element): import('react').ReactNode
+        description: string
+        id: number
+        order: number
+        classId: number
+        blocks: {
+            type: string
             name: string
             path: string
-            fileId: number
-        }[]
-        submit: {
-            name: string
-            description: string
-            endTime: string
-            done: boolean
-            uploadTime: string
-            fileId: number
+            id: number
         }[]
     }
 

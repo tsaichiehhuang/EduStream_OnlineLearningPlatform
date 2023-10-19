@@ -11,16 +11,19 @@ import DefaultMockData from '@/data/DefaultMockData'
 import { CreateLiveButton } from '@/components/info/CreateLive'
 import useGetDefault from '@/hooks/Info/useGetDefault'
 import useGetWeeks from '@/hooks/Info/useGetWeek'
+import { useRouter } from 'next/router'
 
 export default function Info() {
+    const router = useRouter()
+    const { id } = router.query
     const [userRole, setUserRole] = useState<string | null>('')
     const [theme, setTheme] = useState('light')
     const [editMode, setEditMode] = useState(false)
     const [isBrowser, setIsBrowser] = useState(false)
     const [blockPositions, setBlockPositions] = useState<Record<number, number>>({})
-    const { getDefault, defaultInfoData } = useGetDefault()
-    const { getWeeks, weeksData } = useGetWeeks()
-    const [weekData, setWeekData] = useState(weeksData)
+    const { getDefault, defaultInfoData } = useGetDefault(id)
+    const { getWeeks, weeksData } = useGetWeeks(id)
+    const [weekData, setWeekData] = useState<WeekData[]>()
     const [className, setClassName] = useState<string | null>('')
     useEffect(() => {
         getDefault()
@@ -30,7 +33,8 @@ export default function Info() {
         }
         setUserRole(Cookies.get('userRole'))
         setClassName(Cookies.get('className'))
-    }, [])
+        setWeekData(weeksData)
+    }, [editMode])
 
     const handleEditMode = () => {
         setEditMode(!editMode)
@@ -44,25 +48,29 @@ export default function Info() {
         if (!destination) {
             return
         }
-        // 获取被拖动的块的位置
+
+        // // 获取被拖动的块的位置
         const sourceIndex = source.index
         const destinationIndex = destination.index
 
         // 复制当前的 blockPositions
         const newBlockPositions: Record<number, number> = { ...blockPositions }
 
-        // 更新被拖动块的位置信息
+        // // 更新被拖动块的位置信息
         const [draggedBlock] = weekData.splice(sourceIndex, 1)
         weekData.splice(destinationIndex, 0, draggedBlock)
 
-        // 更新 blockPositions 对象
+        //更新 blockPositions 对象
         weekData.forEach((item, index) => {
-            newBlockPositions[item.blockId] = index
+            newBlockPositions[item.id] = index
         })
+        console.log('blockPositions', blockPositions)
+        console.log('newBlockPositions', newBlockPositions)
 
         // 设置新的 blockPositions 和 weekData
         setBlockPositions(newBlockPositions)
         setWeekData(weekData)
+        console.log(weekData)
     }
 
     return (
@@ -84,14 +92,15 @@ export default function Info() {
                                                     ref={provided.innerRef}
                                                     className="gap-4 flex flex-col"
                                                 >
-                                                    {weeksData.map((data, index) => (
-                                                        <WeekBlock
-                                                            key={data.blockId}
-                                                            data={data}
-                                                            editMode={editMode}
-                                                            index={index}
-                                                        />
-                                                    ))}
+                                                    {weekData &&
+                                                        weekData.map((data, index) => (
+                                                            <WeekBlock
+                                                                key={data.id}
+                                                                data={data}
+                                                                editMode={editMode}
+                                                                index={index}
+                                                            />
+                                                        ))}
                                                     {provided.placeholder}
                                                 </div>
                                             )}
@@ -100,7 +109,7 @@ export default function Info() {
                                 </DragDropContext>
                             ) : (
                                 weeksData.map((data, index) => (
-                                    <WeekBlock key={data.blockId} data={data} editMode={editMode} index={index} />
+                                    <WeekBlock key={data.id} data={data} editMode={editMode} index={index} />
                                 ))
                             )}
                             {editMode && <AddBlockSquare />}

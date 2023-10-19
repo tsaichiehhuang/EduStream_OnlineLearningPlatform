@@ -9,18 +9,21 @@ import {
     Input,
     Card,
 } from '@nextui-org/react'
-import { useState } from 'react'
+import { use, useState } from 'react'
 import Divider from '@mui/material/Divider'
 import { type } from 'os'
 import { DesktopDatePicker, LocalizationProvider, DateTimeField } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-import { DateField } from '@mui/x-date-pickers/DateField'
-import { TimeField } from '@mui/x-date-pickers/TimeField'
 import { createTheme, ThemeProvider, Theme, useTheme } from '@mui/material/styles'
 import { customTheme } from './CustomTheme'
 import 'dayjs/locale/zh-cn'
 import dayjs from 'dayjs'
 import useUpdateSection from '@/hooks/Info/useUpdateSection'
+import useUpdateAnnounce from '@/hooks/Info/useUpdateAnnounce'
+import useDeleteSection from '@/hooks/Info/useDeleteSection'
+import useDeleteAnnounce from '@/hooks/Info/useDeleteAnnounce'
+import useDeleteHW from '@/hooks/Info/useDeleteHW'
+import useUpdateHW from '@/hooks/Info/useUpdateHW'
 
 type EditModalProps = {
     isOpen: any
@@ -32,13 +35,18 @@ type EditModalProps = {
 type DeleteModalProps = {
     isOpen: any
     onOpenChange: any
+    id: any
+    status: any
 }
 const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, status, id }) => {
     const [selectedFile, setSelectedFile] = useState<any>(null)
     const [title, setTitle] = useState<string>('')
+    const [description, setDescription] = useState<string>('')
     const outerTheme = useTheme()
-    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
+    const [selectedDate, setSelectedDate] = useState<string>('')
     const { updateSection } = useUpdateSection()
+    const { updateAnnounce } = useUpdateAnnounce()
+    const { updateHW } = useUpdateHW()
 
     const handleFileChange = (event: any) => {
         const file = event.target.files[0]
@@ -46,15 +54,25 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
         console.log('Selected file:', file)
     }
     const handleDateValue = (date: any) => {
-        // console.log(date.$d.toString())
-        console.log(JSON.stringify(date))
+        setSelectedDate(date)
     }
     const handleCloseModal = () => {
         setSelectedFile(null)
         onOpenChange(false)
     }
+    const updateHWReqestBody = {
+        title: title,
+        description: description,
+        endTime: selectedDate,
+    }
     const handleSubmit = () => {
-        updateSection(title, id)
+        if (status === 'title') {
+            updateSection(title, id)
+        } else if (status === 'announce') {
+            updateAnnounce(title, id)
+        } else {
+            updateHW(updateHWReqestBody, id)
+        }
     }
 
     return (
@@ -108,6 +126,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
                                             color="default"
                                             labelPlacement="outside"
                                             className="mt-4"
+                                            onChange={(e) => setDescription(e.target.value)}
                                         />
                                         <Divider className="text-darkGray">or</Divider>
 
@@ -139,7 +158,10 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
         </Modal>
     )
 }
-const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onOpenChange }) => {
+const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onOpenChange, id, status }) => {
+    const { deleteSection } = useDeleteSection()
+    const { deleteAnnounce } = useDeleteAnnounce()
+    const { deleteHW } = useDeleteHW()
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent>
@@ -147,13 +169,23 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onOpenChange }) => {
                     <>
                         <ModalHeader></ModalHeader>
                         <ModalBody className="flex justify-center items-center text-mainBlue text-lg font-bold">
-                            確定刪除？
+                            {status === 'title' ? '確定刪除該課程進度？' : '確定刪除？'}
                         </ModalBody>
                         <ModalFooter>
                             <Button color="default" variant="light" onPress={onClose}>
                                 取消
                             </Button>
-                            <Button className="text-white" onPress={onClose}>
+
+                            <Button
+                                className="text-white"
+                                onPress={
+                                    status === 'submit'
+                                        ? () => deleteHW(id)
+                                        : status === 'announce'
+                                        ? () => deleteAnnounce(id)
+                                        : () => deleteSection(id)
+                                }
+                            >
                                 確定
                             </Button>
                         </ModalFooter>
@@ -190,8 +222,9 @@ export const Edit: React.FC<EditProps> = ({ file, status, id }) => {
         </>
     )
 }
-export const Delete = () => {
+export const Delete = (id: any, status: string) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
+    console.log(status)
 
     return (
         <>
@@ -208,7 +241,7 @@ export const Delete = () => {
                 </svg>
                 <div className="text-zinc-400 text-[8px] font-normal font-['Noto Sans TC']">刪除</div>
             </Button>
-            <DeleteModal isOpen={isOpen} onOpenChange={onOpenChange} />
+            <DeleteModal isOpen={isOpen} onOpenChange={onOpenChange} id={id.id} status={status} />
         </>
     )
 }

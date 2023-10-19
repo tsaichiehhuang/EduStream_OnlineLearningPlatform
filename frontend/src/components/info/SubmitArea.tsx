@@ -33,11 +33,11 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data 
             <ModalContent>
                 {(onClose) => (
                     <>
-                        <ModalHeader className="flex flex-col gap-1">上傳檔案：{data.name}</ModalHeader>
+                        <ModalHeader className="flex flex-col gap-1">上傳檔案：{data.homework.title}</ModalHeader>
                         <ModalBody>
                             <p className="text-sm">詳細說明</p>
-                            <p className="text-sm text-gray-500">{data.description}</p>
-                            <p className="text-sm">繳交資料</p>
+                            <p className="text-sm text-gray-500">{data.homework.description || '無'}</p>
+
                             {userRole === 'student' && (
                                 <>
                                     <Divider />
@@ -140,7 +140,7 @@ export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode }) =
                                     />
                                 </svg>
                             </div>
-                            {data.name}
+                            {data.homework.title}
                         </Link>
                     </CardHeader>
                     {userRole === 'student' && (
@@ -158,7 +158,7 @@ export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode }) =
                                 ) : (
                                     <>
                                         <p className=" text-sm md:flex hidden">尚未繳交</p>Due{' '}
-                                        {dayjs(data.endTime).format('YYYY年MM月DD日')}
+                                        {dayjs(data.homework.endTime).format('YYYY年MM月DD日')}
                                     </>
                                 )}
                             </Button>
@@ -167,8 +167,8 @@ export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode }) =
                 </Card>
                 {editMode && (
                     <div className="gap-1 flex flex-row items-start">
-                        <Delete />
-                        <Edit file={data} status="submit" />
+                        <Delete status="submit" id={data.hwId} />
+                        <Edit file={data} status="submit" id={data.hwId} />
                     </div>
                 )}
             </div>

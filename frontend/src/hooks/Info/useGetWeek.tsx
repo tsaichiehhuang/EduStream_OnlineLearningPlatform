@@ -1,13 +1,11 @@
 import Cookies from 'js-cookie'
 import { set } from 'lodash'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
 const apiUrl = process.env.API_DOMAIN
 
-function useGetWeeks() {
-    const router = useRouter()
-    const { id } = router.query
+function useGetWeeks(id: any) {
     const [weeksData, setWeeksData] = useState<WeekData[]>([])
     const accessToken = Cookies.get('accessToken')
 
@@ -28,7 +26,9 @@ function useGetWeeks() {
             console.error('Error fetching class data:', error)
         }
     }
-
+    useEffect(() => {
+        getWeeks()
+    }, [id])
     return { getWeeks, weeksData }
 }
 

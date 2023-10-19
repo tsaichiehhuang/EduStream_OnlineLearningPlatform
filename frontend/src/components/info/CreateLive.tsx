@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import useCreateLive from "@/hook/useCreateLive";
+import useCreateLive from "@/hooks/live/useCreateLive";
 import { useState, useEffect } from "react";
 import {
   Modal,

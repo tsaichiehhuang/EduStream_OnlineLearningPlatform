@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardHeader,
@@ -20,32 +20,43 @@ import {
 } from "@nextui-org/react";
 import { Checkbox } from "@nextui-org/react";
 import { Select, SelectItem } from "@nextui-org/react";
+import usePreviewLive from "@/hooks/live/usePreviewLive";
+import useGetLive from "@/hooks/live/useGetLive";
+import useCancelLive from "@/hooks/live/useCancelLive";
+
+import LiveStreamPage from "@/components/live/showVideo";
 
 import Head from "next/head";
 import { Inter } from "next/font/google";
 import Header from "@/components/header";
 import { NextUIProvider } from "@nextui-org/react";
 
-const animals = [
-  {
-    label: "Cat",
-    value: "cat",
-    description: "The second most popular pet in the world",
-  },
-  {
-    label: "Dog",
-    value: "dog",
-    description: "The most popular pet in the world",
-  },
-  {
-    label: "Elephant",
-    value: "elephant",
-    description: "The largest land animal",
-  },
-  { label: "Lion", value: "lion", description: "The king of the jungle" },
-];
-
 export default function Live() {
+  const { previewLive } = usePreviewLive();
+  const { getLive, url } = useGetLive();
+  const { cancelLive } = useCancelLive();
+  const [isLive, setIsLive] = useState(false);
+
+  useEffect(() => {
+    previewLive();
+  }, []);
+
+  const handleStartLive = () => {
+    getLive();
+    setIsLive(true);
+  };
+
+  const handleEndLive = () => {
+    cancelLive();
+    setIsLive(false);
+  };
+
+  const eventData = {
+    live: {
+      source: "https://example.com/live-stream",
+      type: "LIVE_TYPE_LIVE",
+    },
+  };
   const isMobile =
     typeof window !== "undefined" &&
     window.matchMedia("(max-width: 768px)").matches;
@@ -56,6 +67,7 @@ export default function Live() {
     setTheme(theme === "light" ? "dark" : "light");
   };
   const [isSelected, setIsSelected] = React.useState(false);
+
   return (
     <>
       <Header toggleTheme={toggleTheme} theme={theme} />
@@ -65,11 +77,12 @@ export default function Live() {
                         flex-col "
         >
           <main
-            className=" w-full  flex 
+            className=" w-full  flex h-full
                         flex-col justify-start gap-8 md:flex-row md:justify-around"
           >
-            <div className="flex flex-col  w-full h-1/5 md:w-7/12 md:h-96">
-              <div className="bg-gray-500  w-full h-full md:w-full md:h-full"></div>
+            <div className="flex flex-col  w-full h-full md:w-7/12 md:h-96">
+              {/* <LiveStreamPage eventData={eventData} className="bg-gray-500  w-[600px] h-[400px] md:w-full md:h-full" /> */}
+              <div className="bg-gray-500  w-[600px] h-[400px] md:w-full md:h-full"></div>
               <Input
                 className={"mt-4"}
                 type="直播名稱"
@@ -113,6 +126,7 @@ export default function Live() {
             size="lg"
             color="danger"
             variant="bordered"
+            onClick={isLive ? handleEndLive : handleStartLive}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -126,7 +140,7 @@ export default function Live() {
                 fill="red"
               />
             </svg>
-            開始直播
+            {isLive ? "結束直播" : "開始直播"}
           </Button>
         </div>
       </div>

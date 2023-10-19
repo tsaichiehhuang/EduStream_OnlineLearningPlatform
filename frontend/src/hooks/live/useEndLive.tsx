@@ -1,47 +1,39 @@
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
+import useArchiveLive from "@/hooks/live/useArchiveLive";
 
 const apiUrl = process.env.API_DOMAIN;
 
-function useCreateLive() {
+function useEndLive() {
   const router = useRouter();
   const token = Cookies.get("accessToken");
   const classid = Cookies.get("classId");
+  const { archiveLive } = useArchiveLive();
 
-  const createlive = async (name: string, classid: string) => {
-    const requestBody = {
-      name: name,
-      classID: classid,
-    };
+  const endLive = async () => {
     try {
       const response = await fetch(
-        `https://api.one-stage.kkstream.io/bv/cms/v1/lives`,
+        `https://api.one-stage.kkstream.io/bv/cms/v1/lives/${classid}/end`,
+
         {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(requestBody),
         }
       );
       const responseData = await response.json();
       if (response.ok) {
         Swal.fire({
           icon: "success",
-          title: "直播創建成功",
+          title: "直播結束成功",
           showConfirmButton: false,
           timer: 1000,
         });
-        Cookies.set("accessToken", responseData.data.access_token);
-        Cookies.set("userName", responseData.data.name);
-
-        setTimeout(() => {
-          router.push("/");
-          window.location.reload();
-        }, 1000);
+        archiveLive();
       } else {
-        Swal.fire("直播創建失敗", "", "warning");
+        Swal.fire("直播結束失敗", "", "warning");
       }
     } catch (error) {
       Swal.fire({
@@ -52,7 +44,7 @@ function useCreateLive() {
     }
   };
 
-  return { createlive };
+  return { endLive };
 }
 
-export default useCreateLive;
+export default useEndLive;

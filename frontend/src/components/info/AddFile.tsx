@@ -195,7 +195,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({
         </Modal>
     )
 }
-export const AddSubmittedArea = (sectionId: any, classId, blockOrder) => {
+export const AddSubmittedArea = (sectionId: any, classId: string, blockOrder: number) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     console.log(sectionId)
     return (

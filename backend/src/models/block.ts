@@ -54,5 +54,4 @@ export class Block extends BaseEntity {
 
   @Column({ type: "int", unsigned: true, nullable: false })
   order!: number;
-
 }

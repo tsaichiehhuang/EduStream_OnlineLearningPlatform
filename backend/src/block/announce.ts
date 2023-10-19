@@ -27,7 +27,7 @@ const createAnnounce = (app: Elysia) =>
           BlockType.Announcement,
           announceId,
           Number(body.sectionId),
-          body.order,
+          body.order
         );
 
         return {

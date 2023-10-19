@@ -1,6 +1,6 @@
 import { Elysia, t } from "elysia";
 import { Class } from "../models/class";
-import { createBlock } from "./block";
+// import { createBlock } from "./block";
 import { BlockType } from "../types/type";
 import { Homework } from "../models/homework";
 import { Block } from "../models/block";
@@ -20,6 +20,11 @@ const createHomework = (app: Elysia) =>
       }
 
       try {
+        const order = await Block.createQueryBuilder("block")
+          .select("MAX(block.order)", "max")
+          .where("block.sectionId = :sectionId", { sectionId: body.sectionId })
+          .getRawOne();
+
         // create homework
         const date = new Date(body.endTime);
         const homeworkId = await create(date, body.description, body.title);
@@ -38,9 +43,10 @@ const createHomework = (app: Elysia) =>
             type: BlockType.Homework,
             hwId: homeworkId,
             sectionId: body.sectionId,
-            order: body.order,
+            order: order.max + 1,
           })
           .execute();
+
         return {
           data: {
             class: {
@@ -78,8 +84,7 @@ const updateHomework = (app: Elysia) =>
     async ({ body, profile, set, params: { id } }) => {
       try {
         // update homework
-        const date = new Date(body.endTime);
-        await update(Number(id), date, body.description);
+        await update(Number(id), body.endTime, body.description, body.title);
 
         return {
           data: {
@@ -157,16 +162,29 @@ const create = async (endTime: Date, description: string, title: string) => {
   }
 };
 
-const update = async (id: number, endTime: Date, description: string) => {
+const update = async (
+  id: number,
+  endTime: string,
+  description: string,
+  title: string
+) => {
   try {
-    await Homework.createQueryBuilder("homework")
-      .update(Homework)
-      .set({
-        endTime: endTime,
-        description: description,
-      })
-      .where("id = :id", { id: id })
-      .execute();
+    const homework = await Homework.findOneBy({ id: id });
+    if (!homework) throw new Error("Homework Not Found");
+    if (endTime !== "") homework.endTime = new Date(endTime);
+    if (description !== "") homework.description = description;
+    if (title !== "") homework.title = title;
+    await homework.save();
+
+    // await Homework.createQueryBuilder("homework")
+    //   .update(Homework)
+    //   .set({
+    //     endTime: endTime,
+    //     description: description,
+    //     title: title,
+    //   })
+    //   .where("id = :id", { id: id })
+    //   .execute();
 
     return id;
   } catch (err) {

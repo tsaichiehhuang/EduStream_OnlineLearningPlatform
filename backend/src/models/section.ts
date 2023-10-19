@@ -27,7 +27,7 @@ export class Section extends BaseEntity {
   @Column({ type: "text", nullable: false })
   description!: string;
 
-  @Column({ type: "mediumint", unsigned: true, nullable: false, unique: true })
+  @Column({ type: "int", unsigned: true, nullable: false })
   order!: number;
 
   @OneToMany(() => Block, (block) => block.section)

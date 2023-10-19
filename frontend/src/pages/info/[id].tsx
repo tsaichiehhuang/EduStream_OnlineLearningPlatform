@@ -3,15 +3,15 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import { Card, CardHeader, CardBody, Button, Divider, Link, Chip } from '@nextui-org/react'
 import Header from '@/components/header'
 import WeekBlock from '@/components/info/WeekBlock'
-import WeekMockData from '@/data/WeekMockData'
 import DefaultBlock from '@/components/info/DefaultBlock'
 import Cookies from 'js-cookie'
 import { AddBlockButton, AddBlockSquare } from '@/components/info/AddBlock'
-import DefaultMockData from '@/data/DefaultMockData'
 import { CreateLiveButton } from '@/components/info/CreateLive'
 import useGetDefault from '@/hooks/Info/useGetDefault'
 import useGetWeeks from '@/hooks/Info/useGetWeek'
 import { useRouter } from 'next/router'
+import useOrderSection from '@/hooks/Info/useOrderSection'
+import { set } from 'lodash'
 
 export default function Info() {
     const router = useRouter()
@@ -25,6 +25,8 @@ export default function Info() {
     const { getWeeks, weeksData } = useGetWeeks(id)
     const [weekData, setWeekData] = useState<WeekData[]>()
     const [className, setClassName] = useState<string | null>('')
+    const { orderSection } = useOrderSection()
+    const [requestbody, setRequestbody] = useState<any>([])
     useEffect(() => {
         getDefault()
         getWeeks()
@@ -36,13 +38,10 @@ export default function Info() {
         setWeekData(weeksData)
     }, [editMode])
 
-    const handleEditMode = () => {
-        setEditMode(!editMode)
-    }
     const toggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light')
     }
-
+    let outputArray: { id: number; order: number }[] = []
     const onDragEnd = (event: any) => {
         const { source, destination } = event
         if (!destination) {
@@ -62,17 +61,30 @@ export default function Info() {
 
         //更新 blockPositions 对象
         weekData.forEach((item, index) => {
-            newBlockPositions[item.id] = index
+            newBlockPositions[item.id] = index + 1
         })
-        console.log('blockPositions', blockPositions)
-        console.log('newBlockPositions', newBlockPositions)
 
         // 设置新的 blockPositions 和 weekData
         setBlockPositions(newBlockPositions)
         setWeekData(weekData)
-        console.log(weekData)
-    }
 
+        for (const key in blockPositions) {
+            if (blockPositions.hasOwnProperty(key)) {
+                const id = parseInt(key)
+                const order = blockPositions[key]
+                const newItem = { id, order }
+                outputArray.push(newItem)
+                setRequestbody(outputArray)
+            }
+        }
+    }
+    const handleEditMode = async () => {
+        setEditMode(!editMode)
+        if (requestbody.length > 0) {
+            const requestBodyObject = { section: requestbody }
+            orderSection(requestBodyObject, id)
+        }
+    }
     return (
         <>
             <Header toggleTheme={toggleTheme} theme={theme} />

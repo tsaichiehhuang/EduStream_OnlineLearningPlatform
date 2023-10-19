@@ -27,7 +27,7 @@ export const orderSection = (app: Elysia) =>
             id: Number(id),
           },
         },
-      }
+      };
     },
     {
       body: t.Object({

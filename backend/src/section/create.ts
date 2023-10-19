@@ -23,9 +23,9 @@ export const create = (app: Elysia) =>
 
       try {
         const order = await Section.createQueryBuilder("section")
-        .select("MAX(section.order)", "max")
-        .where("section.classId = :classId", { classId: id })
-        .getRawOne();
+          .select("MAX(section.order)", "max")
+          .where("section.classId = :classId", { classId: id })
+          .getRawOne();
 
         const result = await Section.createQueryBuilder("section")
           .insert()

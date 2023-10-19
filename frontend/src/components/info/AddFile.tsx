@@ -18,18 +18,26 @@ import { createTheme, ThemeProvider, Theme, useTheme } from '@mui/material/style
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
 import { customTheme } from '@/components/info/CustomTheme'
+import useCreateHW from '@/hooks/Info/useCreateHW'
+import useUploadFile from '@/hooks/Info/useUploadFile'
 
 type AddFileModalProps = {
     isOpen: any
     onOpenChange: any
     status: string
+    id: any
 }
 
-const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, status }) => {
+const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, status, id }) => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
-
+    const [title, setTitle] = useState<string>('')
+    const [time, setTime] = useState<string>('')
+    const [description, setDescription] = useState<string>('')
+    const { createHW } = useCreateHW()
     const outerTheme = useTheme()
     const [selectedFile, setSelectedFile] = useState<any>(null)
+    // const [fileName, setFileName] = useState<string>(selectedFile.name)
+    const uploadFile = useUploadFile()
 
     const handleFileChange = (event: any) => {
         const file = event.target.files[0]
@@ -39,6 +47,23 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
         setSelectedFile(null)
         onOpenChange(false)
     }
+    const requestBody = {
+        title: title,
+        time: time,
+        description: description,
+    }
+    const handleSubmit = () => {
+        createHW(requestBody, id)
+    }
+    const addFileRequestBody = {
+        // name: fileName,
+        size: selectedFile,
+        //block id
+    }
+    const handleAddFile = () => {
+        // uploadFile(addFileRequestBody, id)
+    }
+
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent>
@@ -56,6 +81,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
                                         placeholder=" "
                                         color="default"
                                         labelPlacement="outside"
+                                        onChange={(e) => setTitle(e.target.value)}
                                     />
                                     <Textarea
                                         label="說明"
@@ -63,6 +89,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
                                         labelPlacement="outside"
                                         placeholder="輸入說明"
                                         className="max-w-full"
+                                        onChange={(e) => setDescription(e.target.value)}
                                     />
                                     <p className="text-sm">到期日期</p>
                                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-cn">
@@ -70,6 +97,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
                                             <DateTimeField
                                                 label=""
                                                 defaultValue={dayjs(selectedDate)} //Fri Jan 18 2023 23:13:40 GMT+0800 (台北標準時間)
+                                                onChange={(value: any) => setTime(value)}
                                             />
                                         </ThemeProvider>
                                     </LocalizationProvider>
@@ -117,6 +145,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
                                         placeholder=" "
                                         color="default"
                                         labelPlacement="outside"
+                                        // onChange={(value: any) => setFileName(value)}
                                     />
                                 </>
                             )}
@@ -125,7 +154,11 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
                             <Button color="default" variant="light" onPress={handleCloseModal}>
                                 取消
                             </Button>
-                            <Button color="warning" className="text-white" onPress={onClose}>
+                            <Button
+                                color="warning"
+                                className="text-white"
+                                onPress={status === 'submitted' ? handleSubmit : handleAddFile}
+                            >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="22"
@@ -149,7 +182,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
         </Modal>
     )
 }
-export const AddSubmittedArea = () => {
+export const AddSubmittedArea = (id: any) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
     return (
@@ -198,7 +231,7 @@ export const AddSubmittedArea = () => {
                     新增繳交區
                 </Button>
             </Tooltip>
-            <AddFileModal isOpen={isOpen} onOpenChange={onOpenChange} status="submitted" />
+            <AddFileModal isOpen={isOpen} onOpenChange={onOpenChange} status="submitted" id={id} />
         </>
     )
 }
@@ -237,7 +270,7 @@ export const AddFileButton = () => {
                     新增資源
                 </Button>
             </Tooltip>
-            <AddFileModal isOpen={isOpen} onOpenChange={onOpenChange} status="addFile" />
+            <AddFileModal isOpen={isOpen} onOpenChange={onOpenChange} status="addFile" id={null} />
         </>
     )
 }

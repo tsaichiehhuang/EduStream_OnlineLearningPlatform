@@ -4,9 +4,10 @@ import path from "path";
 
 import { Elysia, t } from "elysia";
 import { File } from "../../models/file";
+import { staticRoot } from "../../utils/constant";
 
-export const binary = (config: ConstructorParameters<typeof Elysia>[0] = {}) =>
-  new Elysia(config).put(
+export const binary = (app: Elysia) =>
+  app.put(
     "/binary",
     async ({ body, set }) => {
       const dbFile = await File.findOneBy({ id: body.id, location: "local" });
@@ -17,7 +18,6 @@ export const binary = (config: ConstructorParameters<typeof Elysia>[0] = {}) =>
       console.log("uploading file size:", body.file.size);
       console.log("\tfile type:", body.file.type);
 
-      const staticRoot = path.resolve("static");
       if (!fs.exists(staticRoot) || (await fs.stat(staticRoot)).isFile()) {
         console.warn("\tstatic file's root is invalid. Creating.");
         await fs.rm(staticRoot, { force: true, recursive: true });

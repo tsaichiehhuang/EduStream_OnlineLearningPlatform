@@ -4,7 +4,7 @@ import axios from "axios";
 import z, { ZodError } from "zod";
 
 import { File } from "../../models/file";
-import { KK_API_ENDPOINT } from "../../util/constant";
+import { KK_API_ENDPOINT } from "../../utils/constant";
 
 // skipped unused fields
 const kkSuccessBody = z.object({

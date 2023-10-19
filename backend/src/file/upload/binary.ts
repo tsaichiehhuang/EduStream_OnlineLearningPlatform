@@ -4,7 +4,7 @@ import path from "path";
 
 import { Elysia, t } from "elysia";
 import { File } from "../../models/file";
-import { staticRoot } from "../../util/constant";
+import { staticRoot } from "../../utils/constant";
 
 export const binary = (app: Elysia) =>
   app.put(

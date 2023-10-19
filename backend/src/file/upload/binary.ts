@@ -5,8 +5,8 @@ import path from "path";
 import { Elysia, t } from "elysia";
 import { File } from "../../models/file";
 
-export const binary = (config: ConstructorParameters<typeof Elysia>[0] = {}) =>
-  new Elysia(config).put(
+export const binary = (app: Elysia) =>
+  app.put(
     "/binary",
     async ({ body, set }) => {
       const dbFile = await File.findOneBy({ id: body.id, location: "local" });

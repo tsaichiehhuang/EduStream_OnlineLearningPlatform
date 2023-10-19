@@ -23,8 +23,8 @@ async function kkCancel(id: string, uploadId: string) {
   console.log("cancelled upload to KK with file id:", id);
 }
 
-export const cancel = (config: ConstructorParameters<typeof Elysia>[0] = {}) =>
-  new Elysia(config).post(
+export const cancel = (app: Elysia) =>
+  app.post(
     "/cancel",
     async ({ body, set }) => {
       const file = await File.findOneBy({ id: body.id });

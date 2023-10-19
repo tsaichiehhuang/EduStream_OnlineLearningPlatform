@@ -88,8 +88,8 @@ async function localUpload(name: string) {
   };
 }
 
-export const init = (config: ConstructorParameters<typeof Elysia>[0] = {}) =>
-  new Elysia(config).post(
+export const init = (app: Elysia) =>
+  app.post(
     "/init",
     async ({ body }) => {
       try {

@@ -4,10 +4,8 @@ import axios, { AxiosError } from "axios";
 
 import { KK_API_ENDPOINT } from "../util/constant";
 
-export const download = (
-  config: ConstructorParameters<typeof Elysia>[0] = {}
-) =>
-  new Elysia(config).get(
+export const download = (app: Elysia) =>
+  app.get(
     "/:fileId",
     async ({ params, set }) => {
       // TODO: wait for Anna completing login system

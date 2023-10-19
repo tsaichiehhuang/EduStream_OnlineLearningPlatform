@@ -15,6 +15,24 @@ export enum BlockType {
   File = "file",
 }
 
+// TypeBox
+import { t } from "elysia";
+
+export const KKFileUploadComplete = t.Object({
+  id: t.String({
+    format: "uuid",
+    default: "00000000-0000-0000-0000-000000000000",
+  }),
+  uploadId: t.String(),
+  checksum_sha1: t.String({ pattern: "^[a-zA-Z0-9+/]{27}=$", default: "" }), // base64 encoded SHA-1 checksum
+  parts: t.Array(
+    t.Object({
+      part_number: t.Number({ minimum: 1, multipleOf: 1 }),
+      etag: t.String(),
+    })
+  ),
+});
+
 // Interfaces
 export interface IUser {
   id: number;
@@ -94,3 +112,5 @@ export interface IToken {
   email: string;
   role: UserRole;
 }
+
+export type IKKFileUploadComplete = (typeof KKFileUploadComplete)["static"];

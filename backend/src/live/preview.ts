@@ -58,7 +58,10 @@ export const previewLive = (app: Elysia) =>
 
         if (result.error) {
           set.status = result.error.response.status;
-          return { error: result.error.response.data };
+          return {
+            api: "Preview Live",
+            error: result.error.response.data,
+          };
         } else {
           set.status = 200;
           return {

@@ -4,6 +4,7 @@ import path from "path";
 
 import { Elysia, t } from "elysia";
 import { File } from "../../models/file";
+import { staticRoot } from "../../util/constant";
 
 export const binary = (app: Elysia) =>
   app.put(
@@ -17,7 +18,6 @@ export const binary = (app: Elysia) =>
       console.log("uploading file size:", body.file.size);
       console.log("\tfile type:", body.file.type);
 
-      const staticRoot = path.resolve("static");
       if (!fs.exists(staticRoot) || (await fs.stat(staticRoot)).isFile()) {
         console.warn("\tstatic file's root is invalid. Creating.");
         await fs.rm(staticRoot, { force: true, recursive: true });

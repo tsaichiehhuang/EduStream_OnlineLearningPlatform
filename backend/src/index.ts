@@ -17,10 +17,12 @@ import { update } from "./class/update";
 import { defaultclass } from "./class/defaultclass";
 import { create as createSection } from "./section/create";
 import { update as updateSection } from "./section/update";
+import { orderSection } from "./section/order";
 import { deleteSection } from "./section/delete";
 
 import { announceRoutes } from "./block/announce";
 import { homeworkRoutes } from "./block/homework";
+import { orderBlock } from "./block/order";
 
 import { getLive } from "./live/get";
 import { endLive } from "./live/end";
@@ -52,7 +54,8 @@ const app = new Elysia()
       .use(update)
       .use(defaultclass)
       .use(createSection)
-      .group("/section", (app) => app.use(updateSection).use(deleteSection))
+      .use(orderSection)
+      .group("/section", (app) => app.use(updateSection).use(deleteSection).use(orderBlock))
       .use(announceRoutes)
       .use(homeworkRoutes)
   )

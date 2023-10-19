@@ -100,6 +100,12 @@ export async function complete({
       throw err;
     }
   }
+  await File.create({
+    id: id,
+    location: "kkCompany",
+    name: id,
+  }).save();
+  console.log("file upload to KK completed with id", id);
 }
 
 // example usage

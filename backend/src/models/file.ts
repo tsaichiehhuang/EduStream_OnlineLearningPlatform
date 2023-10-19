@@ -15,7 +15,9 @@ export class File extends BaseEntity {
   // see this when using this hook: https://github.com/typeorm/typeorm/issues/5493
   @BeforeInsert()
   generateId() {
-    this.id = uuid();
+    if (this.id === undefined) {
+      this.id = uuid();
+    }
   }
 
   @Column({ type: "varchar", length: 255, nullable: false })

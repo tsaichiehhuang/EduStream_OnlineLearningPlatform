@@ -27,7 +27,7 @@ export const orderBlock = (app: Elysia) =>
             id: Number(id),
           },
         },
-      }
+      };
     },
     {
       body: t.Object({

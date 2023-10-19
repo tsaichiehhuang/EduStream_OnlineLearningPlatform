@@ -28,7 +28,13 @@ const studentList = async (id: number) => {
       .leftJoinAndSelect("enroll.class", "class")
       .leftJoinAndSelect("class.instructor", "instructor")
       .where("enroll.studentId = :id", { id: id })
-      .select(["enroll.id", "class.id", "class.name", "instructor.name", "class.time"])
+      .select([
+        "enroll.id",
+        "class.id",
+        "class.name",
+        "instructor.name",
+        "class.time",
+      ])
       .getMany();
 
     if (!result) {

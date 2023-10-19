@@ -15,6 +15,7 @@ import { update } from "./class/update";
 import { getLive } from "./live/get";
 import { endLive } from "./live/end";
 import { startLive } from "./live/start";
+import { socketChat } from "./live/socket"
 import { cancelLive } from "./live/cancel";
 import { createLive } from "./live/create";
 import { archiveLive } from "./live/archive";
@@ -40,6 +41,7 @@ const app = new Elysia()
       .use(startLive)
       .use(cancelLive)
       .use(createLive)
+      .use(socketChat)
       .use(archiveLive)
       .use(previewLive)
   )

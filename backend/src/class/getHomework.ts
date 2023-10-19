@@ -30,12 +30,11 @@ export const getHomework = (app: Elysia) =>
         }
 
         const result = await Submission.find({
-          select: ['id','userId','fileId','content','score'],
-          where:{
-            hwId: params.homeworkId
-          }
-        })
-
+          select: ["id", "userId", "fileId", "content", "score"],
+          where: {
+            hwId: params.homeworkId,
+          },
+        });
 
         if (!result) {
           set.status = 404;
@@ -47,8 +46,8 @@ export const getHomework = (app: Elysia) =>
               class: {
                 homework: {
                   id: params.homeworkId,
-                  submission: result
-                }
+                  submission: result,
+                },
               },
             },
           };
@@ -57,7 +56,7 @@ export const getHomework = (app: Elysia) =>
       {
         params: t.Object({
           homeworkId: t.String(),
-          classId: t.String()
+          classId: t.String(),
         }),
       }
     );

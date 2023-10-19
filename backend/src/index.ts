@@ -30,7 +30,7 @@ import { orderBlock } from "./block/order";
 import { getLive } from "./live/get";
 import { endLive } from "./live/end";
 import { startLive } from "./live/start";
-import { socketChat } from "./live/socket"
+import { socketChat } from "./live/socket";
 import { cancelLive } from "./live/cancel";
 import { createLive } from "./live/create";
 import { archiveLive } from "./live/archive";
@@ -47,7 +47,9 @@ const app = new Elysia()
   .use(cors())
   .get("/", () => "Hello World!")
   .group("/enroll", (app) => app.use(enroll).use(drop))
-  .group("/class", (app) => app.use(classlist).use(create).use(update).use(getClass).use(getHomework))
+  .group("/class", (app) =>
+    app.use(classlist).use(create).use(update).use(getClass).use(getHomework)
+  )
   .group("user", (app) => app.use(signup).use(signin).use(info))
   .use(auth)
   .group("/enroll", (app) => app.use(enroll).use(drop))

@@ -1,40 +1,40 @@
 import Cookies from 'js-cookie'
+import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 
 const apiUrl = process.env.API_DOMAIN
 
-function useUpdateSection() {
-    const updateSection = async (title: any, id: any) => {
-        const accessToken = Cookies.get('accessToken')
+function useDeleteSection() {
+    const accessToken = Cookies.get('accessToken')
 
+    const deleteSection = async (id: number) => {
         try {
             const response = await fetch(`${apiUrl}/class/section/${id}`, {
-                method: 'PUT',
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify({ title: title }),
             })
             if (response.ok) {
                 Swal.fire({
                     icon: 'success',
-                    title: '更新成功',
+                    title: '刪除成功',
                     showConfirmButton: false,
-                    timer: 1000,
+                    timer: 500,
                 })
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
+                // setTimeout(() => {
+                //     window.location.reload()
+                // }, 1000)
             }
         } catch (error) {
-            Swal.fire('更新失敗', '', 'warning')
-
             console.error('Error fetching class data:', error)
+            Swal.fire('刪除失敗', '', 'warning')
         }
     }
 
-    return { updateSection }
+    return { deleteSection }
 }
 
-export default useUpdateSection
+export default useDeleteSection

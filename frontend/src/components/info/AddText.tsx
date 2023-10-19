@@ -12,24 +12,26 @@ import {
     Tooltip,
 } from '@nextui-org/react'
 import { useState } from 'react'
-import { LocalizationProvider, DateTimeField } from '@mui/x-date-pickers'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
 import { createTheme, ThemeProvider, Theme, useTheme } from '@mui/material/styles'
 import dayjs from 'dayjs'
 import 'dayjs/locale/zh-cn'
-import { customTheme } from '@/components/info/CustomTheme'
+import useCreateAnnounce from '@/hooks/Info/useCreateAnnounce'
 
 type AddFileModalProps = {
     isOpen: any
     onOpenChange: any
-    status: string
+    sectionId: number
+    classId: number
+    blockOrder: number
 }
 
-const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, status }) => {
-    const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
+const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, sectionId, classId, blockOrder }) => {
+    const [content, setContent] = useState<string>('')
 
     const outerTheme = useTheme()
     const [selectedFile, setSelectedFile] = useState<any>(null)
+    const { createAnnounce } = useCreateAnnounce()
 
     const handleFileChange = (event: any) => {
         const file = event.target.files[0]
@@ -38,6 +40,16 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
     const handleCloseModal = () => {
         setSelectedFile(null)
         onOpenChange(false)
+    }
+    const requestBody = {
+        content: content,
+        sectionId: sectionId,
+        order: blockOrder,
+    }
+
+    const handleSubmit = () => {
+        createAnnounce(requestBody, classId)
+        // onOpenChange(false)
     }
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -51,13 +63,14 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
                                 labelPlacement="outside"
                                 placeholder="輸入文字"
                                 className="max-w-full"
+                                onChange={(e) => setContent(e.target.value)}
                             />
                         </ModalBody>
                         <ModalFooter>
                             <Button color="default" variant="light" onPress={handleCloseModal}>
                                 取消
                             </Button>
-                            <Button color="warning" className="text-white" onPress={onClose}>
+                            <Button color="warning" className="text-white" onPress={handleSubmit}>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     width="22"
@@ -81,9 +94,8 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
         </Modal>
     )
 }
-export const AddTextButton = () => {
+export const AddTextButton = (sectionId: any) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
-
     return (
         <>
             <Tooltip
@@ -116,7 +128,13 @@ export const AddTextButton = () => {
                     新增文字
                 </Button>
             </Tooltip>
-            <AddFileModal isOpen={isOpen} onOpenChange={onOpenChange} status="submitted" />
+            <AddFileModal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                sectionId={sectionId.sectionId}
+                classId={sectionId.classId}
+                blockOrder={sectionId.blockOrder}
+            />
         </>
     )
 }

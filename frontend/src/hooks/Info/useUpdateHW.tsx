@@ -3,29 +3,29 @@ import Swal from 'sweetalert2'
 
 const apiUrl = process.env.API_DOMAIN
 
-function useUpdateSection() {
-    const updateSection = async (title: any, id: any) => {
+function useUpdateHW() {
+    const updateHW = async (requestbody: any, id: any) => {
         const accessToken = Cookies.get('accessToken')
 
         try {
-            const response = await fetch(`${apiUrl}/class/section/${id}`, {
+            const response = await fetch(`${apiUrl}/class/homework/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify({ title: title }),
+                body: JSON.stringify(requestbody),
             })
             if (response.ok) {
                 Swal.fire({
                     icon: 'success',
                     title: '更新成功',
                     showConfirmButton: false,
-                    timer: 1000,
+                    timer: 500,
                 })
                 setTimeout(() => {
                     window.location.reload()
-                }, 1000)
+                }, 800)
             }
         } catch (error) {
             Swal.fire('更新失敗', '', 'warning')
@@ -34,7 +34,7 @@ function useUpdateSection() {
         }
     }
 
-    return { updateSection }
+    return { updateHW }
 }
 
-export default useUpdateSection
+export default useUpdateHW

@@ -3,18 +3,18 @@ import Swal from 'sweetalert2'
 
 const apiUrl = process.env.API_DOMAIN
 
-function useUpdateSection() {
-    const updateSection = async (title: any, id: any) => {
+function useUpdateAnnounce() {
+    const updateAnnounce = async (title: any, id: any) => {
         const accessToken = Cookies.get('accessToken')
 
         try {
-            const response = await fetch(`${apiUrl}/class/section/${id}`, {
+            const response = await fetch(`${apiUrl}/class/announce/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify({ title: title }),
+                body: JSON.stringify({ content: title }),
             })
             if (response.ok) {
                 Swal.fire({
@@ -34,7 +34,7 @@ function useUpdateSection() {
         }
     }
 
-    return { updateSection }
+    return { updateAnnounce }
 }
 
-export default useUpdateSection
+export default useUpdateAnnounce

@@ -52,7 +52,24 @@ export default function Home() {
             clearInterval(intervalId)
         }
     }, [])
-    // const classInfoData: AllClassData[] = userRole === 'student' ? classData : InstructorClassMockData
+    const getCurrentDayOfWeek = () => {
+        const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        const currentDate = new Date()
+        const dayOfWeek = daysOfWeek[currentDate.getDay()]
+        return dayOfWeek
+    }
+
+    const currentDayOfWeek = getCurrentDayOfWeek()
+
+    // 過濾出今天的課程
+    const todayClasses = classData.filter((data) => data.time === currentDayOfWeek)
+    const renderTodayClasses = () => {
+        if (todayClasses.length === 0) {
+            return <p className="text-mainRed">今日無課程</p>
+        } else {
+            return todayClasses.map((data: any, index: number) => <div key={index}>{data.className}</div>)
+        }
+    }
     return (
         <>
             <Header toggleTheme={toggleTheme} theme={theme} />
@@ -71,7 +88,10 @@ export default function Home() {
                             </CardHeader>
 
                             <CardBody>
-                                <p>Make beautiful websites regardless of your design experience.</p>
+                                {renderTodayClasses()}
+                                {/* {todayClasses.map((data: any, index: number) => (
+                                    <div key={index}>{data.className}</div>
+                                ))} */}
                             </CardBody>
                         </Card>
                         <Card className=" border-l-5 border-mainBlue">

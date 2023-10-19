@@ -1,17 +1,13 @@
 import Cookies from 'js-cookie'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import { use, useEffect, useState } from 'react'
 
 const apiUrl = process.env.API_DOMAIN
 
-function useGetDefault() {
-    const router = useRouter()
-    const { id } = router.query
-
+function useGetDefault(id: any) {
     const [defaultInfoData, setDefaultInfoData] = useState<DefaultData[]>([])
     const accessToken = Cookies.get('accessToken')
 
-    const getDefault = async (id: any) => {
+    const getDefault = async () => {
         try {
             const response = await fetch(`${apiUrl}/class/default/${id}`, {
                 method: 'GET',
@@ -29,7 +25,7 @@ function useGetDefault() {
         }
     }
     useEffect(() => {
-        getDefault(id)
+        getDefault()
     }, [id])
     return { getDefault, defaultInfoData }
 }

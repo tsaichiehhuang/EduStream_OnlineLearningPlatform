@@ -28,7 +28,7 @@ export class Block extends BaseEntity {
   sectionId!: number;
 
   @ManyToOne(() => Section, (section) => section.blocks)
-  @JoinColumn({ name: "sectionID" })
+  @JoinColumn({ name: "sectionId" })
   section?: import("./section").Section;
 
   @Column({ type: "char", length: 36, nullable: true })

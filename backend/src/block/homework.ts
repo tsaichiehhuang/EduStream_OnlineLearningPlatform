@@ -32,15 +32,15 @@ const createHomework = (app: Elysia) =>
         //   body.order,
         // );
         const block = await Block.createQueryBuilder("block")
-        .insert()
-        .into(Block)
-        .values({
-          type: BlockType.Homework,
-          hwId: homeworkId ,
-          sectionId: body.sectionId,
-          order: body.order,
-        })
-        .execute();
+          .insert()
+          .into(Block)
+          .values({
+            type: BlockType.Homework,
+            hwId: homeworkId,
+            sectionId: body.sectionId,
+            order: body.order,
+          })
+          .execute();
         return {
           data: {
             class: {

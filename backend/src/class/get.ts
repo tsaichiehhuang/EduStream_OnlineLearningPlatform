@@ -32,6 +32,9 @@ export const getClass = (app: Elysia) =>
         const result = await Class.createQueryBuilder("class")
           .leftJoinAndSelect("class.sections", "sections")
           .leftJoinAndSelect("sections.blocks", "blocks")
+          .leftJoinAndSelect("blocks.file", "file")
+          .leftJoinAndSelect("blocks.announcement", "announcement")
+          .leftJoinAndSelect("blocks.homework", "homework")
           .where("class.id = :classId", { classId: params.classId })
           .getOne();
 

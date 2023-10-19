@@ -26,7 +26,8 @@ const createAnnounce = (app: Elysia) =>
         const block = await createBlock(
           BlockType.Announcement,
           announceId,
-          Number(id)
+          Number(body.sectionId),
+          body.order
         );
 
         return {
@@ -49,6 +50,7 @@ const createAnnounce = (app: Elysia) =>
         // title: t.String(),
         content: t.String(),
         sectionId: t.Numeric(),
+        order: t.Numeric(),
       }),
       params: t.Object({
         id: t.Numeric(),
@@ -59,10 +61,9 @@ const createAnnounce = (app: Elysia) =>
 // update block and announce
 const updateAnnounce = (app: Elysia) =>
   app.put(
-    "/announce/:id",
+    "/:id",
     async ({ body, profile, set, params: { id } }) => {
       // TODO: validate instructor
-
       try {
         // update announce
         await update(id, body.content);
@@ -78,6 +79,7 @@ const updateAnnounce = (app: Elysia) =>
         };
       } catch (err) {
         set.status = 500;
+        console.log(err);
         return "Query Failed";
       }
     },
@@ -94,7 +96,7 @@ const updateAnnounce = (app: Elysia) =>
 // delete block and announce
 const deleteAnnounce = (app: Elysia) =>
   app.delete(
-    "/announce/:id",
+    "/:id",
     async ({ profile, set, params: { id } }) => {
       // TODO: validate instructor
 

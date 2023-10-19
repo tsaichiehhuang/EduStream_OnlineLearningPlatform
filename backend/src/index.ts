@@ -19,6 +19,9 @@ import { create as createSection } from "./section/create";
 import { update as updateSection } from "./section/update";
 import { deleteSection } from "./section/delete";
 
+import { announceRoutes } from "./block/announce";
+import { homeworkRoutes } from "./block/homework";
+
 import { getLive } from "./live/get";
 import { endLive } from "./live/end";
 import { startLive } from "./live/start";
@@ -50,6 +53,8 @@ const app = new Elysia()
       .use(defaultclass)
       .use(createSection)
       .group("/section", (app) => app.use(updateSection).use(deleteSection))
+      .use(announceRoutes)
+      .use(homeworkRoutes)
   )
   .group("live", (app) =>
     app

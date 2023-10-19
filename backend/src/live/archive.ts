@@ -3,6 +3,7 @@ import { Elysia, t } from "elysia";
 import { bearer } from "@elysiajs/bearer";
 import { jwt } from "@elysiajs/jwt";
 import axios, { AxiosError } from "axios";
+import { Stream } from "../models/stream";
 
 export const archiveLive = (app: Elysia) =>
   app
@@ -22,7 +23,7 @@ export const archiveLive = (app: Elysia) =>
     })
     .post(
       "/:liveId/archive",
-      async ({ profile, params, set }) => {
+      async ({ profile, body, params, set }) => {
         if (!profile) {
           set.status = 401;
           return "Unauthorized";
@@ -58,14 +59,38 @@ export const archiveLive = (app: Elysia) =>
 
         if (result.error) {
           set.status = result.error.response.status;
-          return { error: result.error.response.data };
-        } else {
-          set.status = 200;
           return {
-            live: {
-              id: params.liveId,
-            },
+            api: "Archive Live",
+            error: result.error.response.data,
           };
+        } else {
+          const stream = await Stream.findOneBy({
+            classId: Number(body.classID),
+          });
+
+          if (!stream) {
+            set.status = 404;
+            return {
+              api: "Archive Live",
+              error: "No live were found with given class ID",
+            };
+          }
+
+          try {
+            await stream.remove();
+            set.status = 200;
+            return {
+              live: {
+                id: params.liveId,
+              },
+            };
+          } catch (err) {
+            set.status = 500;
+            return {
+              api: "Archive Live",
+              error: "Delete live from database failed.",
+            };
+          }
         }
       },
       {
@@ -74,6 +99,9 @@ export const archiveLive = (app: Elysia) =>
             format: "uuid",
             default: "00000000-0000-0000-0000-000000000000",
           }),
+        }),
+        body: t.Object({
+          classID: t.Number(),
         }),
       }
     );

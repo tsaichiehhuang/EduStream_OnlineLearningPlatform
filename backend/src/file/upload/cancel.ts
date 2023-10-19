@@ -1,13 +1,8 @@
-import { env } from "process";
-
 import { Elysia, t } from "elysia";
-import { JWTPayloadSpec, jwt } from "@elysiajs/jwt";
-import { bearer } from "@elysiajs/bearer";
+
 import axios, { AxiosError } from "axios";
 
-import { User } from "../../models/user";
 import { File } from "../../models/file";
-import { IToken } from "../../types/type";
 import { KK_API_ENDPOINT } from "../../util/constant";
 
 /**@throws AxiosError */
@@ -20,8 +15,8 @@ async function kkCancel(id: string, uploadId: string) {
     {
       baseURL: KK_API_ENDPOINT,
       headers: {
-        Authorization: `Bearer ${env.API_TOKEN}`,
-        "x-bv-org-id": env.X_BV_ORG_ID,
+        Authorization: `Bearer ${process.env.API_TOKEN}`,
+        "x-bv-org-id": process.env.X_BV_ORG_ID,
       },
     }
   );
@@ -31,12 +26,7 @@ async function kkCancel(id: string, uploadId: string) {
 export const cancel = (app: Elysia) =>
   app.post(
     "/cancel",
-    async ({ body, profile, set }) => {
-      if ((await User.findOneBy({ id: Number(profile.id) })) === null) {
-        set.status = 403;
-        return "Permission Denied";
-      }
-
+    async ({ body, set }) => {
       const file = await File.findOneBy({ id: body.id });
       if (file === null) {
         if (body.uploadId === undefined) {

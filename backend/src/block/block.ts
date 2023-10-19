@@ -5,7 +5,8 @@ import { BlockType } from "../types/type";
 export const createBlock = async (
   type: BlockType,
   id: number,
-  sectionId: number
+  sectionIdValue: number,
+  orderValue: number
 ) => {
   try {
     const result = await Block.createQueryBuilder("block")
@@ -17,7 +18,8 @@ export const createBlock = async (
         hwId: type === BlockType.Homework ? id : (null as any as number),
         announceId:
           type === BlockType.Announcement ? id : (null as any as number),
-        sectionId: sectionId,
+        sectionId: sectionIdValue,
+        order: orderValue,
       })
       .execute();
 

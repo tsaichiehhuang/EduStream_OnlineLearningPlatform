@@ -1,7 +1,7 @@
 import { Elysia, t } from "elysia";
 
 export const socket = (app: Elysia) =>
-  app.ws("/ws", {
+  app.ws("/teacher/live", {
     body: t.Object({
       message: t.String(),
       liveID: t.String(),

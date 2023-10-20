@@ -1,43 +1,47 @@
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
-import React, { useState, useEffect } from "react";
 
 const apiUrl = process.env.API_DOMAIN;
 
-function useGetLive() {
+function useCreateLive() {
   const router = useRouter();
   const token = Cookies.get("accessToken");
-  const liveid = Cookies.get("liveid");
-  const [liveurl, setliveurl] = useState("");
+  const classid = Cookies.get("classId");
 
-  const getLive = async () => {
+  const createlive = async (name: string, classid: string) => {
+    const requestBody = {
+      name: name,
+      classID: classid,
+    };
     try {
       const response = await fetch(
-        `${apiUrl}/live/${liveid}`,
-
+        `https://api.one-stage.kkstream.io/bv/cms/v1/lives`,
         {
-          method: "GET",
+          method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
+          },
+          body: JSON.stringify(requestBody),
         }
       );
       const responseData = await response.json();
       if (response.ok) {
         Swal.fire({
           icon: "success",
-          title: "直播資訊成功",
-          text: `Link: ${responseData.live.setup.links}\nKey: ${responseData.live.setup.key}`,
+          title: "直播創建成功",
           showConfirmButton: false,
           timer: 1000,
-          
         });
-        setliveurl(responseData.live.setup.url);
-        
+        Cookies.set("accessToken", responseData.data.access_token);
+        Cookies.set("userName", responseData.data.name);
+
+        setTimeout(() => {
+          router.push("/");
+          window.location.reload();
+        }, 1000);
       } else {
-        Swal.fire("直播資訊失敗", "", "warning");
+        Swal.fire("直播創建失敗", "", "warning");
       }
     } catch (error) {
       Swal.fire({
@@ -48,7 +52,7 @@ function useGetLive() {
     }
   };
 
-  return { getLive,liveurl};
+  return { createlive };
 }
 
-export default useGetLive;
+export default useCreateLive;

@@ -8,18 +8,19 @@ const apiUrl = process.env.API_DOMAIN;
 function useEndLive() {
   const router = useRouter();
   const token = Cookies.get("accessToken");
-  const classid = Cookies.get("classId");
+  const liveid = Cookies.get("liveid");
   const { archiveLive } = useArchiveLive();
 
   const endLive = async () => {
     try {
       const response = await fetch(
-        `https://api.one-stage.kkstream.io/bv/cms/v1/lives/${classid}/end`,
+        `${apiUrl}/live/${liveid}/end`,
 
         {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
           },
         }
       );

@@ -1,43 +1,45 @@
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import Swal from "sweetalert2";
-import React, { useState, useEffect } from "react";
 
 const apiUrl = process.env.API_DOMAIN;
 
-function useGetLive() {
+function useFileUploadInit() {
   const router = useRouter();
   const token = Cookies.get("accessToken");
-  const liveid = Cookies.get("liveid");
-  const [liveurl, setliveurl] = useState("");
+  const classid = Cookies.get("classId");
+  const [type,settype] = useState("");
 
-  const getLive = async () => {
+  const fileuploadinit = async (name: string, classid: string) => {
+    const requestBody = {
+      name: name,
+      size: classid,
+    };
     try {
       const response = await fetch(
-        `${apiUrl}/live/${liveid}`,
-
+        `${apiUrl}/file/upload/init`,
         {
-          method: "GET",
+          method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
+          },
+          body: JSON.stringify(requestBody),
         }
       );
       const responseData = await response.json();
       if (response.ok) {
         Swal.fire({
           icon: "success",
-          title: "直播資訊成功",
-          text: `Link: ${responseData.live.setup.links}\nKey: ${responseData.live.setup.key}`,
+          title: "檔案準備上傳成功",
           showConfirmButton: false,
           timer: 1000,
-          
         });
-        setliveurl(responseData.live.setup.url);
+        
+        
         
       } else {
-        Swal.fire("直播資訊失敗", "", "warning");
+        Swal.fire("檔案準備上傳失敗", "", "warning");
       }
     } catch (error) {
       Swal.fire({
@@ -48,7 +50,7 @@ function useGetLive() {
     }
   };
 
-  return { getLive,liveurl};
+  return { fileuploadinit,type };
 }
 
-export default useGetLive;
+export default useFileUploadInit;

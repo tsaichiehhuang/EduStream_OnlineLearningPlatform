@@ -66,7 +66,7 @@ export const getClass = (
               id: result.id,
               sections: result.sections!.map((sec) => ({
                 ...sec,
-                block: sec.blocks!.map((blk) => ({
+                blocks: sec.blocks!.map((blk) => ({
                   ...blk,
                   homework: blk.homework
                     ? {

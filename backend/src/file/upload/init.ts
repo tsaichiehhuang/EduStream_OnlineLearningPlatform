@@ -116,7 +116,7 @@ export const init = (app: Elysia) =>
     },
     {
       body: t.Object({
-        name: t.RegExp(/^\S+$/gu, { default: "file.name" }),
+        name: t.RegExp(/^.+$/gu, { default: "file.name" }),
         size: t.Numeric({ minimum: 1 }),
       }),
     }

@@ -121,7 +121,8 @@ export default function Info() {
                                     <WeekBlock key={data.id} data={data} editMode={editMode} index={index} id={null} />
                                 ))
                             )}
-                            {editMode && <AddBlockSquare />}
+
+                            {editMode || (weeksData.length === 0 && <AddBlockSquare />)}
                         </div>
                         <div className="flex-col gap-8 flex w-full md:w-1/3">
                             {userRole === 'student' ? (

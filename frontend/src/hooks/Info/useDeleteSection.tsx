@@ -22,11 +22,11 @@ function useDeleteSection() {
                     icon: 'success',
                     title: '刪除成功',
                     showConfirmButton: false,
-                    timer: 500,
+                    timer: 700,
                 })
-                // setTimeout(() => {
-                //     window.location.reload()
-                // }, 1000)
+                setTimeout(() => {
+                    window.location.reload()
+                }, 550)
             }
         } catch (error) {
             console.error('Error fetching class data:', error)

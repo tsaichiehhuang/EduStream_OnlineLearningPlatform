@@ -21,11 +21,11 @@ function useUpdateHW() {
                     icon: 'success',
                     title: '更新成功',
                     showConfirmButton: false,
-                    timer: 500,
+                    timer: 700,
                 })
                 setTimeout(() => {
                     window.location.reload()
-                }, 800)
+                }, 550)
             }
         } catch (error) {
             Swal.fire('更新失敗', '', 'warning')

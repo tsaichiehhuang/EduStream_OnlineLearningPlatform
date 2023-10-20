@@ -51,7 +51,7 @@ const app = new Elysia()
   .group("user", (app) => app.use(signup).use(signin).use(info))
   .use(auth)
   .group("/enroll", (app) => app.use(enroll).use(drop))
-  .group("/socket", (app) => app.use(socket))
+  .group("/", (app) => app.use(socket))
   .group("/class", (app) =>
     app
       .use(classlist)

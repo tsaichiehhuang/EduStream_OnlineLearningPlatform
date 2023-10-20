@@ -181,7 +181,7 @@ export default function Login() {
                                 </div>
                             </div>
                         </div>
-                        <div className=" hidden md:w-[35%] bg-mainBlue text-white p-10 rounded-r-lg"></div>
+                        <div className=" hidden md:flex md:w-[35%] bg-mainBlue text-white p-10 rounded-r-lg"></div>
                     </div>
                 </div>
             </div>

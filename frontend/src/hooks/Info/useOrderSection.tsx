@@ -23,9 +23,9 @@ function useOrderSection() {
                     showConfirmButton: false,
                     timer: 500,
                 })
-                // setTimeout(() => {
-                //     window.location.reload()
-                // }, 600)
+                setTimeout(() => {
+                    window.location.reload()
+                }, 550)
             }
         } catch (error) {
             Swal.fire('更新失敗', '', 'warning')

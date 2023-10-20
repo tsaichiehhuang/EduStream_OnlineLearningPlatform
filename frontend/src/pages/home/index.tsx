@@ -44,7 +44,6 @@ export default function Home() {
   const [formattedDate, setFormattedDate] = useState<string | undefined>();
   const handleClassClick = (classId: number, className: string) => {
     Cookies.set("className", className);
-    Cookies.set("classId", String(classId));
     window.location.href = `/info/${classId}`;
   };
   useEffect(() => {
@@ -100,7 +99,7 @@ export default function Home() {
     <>
       <Header toggleTheme={toggleTheme} theme={theme} />
       {/* <div className={`${theme} text-foreground bg-background`}> */}
-      <main className="p-10 w-full h-screen flex flex-col md:flex-col md:justify-center items-center gap-8 justify-start">
+      <main className=" p-10 w-full  flex flex-col justify-center items-center gap-8 ">
         <div className="flex w-8/12 relative">
           <div className="z-10 flex absolute top-1/2 right-1/3 transform -translate-y-1/2 flex-col justify-start">
             <h2 className=" text-xl font-bold ">今日課程</h2>
@@ -118,7 +117,9 @@ export default function Home() {
         <div className="w-8/12 flex-col  gap-8 flex">
           <h3 className="  font-bold text-2xl">你的課程</h3>
 
-          <div className="gap-2 grid grid-cols-4">
+          <div className="gap-4 grid md:grid-cols-4 grid-cols-1">
+            {userRole === "instructor" && <AddCourseButton />}
+
             {!loading ? (
               classData.map((data: any, index: number) => (
                 <Card
@@ -138,33 +139,38 @@ export default function Home() {
                     />
                   </CardBody>
                   <CardFooter className="text-small justify-between">
-                    <b>{data.className}</b>
+                    <b>
+                      {data.className.length > 14
+                        ? data.className.substring(0, 14) + "..."
+                        : data.className}
+                    </b>
                     {userRole === "student" && "teacher" in data && (
-                      <div>{data.teacher}</div>
+                      <div className="text-xs text-darkGray">
+                        {data.teacher}
+                      </div>
                     )}
                   </CardFooter>
                 </Card>
               ))
             ) : (
               <>
-                <Skeleton className="max-w-[400px] rounded-lg h-16">
+                <Skeleton className="max-w-[400px] h-[140px] rounded-lg ">
                   <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]">
                     <CardBody className="flex-row justify-between"></CardBody>
                   </Card>
                 </Skeleton>
-                <Skeleton className="max-w-[400px] rounded-lg h-16">
+                <Skeleton className="max-w-[400px] rounded-lg h-[140px]">
                   <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]">
                     <CardBody className="flex-row justify-between"></CardBody>
                   </Card>
                 </Skeleton>
-                <Skeleton className="max-w-[400px] rounded-lg h-16">
+                <Skeleton className="max-w-[400px] rounded-lg h-[140px]">
                   <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]">
                     <CardBody className="flex-row justify-between"></CardBody>
                   </Card>
                 </Skeleton>
               </>
             )}
-            {userRole === "instructor" && <AddCourseButton />}
           </div>
         </div>
       </main>

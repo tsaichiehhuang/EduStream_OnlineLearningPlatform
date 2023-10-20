@@ -77,7 +77,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({
     size: selectedFile,
     //block id
   };
-  
+
   const handleAddFile = () => {
     teacherupload(selectedFile.name, selectedFile);
   };

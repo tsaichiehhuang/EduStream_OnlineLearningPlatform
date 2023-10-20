@@ -4,12 +4,14 @@ import getFileIcon from './FileUtils'
 import { Delete, Edit } from './EditMode'
 import { AddSubmittedArea, AddFileButton } from '@/components/info/AddFile'
 
+import { FC } from 'react'
+
 type DefaultBlockProps = {
-    data: DefaultData
+    data: any
     editMode: boolean
 }
 
-const DefaultBlock: any = (data: any, editMode: any) => {
+const DefaultBlock: FC<DefaultBlockProps> = ({ data, editMode }) => {
     return (
         <Card className=" bg-white rounded-[10px]  w-full mt-5  md:mt-0 py-8 md:px-12 border-none " shadow="sm">
             <CardBody className="  flex gap-4">

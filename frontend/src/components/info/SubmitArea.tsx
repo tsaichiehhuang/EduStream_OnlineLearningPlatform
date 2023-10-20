@@ -62,7 +62,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data,
                             {userRole === 'student' && (
                                 <>
                                     <Divider />
-                                    <p className="text-sm">上傳檔案</p>
+                                    <p className="text-sm"> {data.homework.done ? '重新上傳檔案' : '上傳檔案'}</p>
                                     <Button variant="bordered" color="warning" className="text-warning  hover:shadow ">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +87,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data,
                                             htmlFor="fileInput"
                                             className="cursor-pointer bg-transparent  px-4 py-2 rounded-lg w-full "
                                         >
-                                            選擇檔案
+                                            {data.homework.done ? '重新選擇檔案' : '選擇檔案'}
                                         </label>
                                         <input
                                             type="file"
@@ -96,8 +96,8 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data,
                                             onChange={handleFileChange}
                                         />
                                     </Button>
-                                    {data.done && !selectedFile && (
-                                        <div className="my-2 text-mainOrange">已選擇: {data.name}</div>
+                                    {data.homework.done && !selectedFile && (
+                                        <div className="my-2 text-mainOrange">已選擇: {data.homework.name}</div>
                                     )}
                                     {selectedFile && (
                                         <div className="my-2 text-mainOrange">已選擇: {selectedFile.name}</div>
@@ -168,11 +168,11 @@ export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode, id 
                         <CardBody className="gap-1 items-center overflow-visible py-4">
                             <Button
                                 onPress={onOpen}
-                                color={`${data.done ? 'success' : 'danger'}`}
+                                color={`${data.homework.done ? 'success' : 'danger'}`}
                                 variant="solid"
                                 className="relative  rounded-lg hover:-translate-y-1 md:px-12 after:absolute after:rounded-lg after:inset-0 after:bg-background/40  after:transition  hover:after:scale-150 hover:after:opacity-0"
                             >
-                                {data.done ? (
+                                {data.homework.done ? (
                                     <>
                                         <p className=" text-sm md:flex hidden">繳交完成</p>Submitted {data.uploadTime}
                                     </>

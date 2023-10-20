@@ -11,7 +11,6 @@ import useGetDefault from '@/hooks/Info/useGetDefault'
 import useGetWeeks from '@/hooks/Info/useGetWeek'
 import { useRouter } from 'next/router'
 import useOrderSection from '@/hooks/Info/useOrderSection'
-import { set } from 'lodash'
 
 export default function Info() {
     const [loading, setLoading] = useState(false)
@@ -44,6 +43,7 @@ export default function Info() {
     }
     let outputArray: { id: number; order: number }[] = []
     const onDragEnd = (event: any) => {
+        console.log('dragend')
         const { source, destination } = event
         if (!destination) {
             return
@@ -58,20 +58,26 @@ export default function Info() {
         })
         setBlockPositions(newBlockPositions)
         setWeekData(weekData)
+        console.log('newBlockPositions', newBlockPositions)
+        const newRequestbody: { id: number; order: number }[] = []
 
-        for (const key in blockPositions) {
-            if (blockPositions.hasOwnProperty(key)) {
+        for (const key in newBlockPositions) {
+            if (newBlockPositions.hasOwnProperty(key)) {
                 const id = parseInt(key)
-                const order = blockPositions[key]
+                const order = newBlockPositions[key]
                 const newItem = { id, order }
-                outputArray.push(newItem)
-                setRequestbody(outputArray)
+                newRequestbody.push(newItem)
+                // setRequestbody(outputArray)
             }
         }
+        setRequestbody(newRequestbody)
+
+        console.log(requestbody.length)
     }
+
     const handleEditMode = async () => {
         setEditMode(!editMode)
-        if (requestbody.length > 0) {
+        if (requestbody.length !== 0) {
             const requestBodyObject = { section: requestbody }
             orderSection(requestBodyObject, id)
         }

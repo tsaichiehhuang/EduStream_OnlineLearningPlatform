@@ -14,12 +14,14 @@ export default function Chatroom() {
         setName(Cookies.get('userName'))
         async function sendMsg() {
             try {
-                socket.send(
-                    JSON.stringify({
-                        message: 'Entered',
-                        liveID: liveID,
-                    })
-                )
+                // socket.send(
+                //     JSON.stringify({
+                //         message: 'Entered',
+                //         liveID: liveID,
+                //         userID: userID,
+                //         name: name,
+                //     })
+                // )
                 console.log('發送成功')
             } catch (error) {
                 console.error('Error:', error)

@@ -1,5 +1,6 @@
 import { Elysia, t } from "elysia";
-import { Section } from "../models/section";
+import { Class } from "../models/class";
+import { BlockType } from "../types/type";
 
 export const defaultclass = (app: Elysia) =>
   app.get(
@@ -7,20 +8,26 @@ export const defaultclass = (app: Elysia) =>
     async ({ profile, set, params: { id } }) => {
       try {
         // find the section by class id, and order = 0
-        const result = await Section.createQueryBuilder("section")
-          .select("section.id", "id")
-          .leftJoinAndSelect("section.block", "block")
-          .leftJoinAndSelect("block.file", "file")
-          .leftJoinAndSelect("block.homework", "homework")
-          .leftJoinAndSelect("block.announce", "announce")
-          .where("classId = :id AND `order` = :order", { id: id, order: 0 })
-          .getRawOne();
+        const result = await Class.createQueryBuilder("class")
+          .leftJoinAndSelect("class.sections", "sections")
+          .leftJoinAndSelect("sections.blocks", "blocks")
+          .leftJoinAndSelect("blocks.file", "file")
+          .leftJoinAndSelect("blocks.homework", "homework")
+          .leftJoinAndSelect("blocks.announcement", "announcement")
+          .where("sections.classId = :id AND sections.order = :order", {
+            id: id,
+            order: 0,
+          })
+          .getOne();
+
+        if (!result) {
+          set.status = 404;
+          return { error: "No resources were found with given class ID." };
+        }
 
         return {
           data: {
-            class: {
-              id: result.id,
-            },
+            class: result,
           },
         };
       } catch (err) {

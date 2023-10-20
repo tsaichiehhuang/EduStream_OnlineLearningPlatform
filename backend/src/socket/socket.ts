@@ -1,6 +1,6 @@
 import { Elysia, t } from "elysia";
 
-export const socketChat = (app: Elysia) =>
+export const socket = (app: Elysia) =>
   app.ws("/ws", {
     body: t.Object({
       message: t.String(),

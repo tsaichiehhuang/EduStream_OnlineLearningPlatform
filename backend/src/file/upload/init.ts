@@ -1,14 +1,10 @@
 import { env } from "process";
 import { Elysia, t } from "elysia";
-import { JWTPayloadSpec, jwt } from "@elysiajs/jwt";
-import { bearer } from "@elysiajs/bearer";
 import axios from "axios";
 import z, { ZodError } from "zod";
 
 import { File } from "../../models/file";
-import { User } from "../../models/user";
-import { IToken } from "../../types/type";
-import { KK_API_ENDPOINT } from "../../util/constant";
+import { KK_API_ENDPOINT } from "../../utils/constant";
 
 // skipped unused fields
 const kkSuccessBody = z.object({
@@ -92,56 +88,36 @@ async function localUpload(name: string) {
   };
 }
 
-export const init = (config: ConstructorParameters<typeof Elysia>[0] = {}) =>
-  new Elysia(config)
-    .use(
-      jwt({
-        name: "jwt",
-        secret: env.JWT_SECRET!,
-      })
-    )
-    .use(bearer())
-    .derive(async ({ jwt, bearer }) => ({
-      profile: (await jwt.verify(bearer)) as false | (IToken & JWTPayloadSpec),
-    }))
-    .post(
-      "/init",
-      async ({ body, set, profile }) => {
-        if (!profile) {
-          set.status = 401;
-          return "Unauthorized";
+export const init = (app: Elysia) =>
+  app.post(
+    "/init",
+    async ({ body }) => {
+      try {
+        const kkFileMeta = await kkUpload(body.name, body.size);
+        return {
+          name: body.name,
+          id: kkFileMeta.file.id,
+          location: "kkCompany",
+          uploadId: kkFileMeta.upload_data.id,
+          parts: kkFileMeta.upload_data.parts,
+        };
+      } catch (err) {
+        if (err instanceof ZodError) {
+          throw err;
+        } else if (
+          err instanceof Error &&
+          err.message !== "not accepted by KKStream"
+        ) {
+          throw err;
+        } else {
+          return await localUpload(body.name);
         }
-        if ((await User.findOneBy({ id: Number(profile.id) })) === null) {
-          set.status = 403;
-          return "Permission Denied";
-        }
-
-        try {
-          const kkFileMeta = await kkUpload(body.name, body.size);
-          return {
-            name: body.name,
-            id: kkFileMeta.file.id,
-            location: "kkCompany",
-            uploadId: kkFileMeta.upload_data.id,
-            parts: kkFileMeta.upload_data.parts,
-          };
-        } catch (err) {
-          if (err instanceof ZodError) {
-            throw err;
-          } else if (
-            err instanceof Error &&
-            err.message !== "not accepted by KKStream"
-          ) {
-            throw err;
-          } else {
-            return await localUpload(body.name);
-          }
-        }
-      },
-      {
-        body: t.Object({
-          name: t.RegExp(/^\S+$/gu, { default: "file.name" }),
-          size: t.Numeric({ minimum: 0 }),
-        }),
       }
-    );
+    },
+    {
+      body: t.Object({
+        name: t.RegExp(/^\S+$/gu, { default: "file.name" }),
+        size: t.Numeric({ minimum: 1 }),
+      }),
+    }
+  );

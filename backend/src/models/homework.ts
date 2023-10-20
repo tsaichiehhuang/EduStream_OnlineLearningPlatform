@@ -10,4 +10,7 @@ export class Homework extends BaseEntity {
 
   @Column({ type: "text", nullable: false })
   description!: string;
+
+  @Column({ type: "text", nullable: true })
+  title!: string;
 }

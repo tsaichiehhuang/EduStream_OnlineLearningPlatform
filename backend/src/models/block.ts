@@ -11,6 +11,7 @@ import { File } from "./file";
 import { Homework } from "./homework";
 import { Announcement } from "./announcement";
 import { Section } from "./section";
+import { BlockType } from "../types/type";
 
 @Entity("Block")
 export class Block extends BaseEntity {
@@ -21,13 +22,13 @@ export class Block extends BaseEntity {
     enum: ["homework", "announcement", "file"],
     nullable: false,
   })
-  type!: "homework" | "announcement" | "file";
+  type!: BlockType.File | BlockType.Announcement | BlockType.Homework;
 
   @Column({ type: "int", unsigned: true, nullable: false })
   sectionId!: number;
 
   @ManyToOne(() => Section, (section) => section.blocks)
-  @JoinColumn({ name: "sectionID" })
+  @JoinColumn({ name: "sectionId" })
   section?: import("./section").Section;
 
   @Column({ type: "char", length: 36, nullable: true })
@@ -50,4 +51,7 @@ export class Block extends BaseEntity {
   @OneToOne(() => Announcement)
   @JoinColumn({ name: "announceId" })
   announcement?: Announcement;
+
+  @Column({ type: "int", unsigned: true, nullable: false })
+  order!: number;
 }

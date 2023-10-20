@@ -1,16 +1,10 @@
 import { Elysia, t } from "elysia";
-import { auth } from "../utils/auth";
 import { Enroll } from "../models/enroll";
 import { Class } from "../models/class";
 import { UserRole } from "../types/type";
 
 export const classlist = (app: Elysia) =>
-  app.use(auth).get("/", async ({ profile, set }) => {
-    if (set.status !== 200) return "Unauthorized";
-    if (!profile) {
-      set.status = 401;
-      return "Unauthorized";
-    }
+  app.get("/", async ({ profile, set }) => {
     try {
       const classlist =
         profile.role === UserRole.student
@@ -34,7 +28,13 @@ const studentList = async (id: number) => {
       .leftJoinAndSelect("enroll.class", "class")
       .leftJoinAndSelect("class.instructor", "instructor")
       .where("enroll.studentId = :id", { id: id })
-      .select(["enroll.id", "class.id", "class.name", "instructor.name"])
+      .select([
+        "enroll.id",
+        "class.id",
+        "class.name",
+        "instructor.name",
+        "class.time",
+      ])
       .getMany();
 
     if (!result) {
@@ -47,6 +47,7 @@ const studentList = async (id: number) => {
         id: enroll.class?.id,
         teacher: enroll.class?.instructor?.name,
         className: enroll.class?.name,
+        time: enroll.class?.time,
       };
     });
     return classes;
@@ -59,17 +60,20 @@ const instructorList = async (id: number) => {
   try {
     const result = await Class.createQueryBuilder("class")
       .where("class.instructorId = :id", { id: id })
-      .select(["class.id", "class.name"])
+      .select(["class.id", "class.name", "class.time"])
       .getMany();
 
     if (!result) {
       return { data: { class: [] } };
     }
 
-    const classes = result.map((class_) => {
+    console.log(result);
+
+    const classes = result.map((row) => {
       return {
-        id: class_.id,
-        className: class_.name,
+        id: row.id,
+        className: row.name,
+        time: row.time,
       };
     });
     return classes;

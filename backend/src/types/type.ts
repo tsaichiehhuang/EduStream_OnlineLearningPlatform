@@ -12,7 +12,7 @@ export enum FileLocation {
 export enum BlockType {
   Homework = "homework",
   Announcement = "announcement",
-  Filee = "file",
+  File = "file",
 }
 
 // Interfaces

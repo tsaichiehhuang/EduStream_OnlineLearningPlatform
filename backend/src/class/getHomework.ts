@@ -47,8 +47,8 @@ export const getHomework = (app: Elysia) =>
               class: {
                 homework: {
                   id: params.homeworkId,
-                  submission: result
-                }
+                  submission: result,
+                },
               },
             },
           };
@@ -57,7 +57,7 @@ export const getHomework = (app: Elysia) =>
       {
         params: t.Object({
           homeworkId: t.String(),
-          classId: t.String()
+          classId: t.String(),
         }),
       }
     );

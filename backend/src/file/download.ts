@@ -1,59 +1,74 @@
-import { env } from "process";
+import path from "path";
+import fs from "fs/promises";
+
 import { Elysia, t } from "elysia";
 import axios, { AxiosError } from "axios";
 
-import { KK_API_ENDPOINT } from "../util/constant";
+import { KK_API_ENDPOINT, staticRoot } from "../utils/constant";
+import { File } from "../models/file";
 
-export const download = (
-  config: ConstructorParameters<typeof Elysia>[0] = {}
-) =>
-  new Elysia(config).get(
+async function kkDownload(fileId: string) {
+  return (
+    await axios.post(
+      `cms/v1/library/files/${fileId}:download`,
+      {},
+      {
+        baseURL: KK_API_ENDPOINT,
+        headers: {
+          Authorization: `Bearer ${process.env.API_TOKEN}`,
+          "x-bv-org-id": process.env.X_BV_ORG_ID,
+        },
+      }
+    )
+  ).data;
+}
+
+export const download = (app: Elysia) =>
+  app.get(
     "/:fileId",
-    async ({ params, set }) => {
-      // TODO: wait for Anna completing login system
-      const access_token = env.API_TOKEN;
-      const file = await (async function () {
+    async ({ params: { fileId }, set }) => {
+      const dbFile = await File.findOneBy({ id: fileId });
+      if (dbFile === null) {
+        set.status = 404;
+        return "File not found";
+      }
+      if (dbFile.location === "kkCompany") {
         try {
-          return (
-            await axios.post(
-              `cms/v1/library/files/${params.fileId}:download`,
-              {},
-              {
-                baseURL: KK_API_ENDPOINT,
-                headers: {
-                  Authorization: `Bearer ${access_token}`,
-                  "x-bv-org-id": env.X_BV_ORG_ID,
-                },
-              }
-            )
-          ).data;
+          const { download_uri, download_filename } = await kkDownload(fileId);
+          set.redirect = download_uri;
+          return;
         } catch (err) {
           if (err instanceof AxiosError) {
-            set.status = err.response?.status;
-            if (set.status !== 404) {
-              console.warn(
-                `failed to get file ${params.fileId}:\n\treason:${err.response}`
-              );
-              return `Unknown error when getting the file. Status ${err.response?.status}`;
-            } else {
-              return "";
+            if (err.response?.status === 400 || err.response?.status === 404) {
+              set.status = err.response.status;
+              return err.response?.data?.message;
             }
           } else {
-            set.status = "Internal Server Error";
-            return "";
+            console.error(
+              "Unknown error occurred when downloading file",
+              fileId
+            );
+            console.error(err);
+            throw err;
           }
         }
-      })();
-
-      if (typeof file === "string") {
-        if (set.status === undefined) {
-          set.status = "Internal Server Error";
+      } else {
+        if (dbFile.path === undefined) {
+          set.status = 400;
+          return "file not uploaded";
         }
-        return file;
-      }
-      const { download_uri, download_filename } = file;
 
-      set.redirect = download_uri;
+        const diskFile = Bun.file(path.resolve(staticRoot, dbFile.path));
+
+        if (await diskFile.exists()) {
+          return diskFile;
+        } else {
+          console.error("file lost!!");
+          console.error(`\tCan't find file ${fileId}`);
+          console.error(`\tIt should be located in ${dbFile.path}`);
+          throw new Error("file not found on server");
+        }
+      }
     },
     {
       params: t.Object({
@@ -62,5 +77,8 @@ export const download = (
           default: "00000000-0000-0000-0000-000000000000",
         }),
       }),
+      response: {
+        200: t.Union([t.File(), t.Undefined()]),
+      },
     }
   );

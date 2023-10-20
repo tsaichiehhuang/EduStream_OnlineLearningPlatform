@@ -32,7 +32,7 @@ export const getHomework = (app: Elysia) =>
         const result = await Submission.find({
           select: ['id','userId','fileId','content','score'],
           where:{
-            hwId: params.homeworkId
+            hwId: Number(params.homeworkId)
           }
         })
 

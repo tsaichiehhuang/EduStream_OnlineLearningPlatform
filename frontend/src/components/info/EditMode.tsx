@@ -31,7 +31,7 @@ type EditModalProps = {
     onOpenChange: any
     file: any
     status: string
-    id: number
+    id: number | null
 }
 type DeleteModalProps = {
     isOpen: any
@@ -202,7 +202,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onOpenChange, id }) =
 type EditProps = {
     file: any
     status: string
-    id: number
+    id: number | null
 }
 export const Edit: React.FC<EditProps> = ({ file, status, id }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()

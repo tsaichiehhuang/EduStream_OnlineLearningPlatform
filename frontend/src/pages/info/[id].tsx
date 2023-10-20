@@ -24,7 +24,7 @@ export default function Info() {
     const [blockPositions, setBlockPositions] = useState<Record<number, number>>({})
     const { getDefault, defaultInfoData } = useGetDefault(id)
     const { getWeeks, weeksData } = useGetWeeks(id)
-    const [weekData, setWeekData] = useState<WeekData[]>()
+    const [weekData, setWeekData] = useState<any>()
     const [className, setClassName] = useState<string | null>('')
     const { orderSection } = useOrderSection()
     const [requestbody, setRequestbody] = useState<any>([])
@@ -37,7 +37,7 @@ export default function Info() {
         setUserRole(Cookies.get('userRole'))
         setClassName(Cookies.get('className'))
         setWeekData(weeksData)
-    }, [editMode])
+    }, [editMode, id])
 
     const toggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light')
@@ -53,7 +53,7 @@ export default function Info() {
         const newBlockPositions: Record<number, number> = { ...blockPositions }
         const [draggedBlock] = weekData.splice(sourceIndex, 1)
         weekData.splice(destinationIndex, 0, draggedBlock)
-        weekData.forEach((item, index) => {
+        weekData.forEach((item: any, index: number) => {
             newBlockPositions[item.id] = index + 1
         })
         setBlockPositions(newBlockPositions)
@@ -99,7 +99,7 @@ export default function Info() {
                                                         <div>loading</div>
                                                     ) : (
                                                         weekData &&
-                                                        weekData.map((data, index) => (
+                                                        weekData.map((data: any, index: number) => (
                                                             <WeekBlock
                                                                 key={data.id}
                                                                 data={data}
@@ -118,7 +118,7 @@ export default function Info() {
                                 </DragDropContext>
                             ) : (
                                 weeksData.map((data, index) => (
-                                    <WeekBlock key={data.id} data={data} editMode={editMode} index={index} />
+                                    <WeekBlock key={data.id} data={data} editMode={editMode} index={index} id={null} />
                                 ))
                             )}
                             {editMode && <AddBlockSquare />}

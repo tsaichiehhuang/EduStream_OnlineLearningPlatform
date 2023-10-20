@@ -12,7 +12,7 @@ type WeekBlockProps = {
     data: any
     editMode: boolean
     index: number
-    id: number
+    id: any
 }
 
 const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
@@ -55,7 +55,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                         </div>
                     </CardHeader>
                     <CardBody className="gap-6 flex flex-col justify-between">
-                        {data.blocks.map((block, index) => {
+                        {data.blocks.map((block: any, index: number) => {
                             switch (block.type) {
                                 case 'homework':
                                     return <SubmitArea data={block} key={index} editMode={editMode} id={id} />
@@ -95,7 +95,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                                             {editMode && (
                                                 <div className="gap-1 flex flex-row items-start">
                                                     <Delete />
-                                                    <Edit file={block} status="file" />
+                                                    <Edit file={block} status="file" id={null} />
                                                 </div>
                                             )}
                                         </div>
@@ -119,10 +119,10 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                 </div>
             </CardHeader>
             <CardBody className="gap-6 flex flex-col justify-between">
-                {data.blocks.map((block, index) => {
+                {data.blocks.map((block: any, index: number) => {
                     switch (block.type) {
                         case 'homework':
-                            return <SubmitArea data={block} key={index} editMode={editMode} />
+                            return <SubmitArea data={block} key={index} editMode={editMode} id={null} />
                         case 'announcement':
                             return (
                                 <div key={index} className="flex flex-row justify-start gap-2">

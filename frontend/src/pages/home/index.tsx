@@ -60,7 +60,7 @@ export default function Home() {
     const currentDayOfWeek = getCurrentDayOfWeek()
 
     // 過濾出今天的課程
-    const todayClasses = classData.filter((data) => data.time === currentDayOfWeek)
+    const todayClasses = classData.filter((data: any) => data.time === currentDayOfWeek)
     const renderTodayClasses = () => {
         if (todayClasses.length === 0) {
             return <p className="text-mainRed">今日無課程</p>

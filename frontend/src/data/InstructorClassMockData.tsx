@@ -1,6 +1,6 @@
 import React from 'react'
 
-const InstructorClassMockData: InstructorClassData[] = [
+const InstructorClassMockData: any = [
     {
         name: '人機互動',
         id: 1,

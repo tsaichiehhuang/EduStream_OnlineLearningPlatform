@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import { set } from 'lodash'
+import Swal from 'sweetalert2'
 import { useState } from 'react'
 
 const apiUrl = process.env.API_DOMAIN
@@ -21,6 +21,15 @@ function useCreateClass() {
             const responseData = await response.json()
             if (response.ok) {
                 setClassData(responseData.data.class)
+                Swal.fire({
+                    icon: 'success',
+                    title: '新增成功',
+                    showConfirmButton: false,
+                    timer: 700,
+                })
+                setTimeout(() => {
+                    window.location.reload()
+                }, 550)
             }
         } catch (error) {
             console.error('Error fetching class data:', error)

@@ -85,7 +85,7 @@ export default function Home() {
         <>
             <Header toggleTheme={toggleTheme} theme={theme} />
             {/* <div className={`${theme} text-foreground bg-background`}> */}
-            <main className="mt-1 p-10 w-full h-screen flex flex-col md:flex-col md:justify-center items-center gap-8 justify-start">
+            <main className="mt-1 p-10 w-full  flex flex-col md:flex-col md:justify-center items-center gap-8 justify-start">
                 <div className="flex w-8/12 relative">
                     <div className="z-10 flex absolute top-1/2 right-1/3 transform -translate-y-1/2 flex-col justify-start">
                         <h2 className=" text-xl font-bold ">今日課程</h2>
@@ -103,7 +103,9 @@ export default function Home() {
                 <div className="w-8/12 flex-col  gap-8 flex">
                     <h3 className="  font-bold text-2xl">你的課程</h3>
 
-                    <div className="gap-2 grid grid-cols-4">
+                    <div className="gap-4 grid grid-cols-4">
+                        {userRole === 'instructor' && <AddCourseButton />}
+
                         {!loading ? (
                             classData.map((data: any, index: number) => (
                                 <Card
@@ -147,7 +149,6 @@ export default function Home() {
                                 </Skeleton>
                             </>
                         )}
-                        {userRole === 'instructor' && <AddCourseButton />}
                     </div>
                 </div>
             </main>

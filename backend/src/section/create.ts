@@ -16,20 +16,24 @@ export const create = (app: Elysia) =>
       }
 
       const title = body.title;
-      const order = body.order;
       if (!title) {
         set.status = 400;
         return "Field should not be empty";
       }
 
       try {
+        const order = await Section.createQueryBuilder("section")
+          .select("MAX(section.order)", "max")
+          .where("section.classId = :classId", { classId: id })
+          .getRawOne();
+
         const result = await Section.createQueryBuilder("section")
           .insert()
           .into(Section)
           .values({
             description: title,
             classId: Number(id),
-            order: order,
+            order: order.max + 1,
           })
           .execute();
 
@@ -50,7 +54,6 @@ export const create = (app: Elysia) =>
     {
       body: t.Object({
         title: t.String(),
-        order: t.Number(),
       }),
       params: t.Object({
         id: t.Numeric(),

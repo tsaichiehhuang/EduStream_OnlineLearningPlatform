@@ -3,7 +3,7 @@ import { Elysia, t } from "elysia";
 import axios, { AxiosError } from "axios";
 
 import { File } from "../../models/file";
-import { KK_API_ENDPOINT } from "../../util/constant";
+import { KK_API_ENDPOINT } from "../../utils/constant";
 
 /**@throws AxiosError */
 async function kkCancel(id: string, uploadId: string) {

@@ -5,14 +5,13 @@ import { useRouter } from 'next/router'
 
 const apiUrl = process.env.API_DOMAIN
 
-function useGetWeeks(id: any) {
-    const [weeksData, setWeeksData] = useState<WeekData[]>([])
+function useGetHW() {
+    const [hwData, setHwData] = useState<WeekData[]>([])
     const accessToken = Cookies.get('accessToken')
 
-    const getWeeks = async (setLoading: any) => {
+    const getHW = async (classID: number, homeworkID: number) => {
         try {
-            // setLoading(true)
-            const response = await fetch(`${apiUrl}/class/${id}`, {
+            const response = await fetch(`${apiUrl}/${classID}/${homeworkID}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -21,17 +20,16 @@ function useGetWeeks(id: any) {
             })
             const responseData = await response.json()
             if (response.ok) {
-                setWeeksData(responseData.data.class.sections)
+                setHwData(responseData.data.class.homework.submission)
             }
         } catch (error) {
             console.error('Error fetching class data:', error)
         }
-        // setLoading(false)
     }
     useEffect(() => {
-        getWeeks()
-    }, [id])
-    return { getWeeks, weeksData }
+        getHW()
+    }, [])
+    return { getHW, hwData }
 }
 
-export default useGetWeeks
+export default useGetHW

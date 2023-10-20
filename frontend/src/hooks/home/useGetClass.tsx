@@ -11,8 +11,9 @@ function useGetClass() {
         console.error('未找到accessToken')
         return { getClass: async () => {}, classData: [] }
     }
-    const getClass = async () => {
+    const getClass = async (setLoading: any) => {
         try {
+            setLoading(true)
             const response = await fetch(`${apiUrl}/class`, {
                 method: 'GET',
                 headers: {
@@ -28,6 +29,7 @@ function useGetClass() {
         } catch (error) {
             console.error('Error fetching class data:', error)
         }
+        setLoading(false)
     }
 
     return { getClass, classData }

@@ -12,9 +12,10 @@ type WeekBlockProps = {
     data: any
     editMode: boolean
     index: number
+    id: number
 }
 
-const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index }) => {
+const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
     const handleFileClick = (fileId: number, filePath: string) => {
         Cookies.set('filePath', filePath)
         window.location.href = `/file/${fileId}`
@@ -57,7 +58,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index }) => {
                         {data.blocks.map((block, index) => {
                             switch (block.type) {
                                 case 'homework':
-                                    return <SubmitArea data={block} key={index} editMode={editMode} />
+                                    return <SubmitArea data={block} key={index} editMode={editMode} id={id} />
                                 case 'announcement':
                                     return (
                                         <div className="flex flex-row justify-between">

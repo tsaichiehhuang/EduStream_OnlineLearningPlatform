@@ -87,7 +87,9 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
                                 label={
                                     status === 'announce' ? '更改公告' : status === 'title' ? '更改標題' : '更改名稱'
                                 }
-                                defaultValue={status === 'announce' ? file : status === 'title' ? file : file.name}
+                                defaultValue={
+                                    status === 'announce' ? file : status === 'title' ? file : file.homework.title
+                                }
                                 color="default"
                                 labelPlacement="outside"
                                 className="mt-4"
@@ -122,7 +124,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
                                         <Input
                                             variant="bordered"
                                             label="更改說明"
-                                            defaultValue={file.description}
+                                            defaultValue={file.homework.description}
                                             color="default"
                                             labelPlacement="outside"
                                             className="mt-4"
@@ -135,7 +137,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
                                             <ThemeProvider theme={customTheme(outerTheme)}>
                                                 <DateTimeField
                                                     label=""
-                                                    defaultValue={dayjs(file.endTime)} //Fri Jan 18 2023 23:13:40 GMT+0800 (台北標準時間)
+                                                    defaultValue={dayjs(file.homework.endTime)} //Fri Jan 18 2023 23:13:40 GMT+0800 (台北標準時間)
                                                     onChange={handleDateValue}
                                                 />
                                             </ThemeProvider>

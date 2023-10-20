@@ -44,7 +44,6 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, secti
     const requestBody = {
         content: content,
         sectionId: sectionId,
-        order: blockOrder,
     }
 
     const handleSubmit = () => {

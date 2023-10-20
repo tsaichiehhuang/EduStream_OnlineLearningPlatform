@@ -3,8 +3,10 @@ import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Input, useDis
 import 'dayjs/locale/zh-cn'
 import dayjs from 'dayjs'
 import { Delete, Edit } from '@/components/info/EditMode'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 import Cookies from 'js-cookie'
+import useGetHW from '@/hooks/Info/useGetHW'
+import { get } from 'lodash'
 
 type SubmitAreaProps = {
     data: any
@@ -17,7 +19,8 @@ type AddFileModalProps = {
     data: any
 }
 const userRole = Cookies.get('userRole')
-const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data }) => {
+const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data, id }) => {
+    const { getHW, hwData } = useGetHW()
     const [selectedFile, setSelectedFile] = useState<any>(null)
 
     const handleFileChange = (event: any) => {
@@ -28,6 +31,9 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data 
         setSelectedFile(null)
         onOpenChange(false)
     }
+    useEffect(() => {
+        getHW(id, data.homework.id)
+    }, [])
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent>
@@ -37,7 +43,14 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data 
                         <ModalBody>
                             <p className="text-sm">詳細說明</p>
                             <p className="text-sm text-gray-500">{data.homework.description || '無'}</p>
-
+                            <p className="text-sm">繳交資料</p>
+                            {hwData.length === 0 && <div className="text-sm text-gray-500">尚無繳交資料</div>}
+                            {hwData.map((item: any) => (
+                                <div key={item.id}>
+                                    <div>{item.content}</div>
+                                    <div>{item.score}</div>
+                                </div>
+                            ))}
                             {userRole === 'student' && (
                                 <>
                                     <Divider />
@@ -105,7 +118,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data 
         </Modal>
     )
 }
-export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode }) => {
+export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode, id }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const [userRole, setUserRole] = useState<string | null>('')
 
@@ -173,7 +186,7 @@ export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode }) =
                 )}
             </div>
 
-            <AddFileModal isOpen={isOpen} onOpenChange={onOpenChange} data={data} />
+            <AddFileModal isOpen={isOpen} onOpenChange={onOpenChange} data={data} id={id} />
         </>
     )
 }

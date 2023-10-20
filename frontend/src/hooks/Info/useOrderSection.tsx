@@ -1,41 +1,40 @@
 import Cookies from 'js-cookie'
-import { useState } from 'react'
 import Swal from 'sweetalert2'
 
 const apiUrl = process.env.API_DOMAIN
 
-function useCreateHW() {
-    const accessToken = Cookies.get('accessToken')
+function useOrderSection() {
+    const orderSection = async (requestbody: any, id: any) => {
+        const accessToken = Cookies.get('accessToken')
 
-    const createHW = async (requestBody: any, classId: any) => {
         try {
-            const response = await fetch(`${apiUrl}/class/${classId}/homework`, {
-                method: 'POST',
+            const response = await fetch(`${apiUrl}/class/${id}/section/order`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify(requestBody),
+                body: JSON.stringify(requestbody),
             })
             if (response.ok) {
                 Swal.fire({
                     icon: 'success',
-                    title: '新增成功',
+                    title: '更新成功',
                     showConfirmButton: false,
-                    timer: 1000,
+                    timer: 500,
                 })
                 // setTimeout(() => {
                 //     window.location.reload()
-                // }, 1000)
+                // }, 600)
             }
         } catch (error) {
-            Swal.fire('新增失敗', '', 'warning')
+            Swal.fire('更新失敗', '', 'warning')
 
             console.error('Error fetching class data:', error)
         }
     }
 
-    return { createHW }
+    return { orderSection }
 }
 
-export default useCreateHW
+export default useOrderSection

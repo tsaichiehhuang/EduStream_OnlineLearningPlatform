@@ -41,7 +41,7 @@ export default function Header({ toggleTheme, theme }: DarkModeProps) {
     return (
         <NextUIProvider>
             <div className={`${theme} text-foreground bg-background `}>
-                <div className="light  dark:bg-gray-800 dark:text-white bg-white text-black h-16  shadow-md w-full flex flex-row justify-between items-center p-10 ">
+                <div className="light  dark:bg-gray-800 dark:text-white bg-white text-black h-16  shadow-md w-full flex flex-row justify-between items-center p-10 mb-5">
                     <Link
                         className="light dark:text-white text-mainBlue font-zen-dots text-xl font-normal"
                         href="/home"

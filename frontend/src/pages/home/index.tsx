@@ -85,7 +85,7 @@ export default function Home() {
         <>
             <Header toggleTheme={toggleTheme} theme={theme} />
             {/* <div className={`${theme} text-foreground bg-background`}> */}
-            <main className="mt-1 p-10 w-full  flex flex-col md:flex-col md:justify-center items-center gap-8 justify-start">
+            <main className=" p-10 w-full  flex flex-col justify-center items-center gap-8 ">
                 <div className="flex w-8/12 relative">
                     <div className="z-10 flex absolute top-1/2 right-1/3 transform -translate-y-1/2 flex-col justify-start">
                         <h2 className=" text-xl font-bold ">今日課程</h2>

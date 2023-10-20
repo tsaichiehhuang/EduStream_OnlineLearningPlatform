@@ -26,7 +26,7 @@ const createAnnounce = (app: Elysia) =>
         const block = await createBlock(
           BlockType.Announcement,
           announceId,
-          Number(body.sectionId),
+          Number(body.sectionId)
         );
 
         return {

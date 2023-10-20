@@ -19,11 +19,7 @@ export const createFile = (app: Elysia) =>
         await complete(body.file);
 
         // create block
-        await createBlock(
-          BlockType.File,
-          body.file.id,
-          Number(body.sectionId),
-        );
+        await createBlock(BlockType.File, body.file.id, Number(body.sectionId));
 
         return {
           data: {

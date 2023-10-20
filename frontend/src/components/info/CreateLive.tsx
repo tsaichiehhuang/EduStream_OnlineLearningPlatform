@@ -1,3 +1,6 @@
+import Cookies from "js-cookie";
+import useCreateLive from "@/hooks/live/useCreateLive";
+import { useState, useEffect } from "react";
 import {
   Modal,
   ModalContent,
@@ -13,10 +16,24 @@ type AddBlockModalProps = {
   isOpen: any;
   onOpenChange: any;
 };
+
+const classid = Cookies.get("classId");
+
 const AddBlockModal: React.FC<AddBlockModalProps> = ({
   isOpen,
   onOpenChange,
 }) => {
+  const { createlive } = useCreateLive(); 
+  const [name, setname] = useState("");
+
+  const handlename = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setname(event.target.value);
+  };
+
+  const handleCreateLive = () => {
+    createlive(name, classid);
+    onOpenChange(false);
+  };
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
@@ -30,13 +47,19 @@ const AddBlockModal: React.FC<AddBlockModalProps> = ({
                 placeholder=" "
                 color="default"
                 labelPlacement="outside"
+                onChange={handlename}
               />
             </ModalBody>
             <ModalFooter>
               <Button color="default" variant="light" onPress={onClose}>
                 取消
               </Button>
-              <Button color="primary" className="text-white" onPress={onClose}>
+              <Button
+                onClick={handleCreateLive}
+                color="primary"
+                className="text-white"
+                onPress={onClose}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="22"
@@ -91,34 +114,3 @@ export const CreateLiveButton = () => {
   );
 };
 
-export const AddBlockSquare = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  return (
-    <>
-      <Card
-        onPress={onOpen}
-        className="w-full p-8 flex flex-row justify-center items-center text-darkGray gap-8  hover:-translate-y-1  "
-        isPressable
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          fill="none"
-        >
-          <path
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M3.95715 0.351879C7.30883 -0.0196366 10.6913 -0.0196366 14.043 0.351879C15.8987 0.559879 17.3959 2.0213 17.6137 3.88355C18.0111 7.28266 18.0111 10.7165 17.6137 14.1156C17.5035 15.0205 17.0909 15.8617 16.4428 16.5027C15.7947 17.1437 14.949 17.5471 14.043 17.6473C10.6914 18.02 7.30877 18.02 3.95715 17.6473C3.05111 17.5471 2.20549 17.1437 1.55738 16.5027C0.90927 15.8617 0.496675 15.0205 0.386487 14.1156C-0.0109906 10.7169 -0.0109906 7.28338 0.386487 3.88463C0.496628 2.9799 0.909065 2.13889 1.55696 1.49788C2.20485 0.856868 3.05022 0.453434 3.95607 0.352962L3.95715 0.351879ZM9.00007 3.59105C9.21556 3.59105 9.42222 3.67665 9.57459 3.82902C9.72697 3.98139 9.81257 4.18806 9.81257 4.40355V8.18763H13.5967C13.8121 8.18763 14.0188 8.27323 14.1712 8.4256C14.3236 8.57798 14.4092 8.78464 14.4092 9.00013C14.4092 9.21562 14.3236 9.42228 14.1712 9.57465C14.0188 9.72703 13.8121 9.81263 13.5967 9.81263H9.81257V13.5967C9.81257 13.8122 9.72697 14.0189 9.57459 14.1712C9.42222 14.3236 9.21556 14.4092 9.00007 14.4092C8.78458 14.4092 8.57792 14.3236 8.42555 14.1712C8.27317 14.0189 8.18757 13.8122 8.18757 13.5967V9.81263H4.40349C4.188 9.81263 3.98134 9.72703 3.82896 9.57465C3.67659 9.42228 3.59099 9.21562 3.59099 9.00013C3.59099 8.78464 3.67659 8.57798 3.82896 8.4256C3.98134 8.27323 4.188 8.18763 4.40349 8.18763H8.18757V4.40355C8.18757 4.18806 8.27317 3.98139 8.42555 3.82902C8.57792 3.67665 8.78458 3.59105 9.00007 3.59105Z"
-            fill="#B0B0B0"
-          />
-        </svg>
-        新增區塊
-      </Card>
-
-      <AddBlockModal isOpen={isOpen} onOpenChange={onOpenChange} />
-    </>
-  );
-};

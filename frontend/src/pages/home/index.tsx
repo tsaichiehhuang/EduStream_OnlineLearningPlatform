@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button, Skeleton } from '@nextui-org/react'
+import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button, Skeleton, Image } from '@nextui-org/react'
 import Header from '@/components/header'
 import { AddCourseButton } from '@/components/home/AddCourse'
 import Cookies from 'js-cookie'
 import useGetClass from '@/hooks/home/useGetClass'
+import NextImage from 'next/image'
 
 // export async function getServerSideProps(context: any) {
 //     const { req, res } = context
@@ -68,76 +69,89 @@ export default function Home() {
             return todayClasses.map((data: any, index: number) => <div key={index}>{data.className}</div>)
         }
     }
+    const photo = [
+        {
+            img: '/photo1.jpg',
+        },
+        {
+            img: '/photo2.jpg',
+        },
+        {
+            img: '/photo3.jpg',
+        },
+    ]
+
     return (
         <>
             <Header toggleTheme={toggleTheme} theme={theme} />
-            <div className={`${theme} text-foreground bg-background`}>
-                <main className="p-10 w-full h-screen flex flex-col md:flex-row md:justify-around items-start gap-8 justify-start">
-                    <div className="w-full md:w-5/12 gap-10 flex flex-col justify-around">
-                        <Card className=" border-l-5 border-mainGreen">
-                            <CardHeader className="flex gap-3 justify-between">
-                                <h2 className="text-mainGreen text-xl font-bold ">今日課程</h2>
-                                <div className="text-gray-300 items-end justify-end flex flex-col">
-                                    <span id="client-time" />
-                                    {formattedDate}
-                                    <br />
-                                    {formattedTime}
-                                </div>
-                            </CardHeader>
-
-                            <CardBody>{renderTodayClasses()}</CardBody>
-                        </Card>
-                        <Card className=" border-l-5 border-mainBlue">
-                            <CardHeader className="flex gap-3">
-                                <h2 className="text-mainBlue text-xl font-bold">近期消息</h2>
-                            </CardHeader>
-
-                            <CardBody>
-                                <p>Make beautiful websites regardless of your design experience.</p>
-                            </CardBody>
-                        </Card>
+            {/* <div className={`${theme} text-foreground bg-background`}> */}
+            <main className="mt-1 p-10 w-full h-screen flex flex-col md:flex-col md:justify-center items-center gap-8 justify-start">
+                <div className="flex w-8/12 relative">
+                    <div className="z-10 flex absolute top-1/2 right-1/3 transform -translate-y-1/2 flex-col justify-start">
+                        <h2 className=" text-xl font-bold ">今日課程</h2>
+                        <div className="ml-20">{renderTodayClasses()}</div>
                     </div>
-                    <div className="w-full md:w-5/12 flex-col  gap-8 flex">
-                        <h3 className=" text-mainOrange font-bold text-2xl">你的課程</h3>
-                        {userRole === 'instructor' && <AddCourseButton />}
-                        <div className="flex-col w-full gap-2 flex">
-                            {!loading ? (
-                                classData.map((data: any) => (
-                                    <Card
-                                        key={data.id}
-                                        className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]"
-                                        isPressable
-                                        onPress={() => handleClassClick(data.id, data.className)}
-                                    >
-                                        <CardBody className="flex-row justify-between">
-                                            <div>{data.className}</div>
-                                            {userRole === 'student' && 'teacher' in data && <div>{data.teacher}</div>}
-                                        </CardBody>
+                    <NextImage
+                        alt="banner"
+                        className="w-full h-[230px] rounded-lg shadow z-0 flex "
+                        src="/banner.jpg"
+                        width={800}
+                        height={150}
+                    />
+                </div>
+
+                <div className="w-8/12 flex-col  gap-8 flex">
+                    <h3 className="  font-bold text-2xl">你的課程</h3>
+
+                    <div className="gap-2 grid grid-cols-4">
+                        {!loading ? (
+                            classData.map((data: any, index: number) => (
+                                <Card
+                                    shadow="sm"
+                                    key={index}
+                                    isPressable
+                                    onPress={() => handleClassClick(data.id, data.className)}
+                                >
+                                    <CardBody className="overflow-visible p-0">
+                                        <Image
+                                            shadow="sm"
+                                            radius="lg"
+                                            width="100%"
+                                            alt="photo"
+                                            className="w-full object-cover h-[140px]"
+                                            src={`/photo${(index % 3) + 1}.jpg`}
+                                        />
+                                    </CardBody>
+                                    <CardFooter className="text-small justify-between">
+                                        <b>{data.className}</b>
+                                        {userRole === 'student' && 'teacher' in data && <div>{data.teacher}</div>}
+                                    </CardFooter>
+                                </Card>
+                            ))
+                        ) : (
+                            <>
+                                <Skeleton className="max-w-[400px] rounded-lg h-16">
+                                    <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]">
+                                        <CardBody className="flex-row justify-between"></CardBody>
                                     </Card>
-                                ))
-                            ) : (
-                                <>
-                                    <Skeleton className="max-w-[400px] rounded-lg h-16">
-                                        <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]">
-                                            <CardBody className="flex-row justify-between"></CardBody>
-                                        </Card>
-                                    </Skeleton>
-                                    <Skeleton className="max-w-[400px] rounded-lg h-16">
-                                        <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]">
-                                            <CardBody className="flex-row justify-between"></CardBody>
-                                        </Card>
-                                    </Skeleton>
-                                    <Skeleton className="max-w-[400px] rounded-lg h-16">
-                                        <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]">
-                                            <CardBody className="flex-row justify-between"></CardBody>
-                                        </Card>
-                                    </Skeleton>
-                                </>
-                            )}
-                        </div>
+                                </Skeleton>
+                                <Skeleton className="max-w-[400px] rounded-lg h-16">
+                                    <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]">
+                                        <CardBody className="flex-row justify-between"></CardBody>
+                                    </Card>
+                                </Skeleton>
+                                <Skeleton className="max-w-[400px] rounded-lg h-16">
+                                    <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]">
+                                        <CardBody className="flex-row justify-between"></CardBody>
+                                    </Card>
+                                </Skeleton>
+                            </>
+                        )}
+                        {userRole === 'instructor' && <AddCourseButton />}
                     </div>
-                </main>
-            </div>
+                </div>
+            </main>
+            {/* </div> */}
         </>
     )
 }

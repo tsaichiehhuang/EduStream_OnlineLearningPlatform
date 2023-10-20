@@ -6,7 +6,7 @@ export const socketChat = (app: Elysia) =>
       message: t.String(),
       liveID: t.String(),
       userID: t.String(),
-      name: t.String(),
+      name: t.String()
     }),
     open(ws) {
       console.warn(`The socket is opened.`);

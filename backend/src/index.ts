@@ -28,10 +28,11 @@ import { homeworkRoutes } from "./block/homework";
 import { createFile, removeFile } from "./block/file";
 import { orderBlock } from "./block/order";
 
+import { socket } from "./socket/socket";
+
 import { getLive } from "./live/get";
 import { endLive } from "./live/end";
 import { startLive } from "./live/start";
-import { socketChat } from "./live/socket";
 import { cancelLive } from "./live/cancel";
 import { createLive } from "./live/create";
 import { archiveLive } from "./live/archive";
@@ -50,6 +51,7 @@ const app = new Elysia()
   .group("user", (app) => app.use(signup).use(signin).use(info))
   .use(auth)
   .group("/enroll", (app) => app.use(enroll).use(drop))
+  .group("/socket", (app) => app.use(socket))
   .group("/class", (app) =>
     app
       .use(classlist)

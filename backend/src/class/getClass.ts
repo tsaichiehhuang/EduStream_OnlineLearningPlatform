@@ -34,7 +34,7 @@ export const getClass = (
         .leftJoinAndSelect("blocks.file", "file")
         .leftJoinAndSelect("blocks.announcement", "announcement")
         .leftJoinAndSelect("blocks.homework", "homework")
-        .where("class.id = :classId", { classId: params.classId })
+        .where("class.id = :classId AND sections.order <> 0 ", { classId: params.classId })
         .getOne();
 
       if (!result) {

@@ -180,7 +180,7 @@ export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode, id 
                 </Card>
                 {editMode && (
                     <div className="gap-1 flex flex-row items-start">
-                        <Delete status="submit" id={data.hwId} />
+                        <Delete status="submit" id={data.hwId} onClick={Cookies.set('status', 'submit')} />
                         <Edit file={data} status="submit" id={data.hwId} />
                     </div>
                 )}

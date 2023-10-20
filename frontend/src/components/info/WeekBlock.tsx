@@ -37,7 +37,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                         </div>
 
                         <div className="gap-1 flex flex-row items-center justify-center">
-                            <Delete status="title" id={data.id} />
+                            <Delete status="title" id={data.id} onClick={Cookies.set('status', 'title')} />
                             <Edit status="title" file={data.description} id={data.id} />
                             <svg
                                 className="ml-1"
@@ -70,7 +70,11 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                                             </div>
                                             {editMode && (
                                                 <div className="gap-1 flex flex-row items-start">
-                                                    <Delete id={block.announceId} status="announce" />
+                                                    <Delete
+                                                        id={block.announceId}
+                                                        status="announce"
+                                                        onClick={Cookies.set('status', 'announce')}
+                                                    />
                                                     <Edit file={block} status="announce" id={block.announceId} />
                                                 </div>
                                             )}

@@ -24,6 +24,7 @@ import useDeleteSection from '@/hooks/Info/useDeleteSection'
 import useDeleteAnnounce from '@/hooks/Info/useDeleteAnnounce'
 import useDeleteHW from '@/hooks/Info/useDeleteHW'
 import useUpdateHW from '@/hooks/Info/useUpdateHW'
+import Cookies from 'js-cookie'
 
 type EditModalProps = {
     isOpen: any
@@ -160,10 +161,11 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
         </Modal>
     )
 }
-const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onOpenChange, id, status }) => {
+const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onOpenChange, id }) => {
     const { deleteSection } = useDeleteSection()
     const { deleteAnnounce } = useDeleteAnnounce()
     const { deleteHW } = useDeleteHW()
+    const status = Cookies.get('status')
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent>

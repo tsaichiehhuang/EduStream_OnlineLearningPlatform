@@ -4,22 +4,31 @@ import { BlockType } from "../types/type";
 // CRUD blocks
 export const createBlock = async (
   type: BlockType,
-  id: number,
-  sectionIdValue: number,
-  orderValue: number
+  id: number | string,
+  sectionIdValue: number
 ) => {
   try {
+    const order = await Block.createQueryBuilder("block")
+      .select("MAX(block.order)", "max")
+      .where("block.sectionId = :sectionId", { sectionId: body.sectionId })
+      .getRawOne();
+
     const result = await Block.createQueryBuilder("block")
       .insert()
       .into(Block)
       .values({
         type: type,
         fileId: type === BlockType.File ? String(id) : (null as any as string),
-        hwId: type === BlockType.Homework ? id : (null as any as number),
+        hwId:
+          type === BlockType.Homework && typeof id === "number"
+            ? id
+            : (null as any as number),
         announceId:
-          type === BlockType.Announcement ? id : (null as any as number),
+          type === BlockType.Announcement && typeof id === "number"
+            ? id
+            : (null as any as number),
         sectionId: sectionIdValue,
-        order: orderValue,
+        order: order.max + 1,
       })
       .execute();
 

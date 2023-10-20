@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 import { IKKFileUploadComplete } from "../../types/type";
-import { KK_API_ENDPOINT } from "../../util/constant";
+import { KK_API_ENDPOINT } from "../../utils/constant";
 import { File } from "../../models/file";
 
 // all planed errors in this function

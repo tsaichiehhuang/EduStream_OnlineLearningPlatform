@@ -20,11 +20,6 @@ const createHomework = (app: Elysia) =>
       }
 
       try {
-        const order = await Block.createQueryBuilder("block")
-          .select("MAX(block.order)", "max")
-          .where("block.sectionId = :sectionId", { sectionId: body.sectionId })
-          .getRawOne();
-
         // create homework
         const date = new Date(body.endTime);
         const homeworkId = await create(date, body.description, body.title);
@@ -43,7 +38,6 @@ const createHomework = (app: Elysia) =>
             type: BlockType.Homework,
             hwId: homeworkId,
             sectionId: body.sectionId,
-            order: order.max + 1,
           })
           .execute();
 

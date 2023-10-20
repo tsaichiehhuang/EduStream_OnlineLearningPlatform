@@ -11,7 +11,7 @@ import {
 } from "typeorm";
 import axios from "axios";
 
-import { KK_API_ENDPOINT } from "../util/constant";
+import { KK_API_ENDPOINT } from "../utils/constant";
 
 @Entity("File")
 export class File extends BaseEntity {

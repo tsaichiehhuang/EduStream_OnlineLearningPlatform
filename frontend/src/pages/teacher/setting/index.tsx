@@ -33,7 +33,7 @@ import { NextUIProvider } from "@nextui-org/react";
 
 export default function Live() {
   const { previewLive } = usePreviewLive();
-  const { getLive, url } = useGetLive();
+  const { getLive, liveurl } = useGetLive();
   const { cancelLive } = useCancelLive();
   const [isLive, setIsLive] = useState(false);
 

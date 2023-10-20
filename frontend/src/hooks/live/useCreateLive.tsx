@@ -6,25 +6,29 @@ const apiUrl = process.env.API_DOMAIN;
 
 function useCreateLive() {
   const router = useRouter();
-  const token = Cookies.get("accessToken");
-  const classid = Cookies.get("classId");
+  // const token = Cookies.get("accessToken");
 
-  const createlive = async (name: string, classid: string) => {
+  const createlive = async (name: string) => {
+    const classid = Cookies.get("classId");
+    const token = Cookies.get("accessToken");
+    console.log(token);
+    console.log(classid);
     const requestBody = {
       name: name,
-      classID: classid,
+      classID: Number(classid),
     };
     try {
-      const response = await fetch(
-        `https://api.one-stage.kkstream.io/bv/cms/v1/lives`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(requestBody),
-        }
-      );
+      const response = await fetch(`${apiUrl}/live`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: String(name),
+          classID: Number(classid),
+        }),
+      });
       const responseData = await response.json();
       if (response.ok) {
         Swal.fire({
@@ -33,13 +37,9 @@ function useCreateLive() {
           showConfirmButton: false,
           timer: 1000,
         });
-        Cookies.set("accessToken", responseData.data.access_token);
-        Cookies.set("userName", responseData.data.name);
-
-        setTimeout(() => {
-          router.push("/");
-          window.location.reload();
-        }, 1000);
+        Cookies.set("liveid", responseData.data.live.id);
+        window.location.href = `/teacher/setting${responseData.data.live.id}`;
+        console.log("發送成功");
       } else {
         Swal.fire("直播創建失敗", "", "warning");
       }

@@ -1,47 +1,59 @@
-import Cookies from 'js-cookie'
-import { useState } from 'react'
-import { useRouter } from 'next/router'
-import Swal from 'sweetalert2'
-import useFileUploadInit from "@/hooks/file/useFileUploadInit";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import Swal from "sweetalert2";
+import useUploadtoLocal from "@/hooks/file/useUploadtoLocal";
 
-const apiUrl = process.env.API_DOMAIN
+const apiUrl = process.env.API_DOMAIN;
 
-function useUploadLocalTeacher() {
-    const { fileuploadinit,type } = useFileUploadInit();
-    const router = useRouter()
-    const { id } = router.query
-    const [defaultInfoData, setDefaultInfoData] = useState<DefaultData[]>([])
-    const accessToken = Cookies.get('accessToken')
+function useFileUploadInit() {
+  const router = useRouter();
+  const token = Cookies.get("accessToken");
+  const classid = Cookies.get("classId");
+  const [type, settype] = useState("");
+  const { uploadtolocal } = useUploadtoLocal();
 
-   
+  const fileuploadinit = async (name: string, file: File) => {
+    const requestBody = {
+      name: name,
+      size: file.size,
+    };
+    try {
+      const response = await fetch(`${apiUrl}/file/upload/init`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(requestBody),
+      });
+      const responseData = await response.json();
+      if (response.ok) {
+        Swal.fire({
+          icon: "success",
+          title: "檔案準備上傳成功",
+          showConfirmButton: false,
+          timer: 1000,
+        });
 
-    const uploadlocalteacher = async (requestbody: any) => {
-        try {
-            const response = await fetch(`${apiUrl}/class/${id}/section`, {
-                method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-                body: JSON.stringify(requestbody),
-            })
-            if (response.ok) {
-                Swal.fire({
-                    icon: 'success',
-                    title: '檔案準備新增成功',
-                    showConfirmButton: false,
-                    timer: 500,
-                })
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
-            }
-        } catch (error) {
-            console.error('Error fetching class data:', error)
-            Swal.fire('檔案準備新增失敗', '', 'warning')
+        if (responseData.location == "local") {
+          //第一步
+          uploadtolocal(responseData.id, file);
+          //第二步
+        } else if (responseData.location == "kkCompany") {
         }
+      } else {
+        Swal.fire("檔案準備上傳失敗", "", "warning");
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "網路請求錯誤",
+        text: "請稍後再試或通知我們的工程團隊。",
+      });
     }
+  };
 
-    return { uploadlocalteacher }
+  return { fileuploadinit, type };
 }
 
-export default useUploadLocalTeacher
+export default useFileUploadInit;

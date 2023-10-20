@@ -8,17 +8,18 @@ const apiUrl = process.env.API_DOMAIN;
 function useCancelLive() {
   const router = useRouter();
   const token = Cookies.get("accessToken");
-  const classid = Cookies.get("classId");
+  const liveid = Cookies.get("liveid");
   const { endLive } = useEndLive();
   const cancelLive = async () => {
     try {
       const response = await fetch(
-        `https://api.one-stage.kkstream.io/bv/cms/v1/lives/${classid}/cancel`,
+        `${apiUrl}/live/${liveid}/cancel`,
 
         {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
           },
         }
       );

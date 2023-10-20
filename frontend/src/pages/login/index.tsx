@@ -69,6 +69,7 @@ export default function Login() {
                     Cookies.set('accessToken', loginData.data.access_token)
                     Cookies.set('userName', loginData.data.user.name)
                     Cookies.set('userRole', loginData.data.user.role)
+                    Cookies.set('userId', loginData.data.user.id)
 
                     setTimeout(() => {
                         router.push('/home')

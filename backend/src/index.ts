@@ -25,6 +25,7 @@ import { deleteSection } from "./section/delete";
 
 import { announceRoutes } from "./block/announce";
 import { homeworkRoutes } from "./block/homework";
+import { createFile, removeFile } from "./block/file";
 import { orderBlock } from "./block/order";
 
 import { getLive } from "./live/get";
@@ -46,10 +47,6 @@ await initDatabase();
 const app = new Elysia()
   .use(cors())
   .get("/", () => "Hello World!")
-  .group("/enroll", (app) => app.use(enroll).use(drop))
-  .group("/class", (app) =>
-    app.use(classlist).use(create).use(update).use(getClass).use(getHomework)
-  )
   .group("user", (app) => app.use(signup).use(signin).use(info))
   .use(auth)
   .group("/enroll", (app) => app.use(enroll).use(drop))
@@ -58,6 +55,8 @@ const app = new Elysia()
       .use(classlist)
       .use(create)
       .use(update)
+      .use(getClass)
+      .use(getHomework)
       .use(defaultclass)
       .use(createSection)
       .use(orderSection)
@@ -66,6 +65,8 @@ const app = new Elysia()
       )
       .use(announceRoutes)
       .use(homeworkRoutes)
+      .use(createFile)
+      .use(removeFile)
   )
   .group("live", (app) =>
     app

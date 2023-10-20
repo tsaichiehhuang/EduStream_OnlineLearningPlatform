@@ -3,7 +3,6 @@ import { Announcement } from "../models/announcement";
 import { Class } from "../models/class";
 import { createBlock } from "./block";
 import { BlockType } from "../types/type";
-import { Block } from "../models/block";
 
 // create block and announce
 const createAnnounce = (app: Elysia) =>
@@ -20,11 +19,6 @@ const createAnnounce = (app: Elysia) =>
       }
 
       try {
-        const order = await Block.createQueryBuilder("block")
-          .select("MAX(block.order)", "max")
-          .where("block.sectionId = :sectionId", { sectionId: body.sectionId })
-          .getRawOne();
-
         // create announce
         const announceId = await create(body.content);
 
@@ -32,8 +26,7 @@ const createAnnounce = (app: Elysia) =>
         const block = await createBlock(
           BlockType.Announcement,
           announceId,
-          Number(body.sectionId),
-          order.max + 1
+          Number(body.sectionId)
         );
 
         return {
@@ -48,7 +41,6 @@ const createAnnounce = (app: Elysia) =>
         };
       } catch (err) {
         set.status = 500;
-        console.log(err);
         return "Query Failed";
       }
     },
@@ -86,7 +78,6 @@ const updateAnnounce = (app: Elysia) =>
         };
       } catch (err) {
         set.status = 500;
-        console.log(err);
         return "Query Failed";
       }
     },

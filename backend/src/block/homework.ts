@@ -20,11 +20,6 @@ const createHomework = (app: Elysia) =>
       }
 
       try {
-        const order = await Block.createQueryBuilder("block")
-          .select("MAX(block.order)", "max")
-          .where("block.sectionId = :sectionId", { sectionId: body.sectionId })
-          .getRawOne();
-
         // create homework
         const date = new Date(body.endTime);
         const homeworkId = await create(date, body.description, body.title);
@@ -43,7 +38,6 @@ const createHomework = (app: Elysia) =>
             type: BlockType.Homework,
             hwId: homeworkId,
             sectionId: body.sectionId,
-            order: order.max + 1,
           })
           .execute();
 
@@ -59,7 +53,6 @@ const createHomework = (app: Elysia) =>
         };
       } catch (err) {
         set.status = 500;
-        console.log(err);
         return "Query Failed";
       }
     },
@@ -69,7 +62,6 @@ const createHomework = (app: Elysia) =>
         title: t.String(),
         description: t.String(),
         sectionId: t.Numeric(),
-        order: t.Numeric(),
       }),
       params: t.Object({
         id: t.Numeric(),
@@ -97,7 +89,6 @@ const updateHomework = (app: Elysia) =>
         };
       } catch (err) {
         set.status = 500;
-        console.log(err);
         return "Query Failed";
       }
     },

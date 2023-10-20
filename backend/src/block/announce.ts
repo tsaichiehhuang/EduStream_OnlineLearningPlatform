@@ -41,7 +41,6 @@ const createAnnounce = (app: Elysia) =>
         };
       } catch (err) {
         set.status = 500;
-        console.log(err);
         return "Query Failed";
       }
     },
@@ -79,7 +78,6 @@ const updateAnnounce = (app: Elysia) =>
         };
       } catch (err) {
         set.status = 500;
-        console.log(err);
         return "Query Failed";
       }
     },

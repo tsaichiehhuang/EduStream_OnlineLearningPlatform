@@ -28,7 +28,6 @@ export const update = (app: Elysia) =>
         };
       } catch (err) {
         set.status = 500;
-        console.log(err);
         return "Query Failed";
       }
     },

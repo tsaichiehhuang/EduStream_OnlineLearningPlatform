@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import Swal from "sweetalert2";
 
 const apiUrl = process.env.API_DOMAIN;
@@ -8,15 +9,16 @@ function useFileUploadInit() {
   const router = useRouter();
   const token = Cookies.get("accessToken");
   const classid = Cookies.get("classId");
+  const [type,settype] = useState("");
 
   const fileuploadinit = async (name: string, classid: string) => {
     const requestBody = {
       name: name,
-      classID: classid,
+      size: classid,
     };
     try {
       const response = await fetch(
-        `https://api.one-stage.kkstream.io/bv/cms/v1/lives`,
+        `${apiUrl}/file/upload/init`,
         {
           method: "POST",
           headers: {
@@ -35,15 +37,11 @@ function useFileUploadInit() {
         });
         
         if(responseData.location == "local"){
-
+          settype("local");
         }else{
-
+          settype("kkCompany");
         }
-
-        setTimeout(() => {
-          router.push("/");
-          window.location.reload();
-        }, 1000);
+        
       } else {
         Swal.fire("檔案準備上傳失敗", "", "warning");
       }
@@ -56,7 +54,7 @@ function useFileUploadInit() {
     }
   };
 
-  return { fileuploadinit };
+  return { fileuploadinit,type };
 }
 
 export default useFileUploadInit;

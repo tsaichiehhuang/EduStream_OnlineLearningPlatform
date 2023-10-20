@@ -7,7 +7,7 @@ import useFileUploadInit from "@/hooks/file/useFileUploadInit";
 const apiUrl = process.env.API_DOMAIN
 
 function useUploadLocalTeacher() {
-    const { fileuploadinit } = useFileUploadInit();
+    const { fileuploadinit,type } = useFileUploadInit();
     const router = useRouter()
     const { id } = router.query
     const [defaultInfoData, setDefaultInfoData] = useState<DefaultData[]>([])

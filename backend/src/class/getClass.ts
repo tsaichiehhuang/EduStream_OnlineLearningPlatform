@@ -64,8 +64,9 @@ export const getClass = (
           data: {
             class: {
               id: result.id,
-              sections: result.sections!.map((sec) =>
-                sec.blocks!.map((blk) => ({
+              sections: result.sections!.map((sec) => ({
+                ...sec,
+                block: sec.blocks!.map((blk) => ({
                   ...blk,
                   homework: blk.homework
                     ? {
@@ -75,8 +76,8 @@ export const getClass = (
                         ),
                       }
                     : undefined,
-                }))
-              ),
+                })),
+              })),
             },
           },
         };

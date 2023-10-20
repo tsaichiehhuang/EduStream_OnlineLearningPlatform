@@ -9,7 +9,7 @@ import {
     Input,
     Card,
 } from '@nextui-org/react'
-import { use, useState } from 'react'
+import { useState } from 'react'
 import Divider from '@mui/material/Divider'
 import { type } from 'os'
 import { DesktopDatePicker, LocalizationProvider, DateTimeField } from '@mui/x-date-pickers'
@@ -52,7 +52,6 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
     const handleFileChange = (event: any) => {
         const file = event.target.files[0]
         setSelectedFile(file)
-        console.log('Selected file:', file)
     }
     const handleDateValue = (date: any) => {
         setSelectedDate(date)
@@ -228,7 +227,6 @@ export const Edit: React.FC<EditProps> = ({ file, status, id }) => {
 }
 export const Delete = (id: any, status: string) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
-    console.log(status)
 
     return (
         <>

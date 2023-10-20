@@ -125,24 +125,30 @@ export default function Home() {
                                         />
                                     </CardBody>
                                     <CardFooter className="text-small justify-between">
-                                        <b>{data.className}</b>
-                                        {userRole === 'student' && 'teacher' in data && <div>{data.teacher}</div>}
+                                        <b>
+                                            {data.className.length > 14
+                                                ? data.className.substring(0, 14) + '...'
+                                                : data.className}
+                                        </b>
+                                        {userRole === 'student' && 'teacher' in data && (
+                                            <div className="text-xs text-darkGray">{data.teacher}</div>
+                                        )}
                                     </CardFooter>
                                 </Card>
                             ))
                         ) : (
                             <>
-                                <Skeleton className="max-w-[400px] rounded-lg h-16">
+                                <Skeleton className="max-w-[400px] h-[140px] rounded-lg ">
                                     <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]">
                                         <CardBody className="flex-row justify-between"></CardBody>
                                     </Card>
                                 </Skeleton>
-                                <Skeleton className="max-w-[400px] rounded-lg h-16">
+                                <Skeleton className="max-w-[400px] rounded-lg h-[140px]">
                                     <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]">
                                         <CardBody className="flex-row justify-between"></CardBody>
                                     </Card>
                                 </Skeleton>
-                                <Skeleton className="max-w-[400px] rounded-lg h-16">
+                                <Skeleton className="max-w-[400px] rounded-lg h-[140px]">
                                     <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]">
                                         <CardBody className="flex-row justify-between"></CardBody>
                                     </Card>

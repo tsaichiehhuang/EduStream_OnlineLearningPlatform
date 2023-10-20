@@ -23,7 +23,6 @@ function useGetClass() {
             })
             const responseData = await response.json()
             if (response.ok && responseData?.data) {
-                console.log('hi')
                 setClassData(responseData.data.class)
             }
         } catch (error) {

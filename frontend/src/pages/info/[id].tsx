@@ -11,7 +11,6 @@ import useGetDefault from '@/hooks/Info/useGetDefault'
 import useGetWeeks from '@/hooks/Info/useGetWeek'
 import { useRouter } from 'next/router'
 import useOrderSection from '@/hooks/Info/useOrderSection'
-import { set } from 'lodash'
 
 export default function Info() {
     const [loading, setLoading] = useState(false)
@@ -69,9 +68,10 @@ export default function Info() {
             }
         }
     }
-    const handleEditMode = async () => {
+    console.log(requestbody.length)
+    const handleEditMode = () => {
         setEditMode(!editMode)
-        if (requestbody.length > 0) {
+        if (requestbody.length !== 0) {
             const requestBodyObject = { section: requestbody }
             orderSection(requestBodyObject, id)
         }

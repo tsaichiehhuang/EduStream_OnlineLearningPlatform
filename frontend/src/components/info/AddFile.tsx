@@ -195,7 +195,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
 }
 export const AddSubmittedArea = (sectionId: any) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
-    console.log(sectionId)
+
     return (
         <>
             <Tooltip

@@ -18,6 +18,8 @@ export default function Chatroom() {
                     JSON.stringify({
                         message: 'Entered',
                         liveID: liveID,
+                        userID: userID,
+                        name: name,
                     })
                 )
                 console.log('發送成功')

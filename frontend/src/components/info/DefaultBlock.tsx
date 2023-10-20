@@ -12,7 +12,6 @@ type DefaultBlockProps = {
 }
 
 const DefaultBlock: FC<DefaultBlockProps> = ({ data, editMode }) => {
-    console.log(data)
     return (
         <Card className=" bg-white rounded-[10px]  w-full mt-5  md:mt-0 py-8 md:px-12 border-none " shadow="sm">
             <CardBody className="  flex gap-4">

@@ -8,7 +8,7 @@ export default function Chatroom() {
     const [userID, setUserID] = useState<string | null>('')
     const [messages, setMessages] = useState<string[]>([])
     const [newMessage, setNewMessage] = useState<string>('')
-    const [liveID, setLiveID] = useState<string>('')
+    const [liveID, setLiveID] = useState<string>('1')
     useEffect(() => {
         setUserID(Cookies.get('userId'))
         setName(Cookies.get('userName'))

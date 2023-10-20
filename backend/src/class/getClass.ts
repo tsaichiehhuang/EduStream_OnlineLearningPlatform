@@ -50,7 +50,10 @@ export const getClass = (
               where: result
                 .sections!.map((sec) =>
                   sec
-                    .blocks!.filter((blk) => blk.homework !== undefined)
+                    .blocks!.filter(
+                      (blk) =>
+                        blk.homework !== null && blk.homework !== undefined
+                    )
                     .map((blk) => blk.homework!.id)
                 )
                 .flat()

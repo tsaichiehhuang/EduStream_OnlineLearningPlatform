@@ -103,7 +103,7 @@ export default function Home() {
                 <div className="w-8/12 flex-col  gap-8 flex">
                     <h3 className="  font-bold text-2xl">你的課程</h3>
 
-                    <div className="gap-4 grid grid-cols-4">
+                    <div className="gap-4 grid md:grid-cols-4 grid-cols-1">
                         {userRole === 'instructor' && <AddCourseButton />}
 
                         {!loading ? (

@@ -29,6 +29,8 @@ export const createLive = (app: Elysia) =>
           return "Unauthorized";
         }
 
+        console.warn("Create Live API Output：",profile,body,typeof(body))
+
         const access_token = process.env.API_TOKEN;
         const result = await (async function () {
           try {

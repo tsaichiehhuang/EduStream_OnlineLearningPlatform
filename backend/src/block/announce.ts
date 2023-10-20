@@ -20,11 +20,6 @@ const createAnnounce = (app: Elysia) =>
       }
 
       try {
-        const order = await Block.createQueryBuilder("block")
-          .select("MAX(block.order)", "max")
-          .where("block.sectionId = :sectionId", { sectionId: body.sectionId })
-          .getRawOne();
-
         // create announce
         const announceId = await create(body.content);
 
@@ -33,7 +28,6 @@ const createAnnounce = (app: Elysia) =>
           BlockType.Announcement,
           announceId,
           Number(body.sectionId),
-          order.max + 1
         );
 
         return {

@@ -21,7 +21,6 @@ function useAddSection() {
                 },
                 body: JSON.stringify(requestbody),
             })
-            // const responseData = await response.json()
             if (response.ok) {
                 Swal.fire({
                     icon: 'success',

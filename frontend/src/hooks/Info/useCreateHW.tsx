@@ -5,7 +5,6 @@ import Swal from 'sweetalert2'
 const apiUrl = process.env.API_DOMAIN
 
 function useCreateHW() {
-    const [classData, setClassData] = useState<ClassData[]>([])
     const accessToken = Cookies.get('accessToken')
 
     const createHW = async (requestBody: any, classId: any) => {
@@ -18,7 +17,6 @@ function useCreateHW() {
                 },
                 body: JSON.stringify(requestBody),
             })
-            const responseData = await response.json()
             if (response.ok) {
                 Swal.fire({
                     icon: 'success',
@@ -26,9 +24,9 @@ function useCreateHW() {
                     showConfirmButton: false,
                     timer: 1000,
                 })
-                setTimeout(() => {
-                    window.location.reload()
-                }, 1000)
+                // setTimeout(() => {
+                //     window.location.reload()
+                // }, 1000)
             }
         } catch (error) {
             Swal.fire('新增失敗', '', 'warning')

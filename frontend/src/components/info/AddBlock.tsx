@@ -22,7 +22,6 @@ const AddBlockModal: React.FC<AddBlockModalProps> = ({ isOpen, onOpenChange }) =
 
     const requestBody = {
         title: title,
-        order: 1,
     }
     const handleSubmit = () => {
         addSection(requestBody)

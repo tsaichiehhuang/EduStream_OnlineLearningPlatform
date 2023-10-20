@@ -62,7 +62,6 @@ const AddFileModal: React.FC<AddFileModalProps> = ({
         endTime: time,
         description: description,
         sectionId: sectionId,
-        order: blockOrder,
     }
     const handleSubmit = () => {
         createHW(requestBody, classId)
@@ -88,23 +87,31 @@ const AddFileModal: React.FC<AddFileModalProps> = ({
                         <ModalBody>
                             {status === 'submitted' ? (
                                 <>
+                                    <div className="text-sm flex-row flex items-center gap-1">
+                                        標題<div className="text-red-500 text-xs">* 必填</div>
+                                    </div>
                                     <Input
                                         variant="bordered"
-                                        label="標題"
+                                        label=""
                                         placeholder=" "
                                         color="default"
                                         labelPlacement="outside"
                                         onChange={(e) => setTitle(e.target.value)}
                                     />
+                                    <div className="text-sm flex-row flex items-center gap-1">
+                                        說明<div className="text-red-500 text-xs">* 必填</div>
+                                    </div>
                                     <Textarea
-                                        label="說明"
+                                        label=""
                                         variant="bordered"
                                         labelPlacement="outside"
-                                        placeholder="輸入說明"
+                                        placeholder="輸入說明，若無說明請填寫「無」"
                                         className="max-w-full"
                                         onChange={(e) => setDescription(e.target.value)}
                                     />
-                                    <p className="text-sm">到期日期</p>
+                                    <div className="text-sm flex-row flex items-center gap-1">
+                                        到期日期<div className="text-red-500 text-xs">* 必填</div>
+                                    </div>
                                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-cn">
                                         <ThemeProvider theme={customTheme(outerTheme)}>
                                             <DateTimeField
@@ -195,7 +202,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({
         </Modal>
     )
 }
-export const AddSubmittedArea = (sectionId: any, classId, blockOrder) => {
+export const AddSubmittedArea = (sectionId: any) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     console.log(sectionId)
     return (
@@ -250,7 +257,6 @@ export const AddSubmittedArea = (sectionId: any, classId, blockOrder) => {
                 status="submitted"
                 sectionId={sectionId.sectionId}
                 classId={sectionId.classId}
-                blockOrder={sectionId.blockOrder}
             />
         </>
     )

@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button } from '@nextui-org/react'
+import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button, Skeleton } from '@nextui-org/react'
 import Header from '@/components/header'
-import ClassMockData from '@/data/ClassMockData'
-import InstructorClassMockData from '@/data/InstructorClassMockData'
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { AddCourseButton } from '@/components/home/AddCourse'
 import Cookies from 'js-cookie'
 import useGetClass from '@/hooks/home/useGetClass'
@@ -23,6 +20,7 @@ import useGetClass from '@/hooks/home/useGetClass'
 // }
 
 export default function Home() {
+    const [loading, setLoading] = useState(false)
     const [theme, setTheme] = useState('light')
     const [userRole, setUserRole] = useState<string | null>('')
     const { getClass, classData } = useGetClass()
@@ -38,7 +36,7 @@ export default function Home() {
         window.location.href = `/info/${classId}`
     }
     useEffect(() => {
-        getClass()
+        getClass(setLoading)
         const intervalId = setInterval(() => {
             const newTime = new Date()
             setCurrentTime(newTime)
@@ -87,12 +85,7 @@ export default function Home() {
                                 </div>
                             </CardHeader>
 
-                            <CardBody>
-                                {renderTodayClasses()}
-                                {/* {todayClasses.map((data: any, index: number) => (
-                                    <div key={index}>{data.className}</div>
-                                ))} */}
-                            </CardBody>
+                            <CardBody>{renderTodayClasses()}</CardBody>
                         </Card>
                         <Card className=" border-l-5 border-mainBlue">
                             <CardHeader className="flex gap-3">
@@ -107,20 +100,40 @@ export default function Home() {
                     <div className="w-full md:w-5/12 flex-col  gap-8 flex">
                         <h3 className=" text-mainOrange font-bold text-2xl">你的課程</h3>
                         {userRole === 'instructor' && <AddCourseButton />}
-                        <div className="flex-col w-full gap-2 flex ">
-                            {classData.map((data: any) => (
-                                <Card
-                                    key={data.id}
-                                    className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]"
-                                    isPressable
-                                    onPress={() => handleClassClick(data.id, data.className)}
-                                >
-                                    <CardBody className="flex-row justify-between">
-                                        <div>{data.className}</div>
-                                        {userRole === 'student' && 'teacher' in data && <div>{data.teacher}</div>}
-                                    </CardBody>
-                                </Card>
-                            ))}
+                        <div className="flex-col w-full gap-2 flex">
+                            {!loading ? (
+                                classData.map((data: any) => (
+                                    <Card
+                                        key={data.id}
+                                        className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]"
+                                        isPressable
+                                        onPress={() => handleClassClick(data.id, data.className)}
+                                    >
+                                        <CardBody className="flex-row justify-between">
+                                            <div>{data.className}</div>
+                                            {userRole === 'student' && 'teacher' in data && <div>{data.teacher}</div>}
+                                        </CardBody>
+                                    </Card>
+                                ))
+                            ) : (
+                                <>
+                                    <Skeleton className="max-w-[400px] rounded-lg h-16">
+                                        <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]">
+                                            <CardBody className="flex-row justify-between"></CardBody>
+                                        </Card>
+                                    </Skeleton>
+                                    <Skeleton className="max-w-[400px] rounded-lg h-16">
+                                        <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]">
+                                            <CardBody className="flex-row justify-between"></CardBody>
+                                        </Card>
+                                    </Skeleton>
+                                    <Skeleton className="max-w-[400px] rounded-lg h-16">
+                                        <Card className="max-w-[400px] border-l-5 border-mainOrange hover:bg-[#f8fafc]">
+                                            <CardBody className="flex-row justify-between"></CardBody>
+                                        </Card>
+                                    </Skeleton>
+                                </>
+                            )}
                         </div>
                     </div>
                 </main>

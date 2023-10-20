@@ -14,6 +14,7 @@ import useOrderSection from '@/hooks/Info/useOrderSection'
 import { set } from 'lodash'
 
 export default function Info() {
+    const [loading, setLoading] = useState(false)
     const router = useRouter()
     const { id } = router.query
     const [userRole, setUserRole] = useState<string | null>('')
@@ -29,7 +30,7 @@ export default function Info() {
     const [requestbody, setRequestbody] = useState<any>([])
     useEffect(() => {
         getDefault()
-        getWeeks()
+        getWeeks(setLoading)
         if (typeof window !== 'undefined') {
             setIsBrowser(true)
         }
@@ -47,24 +48,14 @@ export default function Info() {
         if (!destination) {
             return
         }
-
-        // // 获取被拖动的块的位置
         const sourceIndex = source.index
         const destinationIndex = destination.index
-
-        // 复制当前的 blockPositions
         const newBlockPositions: Record<number, number> = { ...blockPositions }
-
-        // // 更新被拖动块的位置信息
         const [draggedBlock] = weekData.splice(sourceIndex, 1)
         weekData.splice(destinationIndex, 0, draggedBlock)
-
-        //更新 blockPositions 对象
         weekData.forEach((item, index) => {
             newBlockPositions[item.id] = index + 1
         })
-
-        // 设置新的 blockPositions 和 weekData
         setBlockPositions(newBlockPositions)
         setWeekData(weekData)
 
@@ -104,15 +95,21 @@ export default function Info() {
                                                     ref={provided.innerRef}
                                                     className="gap-4 flex flex-col"
                                                 >
-                                                    {weekData &&
+                                                    {loading ? (
+                                                        <div>loading</div>
+                                                    ) : (
+                                                        weekData &&
                                                         weekData.map((data, index) => (
                                                             <WeekBlock
                                                                 key={data.id}
                                                                 data={data}
                                                                 editMode={editMode}
                                                                 index={index}
+                                                                id={id}
                                                             />
-                                                        ))}
+                                                        ))
+                                                    )}
+
                                                     {provided.placeholder}
                                                 </div>
                                             )}

@@ -28,9 +28,9 @@ function useGetWeeks(id: any) {
         }
         // setLoading(false)
     }
-    useEffect(() => {
-        getWeeks()
-    }, [id])
+    // useEffect(() => {
+    //     getWeeks()
+    // }, [id])
     return { getWeeks, weeksData }
 }
 

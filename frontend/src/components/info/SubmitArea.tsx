@@ -12,11 +12,13 @@ type SubmitAreaProps = {
     data: any
     key: any
     editMode: any
+    id: any
 }
 type AddFileModalProps = {
     isOpen: any
     onOpenChange: any
     data: any
+    id: any
 }
 const userRole = Cookies.get('userRole')
 const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data, id }) => {
@@ -43,14 +45,20 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data,
                         <ModalBody>
                             <p className="text-sm">詳細說明</p>
                             <p className="text-sm text-gray-500">{data.homework.description || '無'}</p>
-                            <p className="text-sm">繳交資料</p>
-                            {hwData.length === 0 && <div className="text-sm text-gray-500">尚無繳交資料</div>}
-                            {hwData.map((item: any) => (
-                                <div key={item.id}>
-                                    <div>{item.content}</div>
-                                    <div>{item.score}</div>
-                                </div>
-                            ))}
+                            {userRole !== 'student' && (
+                                <>
+                                    {' '}
+                                    <p className="text-sm">繳交資料</p>
+                                    {hwData.length === 0 && <div className="text-sm text-gray-500">尚無繳交資料</div>}
+                                    {hwData.map((item: any) => (
+                                        <div key={item.id}>
+                                            <div>{item.content}</div>
+                                            <div>{item.score}</div>
+                                        </div>
+                                    ))}
+                                </>
+                            )}
+
                             {userRole === 'student' && (
                                 <>
                                     <Divider />

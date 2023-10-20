@@ -25,20 +25,11 @@ type AddFileModalProps = {
     isOpen: any
     onOpenChange: any
     status: string
-    id: any
-    sectionId: number
-    classId: number
-    blockOrder: number
+    sectionId: number | null
+    classId: number | null
 }
 
-const AddFileModal: React.FC<AddFileModalProps> = ({
-    isOpen,
-    onOpenChange,
-    status,
-    sectionId,
-    classId,
-    blockOrder,
-}) => {
+const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, status, sectionId, classId }) => {
     const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
     const [title, setTitle] = useState<string>('')
     const [time, setTime] = useState<string>('')
@@ -296,7 +287,13 @@ export const AddFileButton = () => {
                     新增資源
                 </Button>
             </Tooltip>
-            <AddFileModal isOpen={isOpen} onOpenChange={onOpenChange} status="addFile" id={null} />
+            <AddFileModal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                status="addFile"
+                sectionId={null}
+                classId={null}
+            />
         </>
     )
 }

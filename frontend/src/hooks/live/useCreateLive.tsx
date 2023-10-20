@@ -8,6 +8,7 @@ function useCreateLive() {
   const router = useRouter();
   const token = Cookies.get("accessToken");
   const classid = Cookies.get("classId");
+
   const createlive = async (name: string, classid: string) => {
     const requestBody = {
       name: name,

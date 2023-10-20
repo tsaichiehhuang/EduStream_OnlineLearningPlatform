@@ -26,9 +26,9 @@ function useGetHW() {
             console.error('Error fetching class data:', error)
         }
     }
-    useEffect(() => {
-        getHW()
-    }, [])
+    // useEffect(() => {
+    //     getHW()
+    // }, [])
     return { getHW, hwData }
 }
 

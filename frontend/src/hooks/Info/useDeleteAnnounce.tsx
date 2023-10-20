@@ -20,13 +20,13 @@ function useDeleteAnnounce() {
             if (response.ok) {
                 Swal.fire({
                     icon: 'success',
-                    title: '刪除成功',
+                    title: '新增成功',
                     showConfirmButton: false,
-                    timer: 500,
+                    timer: 700,
                 })
-                // setTimeout(() => {
-                //     window.location.reload()
-                // }, 800)
+                setTimeout(() => {
+                    window.location.reload()
+                }, 550)
             }
         } catch (error) {
             console.error('Error fetching class data:', error)

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const WeekMockData: WeekData[] = [
+export const WeekMockData: any = [
     {
         title: 'Week1 Introduction',
         blockId: 1,

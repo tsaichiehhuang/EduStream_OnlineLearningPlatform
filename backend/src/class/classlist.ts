@@ -67,8 +67,6 @@ const instructorList = async (id: number) => {
       return { data: { class: [] } };
     }
 
-    console.log(result);
-
     const classes = result.map((row) => {
       return {
         id: row.id,

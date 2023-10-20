@@ -53,7 +53,6 @@ const createHomework = (app: Elysia) =>
         };
       } catch (err) {
         set.status = 500;
-        console.log(err);
         return "Query Failed";
       }
     },
@@ -90,7 +89,6 @@ const updateHomework = (app: Elysia) =>
         };
       } catch (err) {
         set.status = 500;
-        console.log(err);
         return "Query Failed";
       }
     },

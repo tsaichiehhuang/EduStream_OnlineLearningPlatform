@@ -13,7 +13,7 @@ import { Announcement } from "./announcement";
 import { Block } from "./block";
 import { Section } from "./section";
 
-if (env.MODE === "testt") {
+if (env.MODE === "test") {
   console.info("DB running in test mode");
 }
 
@@ -22,7 +22,7 @@ export const Database = new DataSource({
   username: env.DB_USERNAME,
   password: env.DB_PASSWORD,
   host: env.DB_HOST,
-  database: env.MODE === "testt" ? "EduStream_test" : "EduStream",
+  database: env.MODE === "test" ? "EduStream_test" : "EduStream",
   entities: [
     User,
     Class,

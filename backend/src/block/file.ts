@@ -45,7 +45,6 @@ export const createFile = (app: Elysia) =>
           }
           throw err;
         } else {
-          console.error("unknown error in complete\n", err);
           throw err;
         }
       }

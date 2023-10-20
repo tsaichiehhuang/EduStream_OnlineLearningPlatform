@@ -14,6 +14,9 @@ import { drop } from "./enroll/drop";
 import { classlist } from "./class/classlist";
 import { create } from "./class/create";
 import { update } from "./class/update";
+import { getClass } from "./class/getClass";
+import { getHomework } from "./class/getHomework";
+
 import { defaultclass } from "./class/defaultclass";
 import { create as createSection } from "./section/create";
 import { update as updateSection } from "./section/update";
@@ -27,12 +30,11 @@ import { orderBlock } from "./block/order";
 import { getLive } from "./live/get";
 import { endLive } from "./live/end";
 import { startLive } from "./live/start";
+import { socketChat } from "./live/socket";
 import { cancelLive } from "./live/cancel";
 import { createLive } from "./live/create";
 import { archiveLive } from "./live/archive";
 import { previewLive } from "./live/preview";
-
-import { getClass } from "./class/get";
 
 import { download } from "./file/download";
 import { init } from "./file/upload/init";
@@ -44,6 +46,10 @@ await initDatabase();
 const app = new Elysia()
   .use(cors())
   .get("/", () => "Hello World!")
+  .group("/enroll", (app) => app.use(enroll).use(drop))
+  .group("/class", (app) =>
+    app.use(classlist).use(create).use(update).use(getClass).use(getHomework)
+  )
   .group("user", (app) => app.use(signup).use(signin).use(info))
   .use(auth)
   .group("/enroll", (app) => app.use(enroll).use(drop))
@@ -68,10 +74,10 @@ const app = new Elysia()
       .use(startLive)
       .use(cancelLive)
       .use(createLive)
+      .use(socketChat)
       .use(archiveLive)
       .use(previewLive)
   )
-  .group("/class", (app) => app.use(getClass))
   .group("/file", (app) =>
     app
       .use(download)

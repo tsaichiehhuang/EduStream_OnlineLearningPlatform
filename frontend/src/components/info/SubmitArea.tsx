@@ -129,7 +129,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data,
 export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode, id }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const [userRole, setUserRole] = useState<string | null>('')
-
+    console.log(id)
     useEffect(() => {
         setUserRole(Cookies.get('userRole'))
     }, [])

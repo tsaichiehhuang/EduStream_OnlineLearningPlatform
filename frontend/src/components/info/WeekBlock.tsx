@@ -20,7 +20,9 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
         Cookies.set('filePath', filePath)
         window.location.href = `/file/${fileId}`
     }
+    console.log('id', id)
 
+    console.log('classId', data.classId)
     return editMode ? (
         <Draggable draggableId={data?.id?.toString()} index={index}>
             {(provided) => (
@@ -142,7 +144,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                 {data.blocks.map((block: any, index: number) => {
                     switch (block.type) {
                         case 'homework':
-                            return <SubmitArea data={block} key={index} editMode={editMode} id={null} />
+                            return <SubmitArea data={block} key={index} editMode={editMode} id={id} />
                         case 'announcement':
                             return (
                                 <div key={index} className="flex flex-row justify-start gap-2">

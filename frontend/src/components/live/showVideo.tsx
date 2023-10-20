@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import videojs from 'video.js';
 
-const LiveStreamPage = (props) => {
+const LiveStreamPage = (props:any) => {
   // 通过 props 获取传递的参数
   const eventData = props.eventData;
 

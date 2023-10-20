@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button, Skeleton, Input, Chip } from '@nextui-org/react'
 import Cookies from 'js-cookie'
 
-const socket = new WebSocket('wss://107.22.142.48:3040/live/ws')
+const socket = new WebSocket('wss://107.22.142.48:3040/teacher/live')
 export default function Chatroom() {
     const [name, setName] = useState<string | null>('')
     const [userID, setUserID] = useState<string | null>('')

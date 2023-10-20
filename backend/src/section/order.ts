@@ -8,26 +8,43 @@ export const orderSection = (app: Elysia) =>
       // update section order into db for each section
 
       const sections = body.section;
+      const len = sections.length;
       try {
-        sections.forEach(async (row) => {
-          await Section.createQueryBuilder("section")
-            .update(Section)
-            .set({ order: row.order })
-            .where("id = :id", { id: row.id })
-            .execute();
+        const sectionUpdates: Section[] = [];
+
+        const updatePromises = sections.map(async (row) => {
+          const section = await Section.findOneBy({ id: row.id });
+          if (!section) {
+            set.status = 404;
+            throw "Section Not Found";
+          }
+          section.order = row.order + len;
+          await section.save();
+
+          section.order = row.order;
+          sectionUpdates.push(section);
+          console.log("test2", sectionUpdates);
         });
+        await Promise.all(updatePromises);
+
+        await Promise.all(
+          sectionUpdates.map(async (section) => {
+            await section.save();
+          })
+        );
+
+        return {
+          data: {
+            class: {
+              id: Number(id),
+            },
+          },
+        };
       } catch (err) {
         set.status = 500;
+        console.log(err);
         return "Query Failed";
       }
-
-      return {
-        data: {
-          class: {
-            id: Number(id),
-          },
-        },
-      };
     },
     {
       body: t.Object({

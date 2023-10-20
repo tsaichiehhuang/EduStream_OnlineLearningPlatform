@@ -3,7 +3,6 @@ import { Announcement } from "../models/announcement";
 import { Class } from "../models/class";
 import { createBlock } from "./block";
 import { BlockType } from "../types/type";
-import { Block } from "../models/block";
 
 // create block and announce
 const createAnnounce = (app: Elysia) =>

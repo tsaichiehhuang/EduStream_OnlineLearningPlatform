@@ -9,7 +9,6 @@ import {
 } from "../file/upload/complete";
 import { BlockType, KKFileUploadComplete } from "../types/type";
 import { createBlock } from "./block";
-import { Block } from "../models/block";
 import { File } from "../models/file";
 
 export const createFile = (app: Elysia) =>

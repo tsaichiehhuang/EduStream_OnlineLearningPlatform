@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button, Skeleton, Input, Chip } from '@nextui-org/react'
 import Cookies from 'js-cookie'
 
-const socket = new WebSocket('wss://107.22.142.48:3040/live')
+let socket: WebSocket;
 export default function Chatroom() {
     const [name, setName] = useState<string | null>('')
     const [userID, setUserID] = useState<string | null>('')
@@ -12,26 +12,21 @@ export default function Chatroom() {
     useEffect(() => {
         setUserID(Cookies.get('userId'))
         setName(Cookies.get('userName'))
-        async function sendMsg() {
-            console.log(typeof liveID, typeof userID, typeof name)
-            try {
-                socket.send(
-                    JSON.stringify({
-                        message: 'EduStream_test_connection',
-                        liveID: liveID,
-                        userID: userID,
-                        name: name,
-                    })
-                )
-                console.log('發送成功')
-            } catch (error) {
-                console.error('Error:', error)
-            }
-        }
-        sendMsg()
+        newSocket()
+    }, [])
+    const newSocket = () => {
+        socket = new WebSocket(`wss://${process.env.API_DOMAIN!.match(/https?:\/\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5})/)![1]}/live`)
         // 確認後端是否連線（常常顯示不出來是正常的）
         socket.onopen = (msg) => {
             console.log('open connection')
+            socket.send(
+                JSON.stringify({
+                    message: 'EduStream_test_connection',
+                    liveID: liveID,
+                    userID: userID,
+                    name: name,
+                })
+            )
         }
         // 收到後端訊息後要做什麼（把收到的訊息加進舊訊息的Array）
         socket.onmessage = (event) => {
@@ -51,8 +46,10 @@ export default function Chatroom() {
         // 確認後端是否關閉連線
         socket.onclose = () => {
             console.log('close connection')
+            newSocket();
+            console.log('connection re-established')
         }
-    }, [])
+    }
     const handleInputKeyPress = (e: any) => {
         if (e.key === 'Enter') {
             sendMessage()
@@ -65,7 +62,12 @@ export default function Chatroom() {
             userID: userID,
             name: name,
         })
-        socket.send(converted_msg)
+        try {
+            socket.send(converted_msg)
+        } catch (err) {
+            newSocket();
+            return;
+        }
         setMessages((prevMessages: any) => [...prevMessages, { message: newMessage, liveID, userID, name }])
         setNewMessage('')
     }

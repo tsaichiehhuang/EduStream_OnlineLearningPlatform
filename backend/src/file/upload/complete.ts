@@ -83,11 +83,12 @@ export async function complete({
         );
       }
       if (
-        err.response?.status === 500 &&
-        typeof err.response.data?.message === "string" &&
-        (err.response.data.message as string)?.includes(
-          "https response error StatusCode: 400"
-        )
+        err.response?.status === 400 ||
+        (err.response?.status === 500 &&
+          typeof err.response.data?.message === "string" &&
+          (err.response.data.message as string)?.includes(
+            "https response error StatusCode: 400"
+          ))
       ) {
         throw new InvalidArgs("Invalid args sent to remote", err.response);
       }

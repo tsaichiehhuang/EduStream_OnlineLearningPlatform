@@ -13,10 +13,10 @@ export const socket = (app: Elysia) =>
     },
     message(ws, data) {
       ws.subscribe(`live/${data.liveID}`);
-      if(data.message == 'EduStream_test_connection') { 
-        console.warn('Connect Initiated.') 
+      if (data.message == "EduStream_test_connection") {
+        console.warn("Connect Initiated.");
       } else {
         ws.publish(`live/${data.liveID}`, JSON.stringify(data));
-      } 
+      }
     },
   });

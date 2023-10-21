@@ -24,7 +24,7 @@ function useGetWeeks(id: any) {
             if (response.ok) {
                 setWeeksData(responseData.data.class.sections)
 
-                Cookies.set('liveId', responseData.data.class.stream)
+                Cookies.set('liveid', responseData.data.class.stream)
             }
         } catch (error) {
             console.error('Error fetching class data:', error)

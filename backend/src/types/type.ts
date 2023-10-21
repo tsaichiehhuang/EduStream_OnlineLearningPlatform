@@ -23,13 +23,17 @@ export const KKFileUploadComplete = t.Object({
     format: "uuid",
     default: "00000000-0000-0000-0000-000000000000",
   }),
-  uploadId: t.String(),
-  checksum_sha1: t.String({ pattern: "^[a-zA-Z0-9+/]{27}=$", default: "" }), // base64 encoded SHA-1 checksum
-  parts: t.Array(
-    t.Object({
-      part_number: t.Number({ minimum: 1, multipleOf: 1 }),
-      etag: t.String(),
-    })
+  uploadId: t.Optional(t.String()),
+  checksum_sha1: t.Optional(
+    t.String({ pattern: "^[a-zA-Z0-9+/]{27}=$", default: "" })
+  ), // base64 encoded SHA-1 checksum
+  parts: t.Optional(
+    t.Array(
+      t.Object({
+        part_number: t.Number({ minimum: 1, multipleOf: 1 }),
+        etag: t.String(),
+      })
+    )
   ),
 });
 

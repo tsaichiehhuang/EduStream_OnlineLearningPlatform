@@ -8,6 +8,7 @@ import { AddTextButton } from './AddText'
 import { SubmitArea } from './SubmitArea'
 import Cookies from 'js-cookie'
 import useDownloadFile from '@/hooks/Info/useDownloadFile'
+import useGetSummary from '@/hooks/Info/useGetSummary'
 
 type WeekBlockProps = {
     data: any
@@ -20,6 +21,12 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
     const { downloadFile } = useDownloadFile()
     const handleFileClick = (fileId: number, fileName: string) => {
         downloadFile(fileId, fileName)
+    }
+    const { getSummary, summaryData } = useGetSummary()
+    const handleSummary = (fileId: any, fileName: string) => {
+        Cookies.set('fileName', fileName)
+        window.open(`http://localhost:3000/point/${fileId}`, '_blank')
+        Cookies.set('fileId', fileId)
     }
 
     return editMode ? (
@@ -200,6 +207,16 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                                         {getFileIcon(block.file.name)}
                                         {block.file.name}
                                     </Link>
+
+                                    {block.file.name.endsWith('.pdf') && (
+                                        <Button
+                                            size="sm"
+                                            className="bg-mainGreen text-white"
+                                            onClick={() => handleSummary(block.file.id, block.file.name)}
+                                        >
+                                            生成重點
+                                        </Button>
+                                    )}
                                 </div>
                             )
                     }

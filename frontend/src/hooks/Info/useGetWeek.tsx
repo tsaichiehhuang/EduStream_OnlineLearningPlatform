@@ -7,6 +7,7 @@ const apiUrl = process.env.API_DOMAIN
 
 function useGetWeeks(id: any) {
     const [weeksData, setWeeksData] = useState<WeekData[]>([])
+
     const accessToken = Cookies.get('accessToken')
 
     const getWeeks = async (setLoading: any) => {
@@ -22,6 +23,8 @@ function useGetWeeks(id: any) {
             const responseData = await response.json()
             if (response.ok) {
                 setWeeksData(responseData.data.class.sections)
+
+                Cookies.set('liveId', responseData.data.class.stream)
             }
         } catch (error) {
             console.error('Error fetching class data:', error)

@@ -36,9 +36,9 @@ function useTeacherLocalFinal() {
                     showConfirmButton: false,
                     timer: 1000,
                 })
-                // setTimeout(() => {
-                //     window.location.reload()
-                // }, 1100)
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1100)
             } else {
                 Swal.fire('老師上傳本地確認失敗', '', 'warning')
             }

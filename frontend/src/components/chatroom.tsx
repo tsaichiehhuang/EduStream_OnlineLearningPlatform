@@ -1,21 +1,24 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button, Skeleton, Input, Chip } from '@nextui-org/react'
 import Cookies from 'js-cookie'
 
-let socket: WebSocket;
+let socket: WebSocket
 export default function Chatroom() {
     const [name, setName] = useState<string | null>('')
     const [userID, setUserID] = useState<string | null>('')
     const [messages, setMessages] = useState<object[]>([])
     const [newMessage, setNewMessage] = useState<string>('')
-    const [liveID, setLiveID] = useState<string>('1') //等沛婕做完liveID的cookie再改
+    const [liveID, setLiveID] = useState<any>() //等沛婕做完liveID的cookie再改
     useEffect(() => {
+        setLiveID(Cookies.get('liveId'))
         setUserID(Cookies.get('userId'))
         setName(Cookies.get('userName'))
         newSocket()
     }, [])
     const newSocket = () => {
-        socket = new WebSocket(`wss://${process.env.API_DOMAIN!.match(/https?:\/\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5})/)![1]}/live`)
+        socket = new WebSocket(
+            `wss://${process.env.API_DOMAIN!.match(/https?:\/\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5})/)![1]}/live`
+        )
         // 確認後端是否連線（常常顯示不出來是正常的）
         socket.onopen = (msg) => {
             console.log('open connection')
@@ -46,7 +49,7 @@ export default function Chatroom() {
         // 確認後端是否關閉連線
         socket.onclose = () => {
             console.log('close connection')
-            newSocket();
+            newSocket()
             console.log('connection re-established')
         }
     }
@@ -65,17 +68,27 @@ export default function Chatroom() {
         try {
             socket.send(converted_msg)
         } catch (err) {
-            newSocket();
-            return;
+            newSocket()
+            return
         }
         setMessages((prevMessages: any) => [...prevMessages, { message: newMessage, liveID, userID, name }])
         setNewMessage('')
     }
+
+    // 如果有新的訊息，捲動到最底下以顯示新的訊息
+    const cardBodyRef = useRef(null)
+    useEffect(() => {
+        const element = cardBodyRef.current
+        if (element) {
+            element.scrollTop = element.scrollHeight
+        }
+    }, [messages])
+
     return (
         <Card className=" w-full  max-h-[450px]">
             <CardHeader className="flex gap-3 justify-between text-lg font-bold">聊天室</CardHeader>
             <Divider />
-            <CardBody className="flex flex-col min-h-[350px] max-h-[350px] overflow-y-scroll gap-4">
+            <CardBody ref={cardBodyRef} className="flex flex-col min-h-[350px] max-h-[350px] overflow-y-scroll gap-4">
                 {messages.map((message: any, index) => (
                     <div key={index} className="flex flex-col gap-0.5">
                         <div className="text-xs">{message.name}</div>

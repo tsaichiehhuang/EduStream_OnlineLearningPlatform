@@ -38,7 +38,10 @@ function useCreateLive() {
           timer: 1000,
         });
         Cookies.set("liveid", responseData.data.live.id);
-        window.location.href = `/teacher/setting${responseData.data.live.id}`;
+        setTimeout(() => {
+          window.location.href = `/live-setting/${responseData.data.live.id}`;
+        }, 5000);
+
         console.log("發送成功");
       } else {
         Swal.fire("直播創建失敗", "", "warning");

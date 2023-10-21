@@ -20,8 +20,8 @@ function useGetLive() {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
+            "Content-Type": "application/json",
+          },
         }
       );
       const responseData = await response.json();
@@ -32,10 +32,8 @@ function useGetLive() {
           text: `Link: ${responseData.live.setup.links}\nKey: ${responseData.live.setup.key}`,
           showConfirmButton: false,
           timer: 1000,
-          
         });
         setliveurl(responseData.live.setup.url);
-        
       } else {
         Swal.fire("直播資訊失敗", "", "warning");
       }
@@ -48,7 +46,7 @@ function useGetLive() {
     }
   };
 
-  return { getLive,liveurl};
+  return { getLive, liveurl };
 }
 
 export default useGetLive;

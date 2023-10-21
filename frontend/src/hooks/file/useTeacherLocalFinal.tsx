@@ -11,11 +11,12 @@ function useTeacherLocalFinal() {
   const classid = Cookies.get("classId");
   const [type, settype] = useState("");
 
-  const teacherlocalfinal = async (id: string) => {
+  const teacherlocalfinal = async (id: string, sectionId: string) => {
     const requestBody = {
       file: {
         id: id,
       },
+      sectionId: sectionId,
     };
 
     try {

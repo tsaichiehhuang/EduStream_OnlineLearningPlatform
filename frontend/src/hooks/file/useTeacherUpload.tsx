@@ -13,7 +13,7 @@ function useTeacherUpload() {
   const [type, settype] = useState("");
   const { uploadtolocal } = useUploadtoLocal();
 
-  const teacherupload = async (name: string, file: File) => {
+  const teacherupload = async (name: string, file: File,sectionId:string) => {
     const requestBody = {
       name: name,
       size: file.size,
@@ -38,7 +38,7 @@ function useTeacherUpload() {
 
         if (responseData.location == "local") {
           //第一步
-          uploadtolocal(responseData.id, file);
+          uploadtolocal(responseData.id, file,sectionId);
           //第二步
         } else if (responseData.location == "kkCompany") {
         }

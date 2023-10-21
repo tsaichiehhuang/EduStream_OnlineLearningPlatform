@@ -35,7 +35,8 @@ function usePreviewLive() {
         });
         startLive();
       } else {
-        Swal.fire("直播準備失敗", "", "warning");
+        console.log("直播準備失敗")
+      
       }
     } catch (error) {
       Swal.fire({

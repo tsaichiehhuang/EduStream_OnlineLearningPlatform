@@ -12,7 +12,7 @@ function useUploadtoLocal() {
   const classid = Cookies.get("classId");
   const { teacherlocalfinal } = useTeacherLocalFinal();
 
-  const uploadtolocal = async (id: string, file: File) => {
+  const uploadtolocal = async (id: string, file: File,sectionId:string) => {
     const formData = new FormData();
     formData.append("id", id);
     formData.append("file", file);
@@ -28,14 +28,14 @@ function useUploadtoLocal() {
 
       const responseData = await response.json();
       if (response.ok) {
-        teacherlocalfinal(id);
+        teacherlocalfinal(id,sectionId);
         console.log("檔案上傳本地端成功");
       } else {
         console.log("檔案上傳本地端失敗");
-        teacherlocalfinal(id);
+        teacherlocalfinal(id,sectionId);
       }
     } catch (error) {
-      teacherlocalfinal(id);
+      teacherlocalfinal(id,sectionId);
       console.log("網路請求錯誤");
     }
   };

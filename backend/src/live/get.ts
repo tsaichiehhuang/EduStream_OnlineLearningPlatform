@@ -1,25 +1,10 @@
 import process from "process";
 import { t } from "elysia";
 import axios, { AxiosError } from "axios";
-import { jwt } from "@elysiajs/jwt";
-import { bearer } from "@elysiajs/bearer";
+import { AuthType } from "../types/type";
 
-export const getLive = (app: Elysia) =>
+export const getLive = (app: AuthType) =>
   app
-    .use(
-      jwt({
-        name: "jwt",
-        secret: process.env.JWT_SECRET ? process.env.JWT_SECRET : "",
-      })
-    )
-    .use(bearer())
-    .derive(async ({ jwt, bearer }) => {
-      const profile = await jwt.verify(bearer);
-
-      return {
-        profile: profile,
-      };
-    })
     .get(
       "/:liveId",
       async ({ profile, params, set }) => {

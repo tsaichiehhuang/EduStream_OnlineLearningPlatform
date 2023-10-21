@@ -6,7 +6,7 @@ import { use } from 'video.js/dist/types/tech/middleware'
 
 const apiUrl = process.env.API_DOMAIN
 
-function useGetSummary() {
+function useGetSummary(setLoading: any) {
     const router = useRouter()
     const { id } = router.query
     const [defaultInfoData, setDefaultInfoData] = useState<DefaultData[]>([])
@@ -15,6 +15,7 @@ function useGetSummary() {
 
     const getSummary = async (fileId: any) => {
         try {
+            setLoading(true)
             const response = await fetch(`${apiUrl}/summary/${fileId}`, {
                 method: 'POST',
                 headers: {
@@ -25,7 +26,7 @@ function useGetSummary() {
             const responseData = await response.json()
 
             if (response.ok) {
-                setSummaryData(responseData.message)
+                setSummaryData(responseData.message.text)
                 // Swal.fire({
                 //     icon: 'success',
                 //     title: '新增成功',
@@ -39,9 +40,11 @@ function useGetSummary() {
         } catch (error) {
             console.error('Error fetching class data:', error)
             Swal.fire('生成失敗', '', 'warning')
+        } finally {
+            // 最后设置加载状态为 false
+            setLoading(false)
         }
     }
-
     return { getSummary, summaryData }
 }
 

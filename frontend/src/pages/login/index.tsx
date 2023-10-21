@@ -148,14 +148,14 @@ export default function Login() {
                                 )}
                             </form>
 
-                            <div className="text-center mt-3">
+                            {/* <div className="text-center mt-3">
                                 <div className="text-gray-700">
                                     尚未成為會員?{' '}
                                     <Link className="text-mainBlue" href="/signup">
                                         會員註冊
                                     </Link>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="md:w-[35%] md:flex hidden bg-mainBlue rounded-r-lg"></div>
                     </div>

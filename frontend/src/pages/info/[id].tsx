@@ -27,6 +27,7 @@ export default function Info() {
     const [className, setClassName] = useState<string | null>('')
     const { orderSection } = useOrderSection()
     const [requestbody, setRequestbody] = useState<any>([])
+
     useEffect(() => {
         getDefault()
         getWeeks(setLoading)
@@ -159,19 +160,29 @@ export default function Info() {
 
                                     <Card className="max-w-[400px] border-l-5 border-mainGreen">
                                         <CardHeader className="flex gap-3">
-                                            <h2 className="text-mainGreen text-xl font-bold">近日事項</h2>
+                                            <h2 className="text-mainGreen text-xl font-bold">近日繳交事項</h2>
                                         </CardHeader>
 
                                         <CardBody>
-                                            {weeksData.map((week: any) =>
-                                                week.blocks
-                                                    .filter(
-                                                        (block: any) =>
-                                                            block.type === 'homework' && !block.homework?.done
-                                                    )
-                                                    .map((homework: any) => (
-                                                        <p key={homework.id}>尚未完成：{homework.homework?.title}</p>
-                                                    ))
+                                            {weeksData.some((week: any) =>
+                                                week.blocks.some(
+                                                    (block: any) => block.type === 'homework' && !block.homework?.done
+                                                )
+                                            ) ? (
+                                                weeksData.map((week: any) =>
+                                                    week.blocks
+                                                        .filter(
+                                                            (block: any) =>
+                                                                block.type === 'homework' && !block.homework?.done
+                                                        )
+                                                        .map((homework: any) => (
+                                                            <p key={homework.id}>
+                                                                尚未完成：{homework.homework?.title}
+                                                            </p>
+                                                        ))
+                                                )
+                                            ) : (
+                                                <div>無尚未完成事項</div>
                                             )}
                                         </CardBody>
                                     </Card>

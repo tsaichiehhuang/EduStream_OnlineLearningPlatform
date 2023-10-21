@@ -7,6 +7,7 @@ import {
 } from "typeorm";
 import { UserRole } from "../types/type";
 import { Enroll } from "./enroll";
+import { Submission } from "./submission";
 
 @Entity("User")
 export class User extends BaseEntity {
@@ -27,4 +28,7 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Enroll, (enroll) => enroll.student)
   enrolls?: Enroll[];
+
+  @OneToMany(() => Submission, (submission) => submission.user)
+  submissions?: import("./submission").Submission[];
 }

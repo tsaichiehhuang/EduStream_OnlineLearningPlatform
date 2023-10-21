@@ -20,14 +20,14 @@ export class Submission extends BaseEntity {
 
   @ManyToOne(() => Homework)
   @JoinColumn({ name: "hwId" })
-  homework?: Homework;
+  homework?: import("./homework").Homework;
 
   @Column({ type: "int", unsigned: true, nullable: false })
   userId!: number;
 
   @ManyToOne(() => User)
   @JoinColumn({ name: "userId" })
-  user?: User;
+  user?: import("./user").User;
 
   @Column({ type: "char", length: 36, nullable: true })
   fileId?: string;

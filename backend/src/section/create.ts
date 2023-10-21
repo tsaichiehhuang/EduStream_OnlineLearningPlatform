@@ -6,6 +6,10 @@ export const create = (app: Elysia) =>
   app.post(
     "/:id/section",
     async ({ profile, set, body, params: { id } }) => {
+      if (!profile) {
+        set.status = 401;
+        return "Unauthorized";
+      }
       const isClass = await Class.findOneBy({
         instructorId: Number(profile.id),
         id: Number(id),

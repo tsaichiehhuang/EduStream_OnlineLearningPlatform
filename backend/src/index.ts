@@ -28,6 +28,7 @@ import { homeworkRoutes } from "./block/homework";
 import { createFile, removeFile } from "./block/file";
 import { orderBlock } from "./block/order";
 
+import { overview as homeworkOverview } from "./class/homework/overview";
 import { socket } from "./socket/socket";
 
 import { getLive } from "./live/get";
@@ -46,12 +47,12 @@ import { cancel } from "./file/upload/cancel";
 await initDatabase();
 
 const app = new Elysia()
+  .use(socket)
   .use(cors())
   .get("/", () => "Hello World!")
   .group("user", (app) => app.use(signup).use(signin).use(info))
   .use(auth)
   .group("/enroll", (app) => app.use(enroll).use(drop))
-  .group("/teacher", (app) => app.use(socket))
   .group("/class", (app) =>
     app
       .use(classlist)
@@ -65,6 +66,7 @@ const app = new Elysia()
       .group("/section", (app) =>
         app.use(updateSection).use(deleteSection).use(orderBlock)
       )
+      .group("/homework", (app) => app.use(homeworkOverview))
       .use(announceRoutes)
       .use(homeworkRoutes)
       .use(createFile)

@@ -37,6 +37,7 @@
     "devDependencies": {
         "@types/js-cookie": "^3.0.4",
         "@types/node": "^20.8.2",
+        "@types/node-fetch": "^2.6.7",
         "@types/react": "^18.2.24",
         "@types/react-beautiful-dnd": "^13.1.6",
         "autoprefixer": "^10.4.16",

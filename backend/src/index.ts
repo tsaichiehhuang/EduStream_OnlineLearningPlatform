@@ -44,7 +44,7 @@ import { download } from "./file/download";
 import { init } from "./file/upload/init";
 import { binary } from "./file/upload/binary";
 import { cancel } from "./file/upload/cancel";
-import { createSummary } from "./summary/create";
+// import { createSummary } from "./summary/create";
 
 await initDatabase();
 
@@ -67,7 +67,7 @@ const app = new Elysia()
       .group("/section", (app) =>
         app.use(updateSection).use(deleteSection).use(orderBlock)
       )
-      .group("/homework", (app) =>
+      .group("/homework", (app) => 
         app.use(homeworkOverview).use(deleteHomework)
       )
       .use(announceRoutes)
@@ -75,8 +75,8 @@ const app = new Elysia()
       .use(createFile)
       .use(removeFile)
   )
-  .group("/summary", (app) => app.use(createSummary))
-  .group("live", (app) =>
+  // .group("/summary", (app) => app.use(createSummary))
+  .group("live", (app) => 
     app
       .use(getLive)
       .use(endLive)

@@ -6,7 +6,7 @@ import {
   JoinColumn,
   BaseEntity,
   OneToMany,
-  OneToOne
+  OneToOne,
 } from "typeorm";
 import { User } from "./user";
 import { Section } from "./section";

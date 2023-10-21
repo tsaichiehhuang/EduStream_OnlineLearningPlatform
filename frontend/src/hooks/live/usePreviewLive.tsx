@@ -22,7 +22,7 @@ function usePreviewLive() {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
         }
       );
@@ -30,13 +30,12 @@ function usePreviewLive() {
       if (response.ok) {
         Swal.fire({
           icon: "success",
-          title: "直播準備成功",
+          title: "直播還在準備中",
           showConfirmButton: false,
           timer: 1000,
         });
-        startLive();
       } else {
-        console.log("直播準備失敗")
+        console.log("直播準備失敗");
       }
     } catch (error) {
       Swal.fire({

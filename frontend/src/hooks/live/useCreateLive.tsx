@@ -38,9 +38,10 @@ function useCreateLive() {
           timer: 1000,
         });
         Cookies.set("liveid", responseData.data.live.id);
+        Cookies.set("livename", responseData.data.live.name);
         setTimeout(() => {
           window.location.href = `/live-setting/${responseData.data.live.id}`;
-        }, 5000);
+        }, 1000);
 
         console.log("發送成功");
       } else {

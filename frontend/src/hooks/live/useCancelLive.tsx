@@ -33,14 +33,11 @@ function useCancelLive() {
         });
         endLive();
       } else {
-        Swal.fire("直播取消失敗", "", "warning");
+        console.log("直播取消失敗");
+        endLive();
       }
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "網路請求錯誤",
-        text: "請稍後再試或通知我們的工程團隊。",
-      });
+      console.log(error);
     }
   };
 

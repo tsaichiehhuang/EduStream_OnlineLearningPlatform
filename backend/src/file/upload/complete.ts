@@ -33,6 +33,9 @@ export async function complete({
   const file = await File.findOneBy({ id: id });
   if (file != null) {
     if (file.location === "local") {
+      if (file.path === null || file.path === undefined) {
+        throw new FileNotFoundError("file not completely uploaded");
+      }
       return;
     } else if (file.location === "kkCompany") {
       throw new AlreadyUploadedError();

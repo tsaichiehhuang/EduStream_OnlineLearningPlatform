@@ -23,47 +23,47 @@ const kkSuccessBody = z.object({
 });
 
 async function kkUpload(name: string, size: number) {
-  const kkFileTypes = ["FILE_TYPE_VIDEO", "FILE_TYPE_IMAGE"];
+  // const kkFileTypes = ["FILE_TYPE_VIDEO", "FILE_TYPE_IMAGE"];
 
-  for (const ft of kkFileTypes) {
-    try {
-      const result = kkSuccessBody.parse(
-        (
-          await axios.post(
-            "cms/v1/library/files:upload",
-            {
-              file: {
-                type: ft,
-                name: name,
-                size: size,
-              },
-            },
-            {
-              baseURL: KK_API_ENDPOINT,
-              headers: {
-                Authorization: `Bearer ${env.API_TOKEN}`,
-                "x-bv-org-id": env.X_BV_ORG_ID,
-              },
-            }
-          )
-        ).data
-      );
-      console.log(`initialize file upload to KK:`, {
-        fileName: name,
-        fileSize: size,
-        fileId: result.file.id,
-        partId: result.upload_data.id,
-      });
-      return result;
-    } catch (error) {
-      if (error instanceof ZodError) {
-        console.error(
-          `wrong schema return by KK when initializing upload.\n${error.issues}`
-        );
-        throw error;
-      }
-    }
-  }
+  // for (const ft of kkFileTypes) {
+  //   try {
+  //     const result = kkSuccessBody.parse(
+  //       (
+  //         await axios.post(
+  //           "cms/v1/library/files:upload",
+  //           {
+  //             file: {
+  //               type: ft,
+  //               name: name,
+  //               size: size,
+  //             },
+  //           },
+  //           {
+  //             baseURL: KK_API_ENDPOINT,
+  //             headers: {
+  //               Authorization: `Bearer ${env.API_TOKEN}`,
+  //               "x-bv-org-id": env.X_BV_ORG_ID,
+  //             },
+  //           }
+  //         )
+  //       ).data
+  //     );
+  //     console.log(`initialize file upload to KK:`, {
+  //       fileName: name,
+  //       fileSize: size,
+  //       fileId: result.file.id,
+  //       partId: result.upload_data.id,
+  //     });
+  //     return result;
+  //   } catch (error) {
+  //     if (error instanceof ZodError) {
+  //       console.error(
+  //         `wrong schema return by KK when initializing upload.\n${error.issues}`
+  //       );
+  //       throw error;
+  //     }
+  //   }
+  // }
   throw new Error("not accepted by KKStream");
 }
 

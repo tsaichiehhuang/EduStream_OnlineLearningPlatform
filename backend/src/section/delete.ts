@@ -1,8 +1,7 @@
-import { Elysia } from "elysia";
 import { Section } from "../models/section";
-import { Class } from "../models/class";
+import { AuthType } from "../types/type";
 
-export const deleteSection = (app: Elysia) =>
+export const deleteSection = (app: AuthType) =>
   app.delete("/:id", async ({ profile, set, params: { id } }) => {
     try {
       await Section.createQueryBuilder("section")

@@ -1,12 +1,12 @@
-import { Elysia, t } from "elysia";
+import { t } from "elysia";
 import { Section } from "../models/section";
+import { AuthType } from "../types/type";
 
-export const orderSection = (app: Elysia) =>
+export const orderSection = (app: AuthType) =>
   app.put(
     "/:id/section/order",
-    async ({ profile, set, body, params: { id } }) => {
+    async ({ set, body, params: { id } }) => {
       // update section order into db for each section
-
       const sections = body.section;
       const len = sections.length;
       try {

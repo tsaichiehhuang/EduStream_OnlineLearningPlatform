@@ -1,10 +1,11 @@
-import { Elysia, t } from "elysia";
+import { t } from "elysia";
 import { Block } from "../models/block";
+import { AuthType } from "../types/type";
 
-export const orderBlock = (app: Elysia) =>
+export const orderBlock = (app: AuthType) =>
   app.put(
     "/:id/block/order",
-    async ({ profile, set, body, params: { id } }) => {
+    async ({ set, body, params: { id } }) => {
       // update block order into db for each block
 
       const blocks = body.block;

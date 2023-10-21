@@ -1,9 +1,10 @@
-import { Elysia, t } from "elysia";
+import { t } from "elysia";
 import { Class } from "../models/class";
 import { Section } from "../models/section";
 import { UserRole } from "../types/type";
+import { AuthType } from "../types/type";
 
-export const create = (app: Elysia) =>
+export const create = (app: AuthType) =>
   app.post(
     "/",
     async ({ profile, set, body }) => {

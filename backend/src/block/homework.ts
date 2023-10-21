@@ -4,9 +4,10 @@ import { createBlock } from "./block";
 import { BlockType } from "../types/type";
 import { Homework } from "../models/homework";
 import { submit } from "../class/homework/submission/submit";
+import { AuthType } from "../types/type";
 
 // create block and homework
-const createHomework = (app: Elysia) =>
+const createHomework = (app: AuthType) =>
   app.post(
     "/:id/homework",
     async ({ body, profile, set, params: { id } }) => {
@@ -76,7 +77,7 @@ const createHomework = (app: Elysia) =>
   );
 
 // update block and homework
-const updateHomework = (app: Elysia) =>
+const updateHomework = (app: AuthType) =>
   app.put(
     "/:id",
     async ({ body, profile, set, params: { id } }) => {
@@ -111,7 +112,7 @@ const updateHomework = (app: Elysia) =>
   );
 
 // delete block and homework
-const deleteHomework = (app: Elysia) =>
+const deleteHomework = (app: AuthType) =>
   app.delete(
     "/:id",
     async ({ profile, set, params: { id } }) => {

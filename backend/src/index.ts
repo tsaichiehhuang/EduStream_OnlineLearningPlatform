@@ -44,6 +44,7 @@ import { download } from "./file/download";
 import { init } from "./file/upload/init";
 import { binary } from "./file/upload/binary";
 import { cancel } from "./file/upload/cancel";
+import { createSummary } from "./summary/create";
 
 await initDatabase();
 
@@ -74,6 +75,7 @@ const app = new Elysia()
       .use(createFile)
       .use(removeFile)
   )
+  .group("/summary", (app) => app.use(createSummary))
   .group("live", (app) =>
     app
       .use(getLive)

@@ -29,7 +29,7 @@ import { Inter } from 'next/font/google'
 import Header from '@/components/header'
 import { NextUIProvider } from '@nextui-org/react'
 import Chatroom from '@/components/chatroom'
-import OpenAi from '@/components/openAI'
+import OpenAI from '@/components/openAI'
 
 export default function Live() {
     const { previewLive } = usePreviewLive()
@@ -130,11 +130,12 @@ export default function Live() {
             <Header toggleTheme={toggleTheme} theme={theme} />
 
             <main className="px-20 w-full flex   flex-row mt-5 gap-5 items-start justify-center">
-                <div className="w-1/2 md:7/12 flex-col">
+                <div className="w-1/2 md:7/12 flex-col gap-4 flex">
                     <div className="flex flex-col  w-full h-1/5  md:h-96">
                         <LiveStreamPlayer source={liveurl} />
                         {/* <div className="bg-gray-500  w-full h-full "></div> */}
-                        <div className="text-3xl font-medium pt-2 px-2 md-4">
+                        <div className="text-xl font-semibold pt-2 px-2 mb-4">
+                            直播名稱
                             {livename === null ? <span>直播名稱</span> : <span>{livename}</span>}
                         </div>
                     </div>
@@ -212,7 +213,7 @@ export default function Live() {
                     )}
                 </div>
 
-                <div className="w-full  h-1/5  md:w-5/12 flex flex-col gap-4">
+                <div className="w-full  h-1/5  md:w-5/12 flex flex-col ">
                     <Tabs aria-label="Options" size="sm">
                         <Tab key="chatroom" title="聊天室">
                             <Chatroom />

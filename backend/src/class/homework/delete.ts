@@ -10,7 +10,7 @@ export const deleteHomework = (app: AuthType) =>
     async ({ profile, params, set }) => {
       try {
         const sub = await Submission.findOneBy({
-          hwId: Number(params.id),
+          hwId: params.id,
           userId: profile.id,
         });
         if (!sub) {
@@ -89,7 +89,7 @@ export const deleteHomework = (app: AuthType) =>
     },
     {
       params: t.Object({
-        id: t.String(),
+        id: t.Numeric(),
       }),
     }
   );

@@ -4,9 +4,7 @@ import { User } from "../../models/user";
 import { AuthType } from "../../types/type";
 
 // Endpoint: /class/homework/:id/overview
-export const overview = (
-  app: AuthType 
-) =>
+export const overview = (app: AuthType) =>
   app.get(
     "/:id/overview",
     async ({ profile, set, params: { id } }) => {

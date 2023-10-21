@@ -124,14 +124,11 @@ export interface IToken {
 export type IKKFileUploadComplete = (typeof KKFileUploadComplete)["static"];
 
 export type AuthType = Elysia<
-"",
-{
-  request: {
-    profile: Exclude<
-      ElysiaRequest<typeof auth>["profile"],
-      null | undefined
-    >;
-  };
-  store: {};
-}
->
+  "",
+  {
+    request: {
+      profile: Exclude<ElysiaRequest<typeof auth>["profile"], null | undefined>;
+    };
+    store: {};
+  }
+>;

@@ -4,7 +4,6 @@ import {
   KKUploadError,
   AlreadyUploadedError,
   FileNotFoundError,
-  IsLocalError,
   InvalidArgs,
 } from "../file/upload/complete";
 import { BlockType, KKFileUploadComplete } from "../types/type";
@@ -36,9 +35,6 @@ export const createFile = (app: Elysia) =>
           } else if (err instanceof FileNotFoundError) {
             set.status = 404;
             return "file not found";
-          } else if (err instanceof IsLocalError) {
-            set.status = 400;
-            return "local file";
           } else if (err instanceof InvalidArgs) {
             set.status = 400;
             return "Invalid args sent to remote";

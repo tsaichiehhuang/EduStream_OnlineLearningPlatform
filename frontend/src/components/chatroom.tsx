@@ -71,7 +71,12 @@ export default function Chatroom() {
             userID: userID,
             name: name,
         })
-        socket.send(converted_msg)
+        try {
+            socket.send(converted_msg)
+        } catch (err) {
+            newSocket();
+            return;
+        }
         setMessages((prevMessages: any) => [...prevMessages, { message: newMessage, liveID, userID, name }])
         setNewMessage('')
     }

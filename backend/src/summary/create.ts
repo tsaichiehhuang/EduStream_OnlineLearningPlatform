@@ -26,7 +26,7 @@
 //             if (dbFile === null || dbFile.path === undefined) {
 //                 set.status = 404;
 //                 return "File not found";
-//             } 
+//             }
 //             const loader = new PDFLoader(path.resolve(staticRoot, dbFile.path));
 //             const docs = await loader.load();
 //             console.warn(docs,dbFile.path)
@@ -35,8 +35,7 @@
 //             return {
 //                 message: "A temp success"
 //             }
-            
-            
+
 //         } catch (err) {
 //             set.status = 500;
 //             return {
@@ -44,7 +43,7 @@
 //                 error: "Create summary failed.",
 //             };
 //         }
-        
+
 //     },
 //     {}
 //   );

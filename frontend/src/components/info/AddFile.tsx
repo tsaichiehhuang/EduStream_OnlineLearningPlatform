@@ -26,7 +26,7 @@ import { customTheme } from "@/components/info/CustomTheme";
 import useCreateHW from "@/hooks/Info/useCreateHW";
 import useUploadFile from "@/hooks/Info/useUploadFile";
 import useTeacherUpload from "@/hooks/file/useTeacherUpload";
-import { File } from "buffer";
+// import { File } from "buffer";
 
 type AddFileModalProps = {
   isOpen: any;
@@ -49,7 +49,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({
   const [description, setDescription] = useState<string>("");
   const { createHW } = useCreateHW();
   const outerTheme = useTheme();
-  const [selectedFile, setSelectedFile] = useState<File>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   // const [fileName, setFileName] = useState<string>(selectedFile.name)
   const uploadFile = useUploadFile();
   const { teacherupload } = useTeacherUpload();
@@ -79,8 +79,12 @@ const AddFileModal: React.FC<AddFileModalProps> = ({
   };
 
   const handleAddFile = () => {
-    teacherupload(selectedFile.name, selectedFile);
+    if (selectedFile !== null) {
+      const file: File = selectedFile as File; // 将 selectedFile 转换为 File 类型
+      teacherupload(file.name, file);
+    } 
   };
+  
 
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>

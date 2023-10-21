@@ -35,7 +35,7 @@ import Header from "@/components/header";
 import { NextUIProvider } from "@nextui-org/react";
 import Chatroom from "@/components/chatroom";
 import OpenAi from "@/components/openAI";
-import dashjs from "dashjs";
+
 
 export default function Live() {
   const { previewLive } = usePreviewLive();
@@ -143,8 +143,8 @@ export default function Live() {
           <div className="flex flex-col  w-full h-1/5  md:h-96">
             <LiveStreamPlayer source={liveurl} />
             {/* <div className="bg-gray-500  w-full h-full "></div> */}
-            <div className="text-3xl font-medium pt-2 px-2 md-2">
-              {livename === undefined ? (
+            <div className="text-3xl font-medium pt-2 px-2 md-4">
+              {livename === null ? (
                 <span>直播名稱</span>
               ) : (
                 <span>{livename}</span>
@@ -156,7 +156,7 @@ export default function Live() {
             canLive ? (
               <Button
                 disableRipple
-                className={` w-full mt-8 relative overflow-visible  px-12 py-2 shadow-xl  after:content-[''] after:absolute  after:inset-0 text-danger after:z-[-1] after:transition after:!duration-500 hover:after:scale-150 hover:after:opacity-0`}
+                className={` w-full mt-4 relative overflow-visible  px-12 py-2 shadow-xl  after:content-[''] after:absolute  after:inset-0 text-danger after:z-[-1] after:transition after:!duration-500 hover:after:scale-150 hover:after:opacity-0`}
                 size="lg"
                 color="danger"
                 variant="bordered"

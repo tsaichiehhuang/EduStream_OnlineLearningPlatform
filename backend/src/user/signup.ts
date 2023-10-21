@@ -3,8 +3,6 @@ import { hashSync } from "bcrypt-ts";
 const SALT = process.env.BCRYPT_SALT ? parseInt(process.env.BCRYPT_SALT) : 10;
 import { jwt } from "@elysiajs/jwt";
 import validator from "validator";
-
-// import * as User from "../models/user_model";
 import { User } from "../models/user";
 import { UserRole, IUser } from "../types/type";
 

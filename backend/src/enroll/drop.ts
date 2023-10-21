@@ -1,7 +1,8 @@
-import { Elysia, t } from "elysia";
+import { t } from "elysia";
 import { Enroll } from "../models/enroll";
+import { AuthType } from "../types/type";
 
-export const drop = (app: Elysia) =>
+export const drop = (app: AuthType) =>
   app.delete(
     "/:id",
     async ({ profile, set, params: { id } }) => {

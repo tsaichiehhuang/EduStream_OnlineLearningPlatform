@@ -1,15 +1,12 @@
-import { Elysia, t } from "elysia";
+import { t } from "elysia";
 import { Section } from "../models/section";
 import { Class } from "../models/class";
+import { AuthType } from "../types/type";
 
-export const create = (app: Elysia) =>
+export const create = (app: AuthType) =>
   app.post(
     "/:id/section",
     async ({ profile, set, body, params: { id } }) => {
-      if (!profile) {
-        set.status = 401;
-        return "Unauthorized";
-      }
       const isClass = await Class.findOneBy({
         instructorId: Number(profile.id),
         id: Number(id),

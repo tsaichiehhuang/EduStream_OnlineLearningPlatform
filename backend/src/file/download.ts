@@ -1,5 +1,4 @@
 import path from "path";
-import fs from "fs/promises";
 
 import { Elysia, t } from "elysia";
 import axios, { AxiosError } from "axios";

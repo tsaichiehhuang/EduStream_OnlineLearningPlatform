@@ -22,8 +22,6 @@ export class AlreadyUploadedError extends KKUploadError {}
 
 export class FileNotFoundError extends KKUploadError {}
 
-export class IsLocalError extends KKUploadError {}
-
 export class InvalidArgs extends KKUploadError {}
 
 export async function complete({
@@ -35,13 +33,14 @@ export async function complete({
   const file = await File.findOneBy({ id: id });
   if (file != null) {
     if (file.location === "local") {
-      throw new IsLocalError();
+      return;
     } else if (file.location === "kkCompany") {
       throw new AlreadyUploadedError();
     }
   }
+  let fileName = "";
   try {
-    await axios.post(
+    const result = await axios.post(
       `cms/v1/library/files/${id}:complete-upload`,
       {
         complete_data: {
@@ -58,6 +57,7 @@ export async function complete({
         },
       }
     );
+    fileName = result.data?.file?.name ?? "";
   } catch (err) {
     if (err instanceof AxiosError) {
       if (
@@ -104,7 +104,7 @@ export async function complete({
   await File.create({
     id: id,
     location: "kkCompany",
-    name: id,
+    name: fileName,
   }).save();
   console.log("file upload to KK completed with id", id);
 }
@@ -124,9 +124,6 @@ export async function complete({
           } else if (err instanceof FileNotFoundError) {
             set.status = 404;
             return "file not found";
-          } else if (err instanceof IsLocalError) {
-            set.status = 400;
-            return "local file";
           } else if (err instanceof InvalidArgs) {
             set.status = 400;
             return "Invalid args sent to remote";

@@ -1,9 +1,9 @@
-import { Elysia, t } from "elysia";
 import { Enroll } from "../models/enroll";
 import { Class } from "../models/class";
 import { UserRole } from "../types/type";
+import { AuthType } from "../types/type";
 
-export const classlist = (app: Elysia) =>
+export const classlist = (app: AuthType) =>
   app.get("/", async ({ profile, set }) => {
     try {
       const classlist =

@@ -38,8 +38,9 @@ export async function complete({
       throw new AlreadyUploadedError();
     }
   }
+  let fileName = "";
   try {
-    await axios.post(
+    const result = await axios.post(
       `cms/v1/library/files/${id}:complete-upload`,
       {
         complete_data: {
@@ -56,6 +57,7 @@ export async function complete({
         },
       }
     );
+    fileName = result.data?.file?.name ?? "";
   } catch (err) {
     if (err instanceof AxiosError) {
       if (
@@ -102,7 +104,7 @@ export async function complete({
   await File.create({
     id: id,
     location: "kkCompany",
-    name: id,
+    name: fileName,
   }).save();
   console.log("file upload to KK completed with id", id);
 }

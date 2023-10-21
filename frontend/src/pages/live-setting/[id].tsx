@@ -36,27 +36,25 @@ import OpenAi from "@/components/openAI";
 
 export default function Live() {
   const { previewLive } = usePreviewLive();
-  const { getLive, liveurl } = useGetLive();
+  const { getLive, liveurl, livestate } = useGetLive();
   const { cancelLive } = useCancelLive();
   const [isLive, setIsLive] = useState(false);
 
   useEffect(() => {
-    let count = 0;
-
-    const intervalId = setInterval(() => {
-      previewLive();
-      count++;
-
-      if (count === 10) {
+    let intervalId: any;
+    const previewLiveWithCondition = () => {
+      getLive();
+      console.log("livestate", livestate);
+      if (livestate === "LIVE_STATUS_WAIT_FOR_PREVIEW") {
+        previewLive();
         clearInterval(intervalId); // 清除定时器，停止继续调用 previewLive
       }
-    }, 2000);
-
-    // 在组件卸载时清除定时器，以防止内存泄漏
-    return () => {
-      clearInterval(intervalId);
     };
-  }, []);
+    intervalId = setInterval(previewLiveWithCondition, 2000);
+    return () => {
+      clearInterval(intervalId); // 组件卸载时清除定时器
+    };
+  }, [livestate]);
 
   const handleStartLive = () => {
     getLive();

@@ -18,15 +18,15 @@ function useTeacherDelete() {
                 },
             })
             if (response.ok) {
-                // Swal.fire({
-                //     icon: 'success',
-                //     title: '刪除成功',
-                //     showConfirmButton: false,
-                //     timer: 600,
-                // })
-                // setTimeout(() => {
-                //     window.location.reload()
-                // }, 550)
+                Swal.fire({
+                    icon: 'success',
+                    title: '刪除成功',
+                    showConfirmButton: false,
+                    timer: 600,
+                })
+                setTimeout(() => {
+                    window.location.reload()
+                }, 550)
             }
         } catch (error) {
             console.error('Error fetching class data:', error)

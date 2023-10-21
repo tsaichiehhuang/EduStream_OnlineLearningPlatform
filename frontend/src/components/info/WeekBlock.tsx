@@ -107,7 +107,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                                             )}
                                         </div>
                                     )
-                                default:
+                                case 'file':
                                     return (
                                         <div key={index} className="flex flex-row justify-between">
                                             <Link
@@ -121,7 +121,12 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                                             </Link>
                                             {editMode && (
                                                 <div className="gap-1 flex flex-row items-start">
-                                                    <Delete />
+                                                    <Delete
+                                                        file={block}
+                                                        id={block.file.id}
+                                                        status="file"
+                                                        onClick={() => Cookies.set('status', 'file')}
+                                                    />
                                                     <Edit
                                                         file={block}
                                                         status="file"

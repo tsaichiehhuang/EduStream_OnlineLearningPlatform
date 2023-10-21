@@ -1,4 +1,18 @@
-import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button } from '@nextui-org/react'
+import {
+    Card,
+    CardHeader,
+    CardBody,
+    CardFooter,
+    Divider,
+    Link,
+    Button,
+    Table,
+    TableHeader,
+    TableColumn,
+    TableRow,
+    TableCell,
+    TableBody,
+} from '@nextui-org/react'
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Input, useDisclosure } from '@nextui-org/react'
 import 'dayjs/locale/zh-cn'
 import dayjs from 'dayjs'
@@ -6,7 +20,6 @@ import { Delete, Edit } from '@/components/info/EditMode'
 import { useState, useEffect, use } from 'react'
 import Cookies from 'js-cookie'
 import useGetHW from '@/hooks/Info/useGetHW'
-import { get } from 'lodash'
 import useStudentUpload from '@/hooks/file/useStudentUpload'
 import useStudentDelete from '@/hooks/file/useStudentDelete'
 
@@ -22,10 +35,10 @@ type AddFileModalProps = {
     data: any
     id: any
     hwid: any
+    hwData: any
 }
 const userRole = Cookies.get('userRole')
-const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data, id, hwid }) => {
-    const { getHW, hwData } = useGetHW()
+const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data, id, hwid, hwData }) => {
     const [selectedFile, setSelectedFile] = useState<any>(null)
     const [deleteFile, setDeleteFile] = useState<boolean>(false) //學生編輯繳交ㄉ作業
     const { studentDelete } = useStudentDelete()
@@ -41,12 +54,9 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data,
     const handleStudentSummit = () => {
         studentupload(selectedFile.name, selectedFile, hwid)
     }
-    useEffect(() => {
-        getHW(id, data.homework.id)
-    }, [])
+
     const handleStudentDelete = (id: any) => {
-        console.log('delete')
-        studentDelete(id.toString())
+        studentDelete(id)
         setDeleteFile(true)
     }
     return (
@@ -62,64 +72,123 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data,
                                 <>
                                     <p className="text-sm">繳交資料</p>
                                     {hwData.length === 0 && <div className="text-sm text-gray-500">尚無繳交資料</div>}
-                                    {hwData.map((item: any) => (
-                                        <div key={item.id}>
-                                            <div>{item.content}</div>
-                                            <div>{item.score}</div>
-                                        </div>
-                                    ))}
+                                    <Table aria-label="Example static collection table">
+                                        <TableHeader>
+                                            <TableColumn>姓名</TableColumn>
+                                            <TableColumn>分數</TableColumn>
+                                            <TableColumn>檔案下載</TableColumn>
+                                        </TableHeader>
+                                        <TableBody>
+                                            {hwData.map((item: any, index: number) => (
+                                                <TableRow key={index}>
+                                                    <TableCell>{item.user}</TableCell>
+                                                    <TableCell>
+                                                        {item.score === null ? '尚無分數' : item.score}
+                                                    </TableCell>
+                                                    <TableCell>
+                                                        <button className="text-xs  border border-1px border-darkGray rounded-lg px-4 py-1 hover:bg-gray-50">
+                                                            下載
+                                                        </button>
+                                                    </TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
                                 </>
                             )}
 
                             {userRole === 'student' && (
                                 <>
                                     <Divider />
-                                    {deleteFile ||
-                                        (!data.homework.done && (
-                                            <>
-                                                <p className="text-sm">
-                                                    {data.homework.done ? '重新上傳檔案' : '上傳檔案'}
-                                                </p>
-                                                <Button
-                                                    variant="bordered"
-                                                    color="warning"
-                                                    className="text-warning  hover:shadow "
+                                    {!data.homework.done && (
+                                        <>
+                                            <p className="text-sm">
+                                                {data.homework.done ? '重新上傳檔案' : '上傳檔案'}
+                                            </p>
+                                            <Button
+                                                variant="bordered"
+                                                color="warning"
+                                                className="text-warning  hover:shadow "
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="15"
+                                                    height="15"
+                                                    viewBox="0 0 15 15"
+                                                    fill="none"
                                                 >
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width="15"
-                                                        height="15"
-                                                        viewBox="0 0 15 15"
-                                                        fill="none"
-                                                    >
-                                                        <g clip-path="url(#clip0_135_102)">
-                                                            <path
-                                                                d="M6.5625 12.5C6.5625 12.7486 6.66127 12.9871 6.83709 13.1629C7.0129 13.3387 7.25136 13.4375 7.5 13.4375C7.74864 13.4375 7.9871 13.3387 8.16291 13.1629C8.33873 12.9871 8.4375 12.7486 8.4375 12.5V8.4375H12.5C12.7486 8.4375 12.9871 8.33873 13.1629 8.16291C13.3387 7.9871 13.4375 7.74864 13.4375 7.5C13.4375 7.25136 13.3387 7.0129 13.1629 6.83709C12.9871 6.66127 12.7486 6.5625 12.5 6.5625H8.4375V2.5C8.4375 2.25136 8.33873 2.0129 8.16291 1.83709C7.9871 1.66127 7.74864 1.5625 7.5 1.5625C7.25136 1.5625 7.0129 1.66127 6.83709 1.83709C6.66127 2.0129 6.5625 2.25136 6.5625 2.5V6.5625H2.5C2.25136 6.5625 2.0129 6.66127 1.83709 6.83709C1.66127 7.0129 1.5625 7.25136 1.5625 7.5C1.5625 7.74864 1.66127 7.9871 1.83709 8.16291C2.0129 8.33873 2.25136 8.4375 2.5 8.4375H6.5625V12.5Z"
-                                                                fill="#F2A660"
-                                                            />
-                                                        </g>
-                                                        <defs>
-                                                            <clipPath id="clip0_135_102">
-                                                                <rect width="15" height="15" fill="white" />
-                                                            </clipPath>
-                                                        </defs>
-                                                    </svg>
-                                                    <label
-                                                        htmlFor="fileInput"
-                                                        className="cursor-pointer bg-transparent  px-4 py-2 rounded-lg w-full "
-                                                    >
-                                                        {data.homework.done ? '重新選擇檔案' : '選擇檔案'}
-                                                    </label>
-                                                    <input
-                                                        type="file"
-                                                        id="fileInput"
-                                                        className="hidden"
-                                                        onChange={handleFileChange}
-                                                    />
-                                                </Button>
-                                            </>
-                                        ))}
-                                    {data.homework.done && !selectedFile && (
+                                                    <g clip-path="url(#clip0_135_102)">
+                                                        <path
+                                                            d="M6.5625 12.5C6.5625 12.7486 6.66127 12.9871 6.83709 13.1629C7.0129 13.3387 7.25136 13.4375 7.5 13.4375C7.74864 13.4375 7.9871 13.3387 8.16291 13.1629C8.33873 12.9871 8.4375 12.7486 8.4375 12.5V8.4375H12.5C12.7486 8.4375 12.9871 8.33873 13.1629 8.16291C13.3387 7.9871 13.4375 7.74864 13.4375 7.5C13.4375 7.25136 13.3387 7.0129 13.1629 6.83709C12.9871 6.66127 12.7486 6.5625 12.5 6.5625H8.4375V2.5C8.4375 2.25136 8.33873 2.0129 8.16291 1.83709C7.9871 1.66127 7.74864 1.5625 7.5 1.5625C7.25136 1.5625 7.0129 1.66127 6.83709 1.83709C6.66127 2.0129 6.5625 2.25136 6.5625 2.5V6.5625H2.5C2.25136 6.5625 2.0129 6.66127 1.83709 6.83709C1.66127 7.0129 1.5625 7.25136 1.5625 7.5C1.5625 7.74864 1.66127 7.9871 1.83709 8.16291C2.0129 8.33873 2.25136 8.4375 2.5 8.4375H6.5625V12.5Z"
+                                                            fill="#F2A660"
+                                                        />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_135_102">
+                                                            <rect width="15" height="15" fill="white" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                                <label
+                                                    htmlFor="fileInput"
+                                                    className="cursor-pointer bg-transparent  px-4 py-2 rounded-lg w-full "
+                                                >
+                                                    {data.homework.done ? '重新選擇檔案' : '選擇檔案'}
+                                                </label>
+                                                <input
+                                                    type="file"
+                                                    id="fileInput"
+                                                    className="hidden"
+                                                    onChange={handleFileChange}
+                                                />
+                                            </Button>
+                                        </>
+                                    )}
+                                    {deleteFile && (
+                                        <>
+                                            <p className="text-sm">
+                                                {data.homework.done ? '重新上傳檔案' : '上傳檔案'}
+                                            </p>
+                                            <Button
+                                                variant="bordered"
+                                                color="warning"
+                                                className="text-warning  hover:shadow "
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="15"
+                                                    height="15"
+                                                    viewBox="0 0 15 15"
+                                                    fill="none"
+                                                >
+                                                    <g clip-path="url(#clip0_135_102)">
+                                                        <path
+                                                            d="M6.5625 12.5C6.5625 12.7486 6.66127 12.9871 6.83709 13.1629C7.0129 13.3387 7.25136 13.4375 7.5 13.4375C7.74864 13.4375 7.9871 13.3387 8.16291 13.1629C8.33873 12.9871 8.4375 12.7486 8.4375 12.5V8.4375H12.5C12.7486 8.4375 12.9871 8.33873 13.1629 8.16291C13.3387 7.9871 13.4375 7.74864 13.4375 7.5C13.4375 7.25136 13.3387 7.0129 13.1629 6.83709C12.9871 6.66127 12.7486 6.5625 12.5 6.5625H8.4375V2.5C8.4375 2.25136 8.33873 2.0129 8.16291 1.83709C7.9871 1.66127 7.74864 1.5625 7.5 1.5625C7.25136 1.5625 7.0129 1.66127 6.83709 1.83709C6.66127 2.0129 6.5625 2.25136 6.5625 2.5V6.5625H2.5C2.25136 6.5625 2.0129 6.66127 1.83709 6.83709C1.66127 7.0129 1.5625 7.25136 1.5625 7.5C1.5625 7.74864 1.66127 7.9871 1.83709 8.16291C2.0129 8.33873 2.25136 8.4375 2.5 8.4375H6.5625V12.5Z"
+                                                            fill="#F2A660"
+                                                        />
+                                                    </g>
+                                                    <defs>
+                                                        <clipPath id="clip0_135_102">
+                                                            <rect width="15" height="15" fill="white" />
+                                                        </clipPath>
+                                                    </defs>
+                                                </svg>
+                                                <label
+                                                    htmlFor="fileInput"
+                                                    className="cursor-pointer bg-transparent  px-4 py-2 rounded-lg w-full "
+                                                >
+                                                    {data.homework.done ? '重新選擇檔案' : '選擇檔案'}
+                                                </label>
+                                                <input
+                                                    type="file"
+                                                    id="fileInput"
+                                                    className="hidden"
+                                                    onChange={handleFileChange}
+                                                />
+                                            </Button>
+                                        </>
+                                    )}
+                                    {data.homework.done && !selectedFile && !deleteFile && (
                                         <div className="mt-2 flex-row flex gap-4 items-center">
                                             <div className="text-sm">已選擇: {data.homework.title}</div>
                                             <Button size="sm" onPress={() => handleStudentDelete(data.homework.id)}>
@@ -150,7 +219,6 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data,
                                 color="warning"
                                 className="text-white"
                                 onPress={() => {
-                                    // 在这里执行您的函数
                                     onClose()
                                     handleStudentSummit()
                                 }}
@@ -167,10 +235,17 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data,
 export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode, id }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const [userRole, setUserRole] = useState<string | null>('')
+    const [classID, setClassId] = useState<any>('')
+    const { getHW, hwData } = useGetHW()
 
     useEffect(() => {
+        setClassId(Cookies.get('classId'))
         setUserRole(Cookies.get('userRole'))
     }, [])
+    const handleHWOpen = (homeworkID: any) => {
+        onOpen()
+        getHW(homeworkID)
+    }
     return (
         <>
             <div className="flex flex-row justify-between">
@@ -231,7 +306,12 @@ export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode, id 
                     </Card>
                 )}
                 {userRole !== 'student' && (
-                    <Link onPress={onOpen} className=" gap-2 cursor-pointer" color="foreground" underline="hover">
+                    <Link
+                        onPress={() => handleHWOpen(data.hwId)}
+                        className=" gap-2 cursor-pointer"
+                        color="foreground"
+                        underline="hover"
+                    >
                         <div className="w-[24px] h-[24px] bg-mainOrange rounded-full flex justify-center items-center">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -265,7 +345,14 @@ export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode, id 
                 )}
             </div>
 
-            <AddFileModal isOpen={isOpen} onOpenChange={onOpenChange} data={data} id={id} hwid={data.hwId} />
+            <AddFileModal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                data={data}
+                id={id}
+                hwid={data.hwId}
+                hwData={hwData}
+            />
         </>
     )
 }

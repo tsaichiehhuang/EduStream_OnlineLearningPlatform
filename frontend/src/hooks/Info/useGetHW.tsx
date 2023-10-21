@@ -9,9 +9,9 @@ function useGetHW() {
     const [hwData, setHwData] = useState<WeekData[]>([])
     const accessToken = Cookies.get('accessToken')
 
-    const getHW = async (classID: number, homeworkID: number) => {
+    const getHW = async (homeworkID: number) => {
         try {
-            const response = await fetch(`${apiUrl}/class/${classID}/${homeworkID}`, {
+            const response = await fetch(`${apiUrl}/class/homework/${homeworkID}/overview`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -20,15 +20,13 @@ function useGetHW() {
             })
             const responseData = await response.json()
             if (response.ok) {
-                setHwData(responseData.data.class.homework.submission)
+                setHwData(responseData.data.homework.submissions)
             }
         } catch (error) {
             console.error('Error fetching class data:', error)
         }
     }
-    // useEffect(() => {
-    //     getHW(classID, homeworkID)
-    // }, [])
+
     return { getHW, hwData }
 }
 

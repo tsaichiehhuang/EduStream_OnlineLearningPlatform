@@ -10,7 +10,7 @@ import {
     Card,
     Textarea,
 } from '@nextui-org/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Divider from '@mui/material/Divider'
 import { type } from 'os'
 import { DesktopDatePicker, LocalizationProvider, DateTimeField } from '@mui/x-date-pickers'
@@ -42,6 +42,7 @@ type DeleteModalProps = {
     onOpenChange: any
     id: any
     status: any
+    fileId: any
 }
 const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, status, id, sectionId }) => {
     const [selectedFile, setSelectedFile] = useState<any>(null)
@@ -81,7 +82,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
             updateHW(updateHWReqestBody, id)
         }
     }
-    const handleTeachDelete = (fileId: any) => {
+    const handleTeachDelete = (fileId: number) => {
         teacherDelete(fileId)
         //發刪除api&前端即時更新
         setDeleteFile(true)
@@ -208,12 +209,18 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
         </Modal>
     )
 }
-const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onOpenChange, id }) => {
+const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onOpenChange, id, fileId }) => {
     const { deleteSection } = useDeleteSection()
     const { deleteAnnounce } = useDeleteAnnounce()
     const { deleteHW } = useDeleteHW()
     const { teacherDelete } = useTeacherDelete()
-    const status = Cookies.get('status')
+    useEffect(() => {
+        const status = Cookies.get('status')
+    }, [isOpen])
+
+    const handleTeachDelete = (fileId: any) => {
+        teacherDelete(fileId.id)
+    }
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
             <ModalContent>
@@ -235,7 +242,9 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onOpenChange, id }) =
                                         ? () => deleteHW(id)
                                         : status === 'announce'
                                         ? () => deleteAnnounce(id)
-                                        : () => deleteSection(id)
+                                        : status === 'title'
+                                        ? () => deleteSection(id)
+                                        : () => handleTeachDelete(fileId)
                                 }
                             >
                                 確定
@@ -284,7 +293,6 @@ export const Edit: React.FC<EditProps> = ({ file, status, id, sectionId }) => {
 }
 export const Delete = (id: any, status: string) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
-
     return (
         <>
             <Button
@@ -300,7 +308,7 @@ export const Delete = (id: any, status: string) => {
                 </svg>
                 <div className="text-zinc-400 text-[8px] font-normal font-['Noto Sans TC']">刪除</div>
             </Button>
-            <DeleteModal isOpen={isOpen} onOpenChange={onOpenChange} id={id.id} status={status} />
+            <DeleteModal isOpen={isOpen} onOpenChange={onOpenChange} id={id.id} status={status} fileId={id} />
         </>
     )
 }

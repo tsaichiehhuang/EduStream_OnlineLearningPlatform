@@ -10,21 +10,20 @@ function useStudentDelete() {
 
     const studentDelete = async (id: any) => {
         try {
-            const response = await fetch(`${apiUrl}/class/homework`, {
+            const response = await fetch(`${apiUrl}/class/homework/${id}/delete`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify({ id: id }),
             })
             if (response.ok) {
-                // Swal.fire({
-                //     icon: 'success',
-                //     title: '刪除成功',
-                //     showConfirmButton: false,
-                //     timer: 600,
-                // })
+                Swal.fire({
+                    icon: 'success',
+                    title: '刪除成功',
+                    showConfirmButton: false,
+                    timer: 600,
+                })
                 // setTimeout(() => {
                 //     window.location.reload()
                 // }, 550)

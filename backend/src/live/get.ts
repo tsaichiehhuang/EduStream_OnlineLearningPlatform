@@ -7,26 +7,26 @@ export const getLive = (app: AuthType) =>
   app.get(
     "/:liveId",
     async ({ profile, params, set }) => {
-
-        if (result.error) {
-          set.status = result.error.response.status;
-          return {
-            api: "Get Live",
-            error: result.error.response.data,
-          };
-        } else {
-          set.status = 200;
-          const link =
-            result.live.setup == null
-              ? null
-              : result.live.setup.rtmp.links[0].url;
-          const key =
-            result.live.setup == null
-              ? null
-              : result.live.setup.rtmp.links[0].stream_key;
-          const url = result.live.stream[0] == null
-          ? null
-          : result.live.stream[0].manifests[0].uris[0].uri;
+      if (result.error) {
+        set.status = result.error.response.status;
+        return {
+          api: "Get Live",
+          error: result.error.response.data,
+        };
+      } else {
+        set.status = 200;
+        const link =
+          result.live.setup == null
+            ? null
+            : result.live.setup.rtmp.links[0].url;
+        const key =
+          result.live.setup == null
+            ? null
+            : result.live.setup.rtmp.links[0].stream_key;
+        const url =
+          result.live.stream[0] == null
+            ? null
+            : result.live.stream[0].manifests[0].uris[0].uri;
 
         return {
           data: {

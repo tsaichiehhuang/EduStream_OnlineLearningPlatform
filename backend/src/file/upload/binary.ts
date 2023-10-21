@@ -42,6 +42,7 @@ export const binary = (app: Elysia) =>
       await Bun.write(filePath, body.file);
       dbFile.path = path.basename(filePath);
       await dbFile.save();
+      return {};
     },
     {
       body: t.Object({

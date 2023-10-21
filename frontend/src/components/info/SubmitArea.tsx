@@ -22,6 +22,7 @@ import Cookies from 'js-cookie'
 import useGetHW from '@/hooks/Info/useGetHW'
 import useStudentUpload from '@/hooks/file/useStudentUpload'
 import useStudentDelete from '@/hooks/file/useStudentDelete'
+import useDownloadFile from '@/hooks/Info/useDownloadFile'
 
 type SubmitAreaProps = {
     data: any
@@ -42,6 +43,8 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data,
     const [selectedFile, setSelectedFile] = useState<any>(null)
     const [deleteFile, setDeleteFile] = useState<boolean>(false) //學生編輯繳交ㄉ作業
     const { studentDelete } = useStudentDelete()
+    const { downloadFile } = useDownloadFile()
+
     const handleFileChange = (event: any) => {
         const file = event.target.files[0]
         setSelectedFile(file)
@@ -58,6 +61,9 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data,
     const handleStudentDelete = (id: any) => {
         studentDelete(id)
         setDeleteFile(true)
+    }
+    const handleFileClick = (fileId: number, fileName: string) => {
+        downloadFile(fileId, fileName)
     }
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -86,7 +92,10 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data,
                                                         {item.score === null ? '尚無分數' : item.score}
                                                     </TableCell>
                                                     <TableCell>
-                                                        <button className="text-xs  border border-1px border-darkGray rounded-lg px-4 py-1 hover:bg-gray-50">
+                                                        <button
+                                                            onClick={() => handleFileClick(item.fileId, item.user)}
+                                                            className="text-xs  border border-1px border-darkGray rounded-lg px-4 py-1 hover:bg-gray-50"
+                                                        >
                                                             下載
                                                         </button>
                                                     </TableCell>

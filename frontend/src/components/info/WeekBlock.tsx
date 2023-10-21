@@ -7,6 +7,7 @@ import { AddSubmittedArea, AddFileButton } from '@/components/info/AddFile'
 import { AddTextButton } from './AddText'
 import { SubmitArea } from './SubmitArea'
 import Cookies from 'js-cookie'
+import useDownloadFile from '@/hooks/Info/useDownloadFile'
 
 type WeekBlockProps = {
     data: any
@@ -16,13 +17,11 @@ type WeekBlockProps = {
 }
 
 const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
-    const handleFileClick = (fileId: number, filePath: string) => {
-        Cookies.set('filePath', filePath)
-        window.location.href = `/file/${fileId}`
+    const { downloadFile } = useDownloadFile()
+    const handleFileClick = (fileId: number, fileName: string) => {
+        downloadFile(fileId, fileName)
     }
-    console.log('id', id)
 
-    console.log('classId', data.classId)
     return editMode ? (
         <Draggable draggableId={data?.id?.toString()} index={index}>
             {(provided) => (
@@ -111,10 +110,10 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                                     return (
                                         <div key={index} className="flex flex-row justify-between">
                                             <Link
-                                                className="gap-2 justify-start flex"
+                                                className="gap-2 justify-start flex cursor-pointer"
                                                 color="foreground"
                                                 underline="hover"
-                                                onPress={() => handleFileClick(block.fileId, block.file.path)}
+                                                onPress={() => handleFileClick(block.fileId, block.file.name)}
                                             >
                                                 {getFileIcon(block.file.path)}
                                                 {block.file.name}
@@ -189,14 +188,14 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                                     {block.announcement.content}
                                 </div>
                             )
-                        default:
+                        case 'file':
                             return (
                                 <div key={index} className="flex flex-row justify-between">
                                     <Link
-                                        className=" gap-2"
+                                        className=" gap-2 cursor-pointer"
                                         color="foreground"
                                         underline="hover"
-                                        onPress={() => handleFileClick(block.fileId, block.file.path)}
+                                        onPress={() => handleFileClick(block.fileId, block.file.name)}
                                     >
                                         {getFileIcon(block.file.path)}
                                         {block.file.name}

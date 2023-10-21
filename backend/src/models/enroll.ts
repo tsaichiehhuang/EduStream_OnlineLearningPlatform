@@ -19,7 +19,7 @@ export class Enroll extends BaseEntity {
 
   @ManyToOne(() => Class)
   @JoinColumn({ name: "classId" })
-  class?: Class;
+  class?: import("./class").Class;
 
   @Column({ type: "int", unsigned: true, nullable: false })
   studentId!: number;

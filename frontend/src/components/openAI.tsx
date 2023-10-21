@@ -18,8 +18,8 @@ import Cookies from 'js-cookie'
 export default function OpenAI() {
     const [input, setInput] = useState('')
     const [isLoading, setIsLoading] = useState(false)
-    const [messages, setMessages] = useState([])
-    const [userName, setUserName] = useState('')
+    const [messages, setMessages] = useState<any>([])
+    const [userName, setUserName] = useState<any>('')
 
     useEffect(() => {
         setUserName(Cookies.get('userName'))
@@ -33,7 +33,7 @@ export default function OpenAI() {
         const userMessage = { content: input, role: userName }
 
         // 将用户消息添加到消息列表
-        setMessages((prevMessages) => [...prevMessages, userMessage])
+        setMessages((prevMessages: any) => [...prevMessages, userMessage])
 
         setInput('')
         setIsLoading(true)
@@ -41,9 +41,7 @@ export default function OpenAI() {
         try {
             const chatResponse = await ChatGPT(input)
             const aiResponse = chatResponse.content
-
-            // 将ChatGPT的回答添加到消息列表
-            setMessages((prevMessages) => [...prevMessages, { content: aiResponse, role: 'AI小幫手' }])
+            setMessages((prevMessages: any) => [...prevMessages, { content: aiResponse, role: 'AI小幫手' }])
         } catch (error) {
             console.error('Error communicating with ChatGPT:', error)
         } finally {
@@ -51,7 +49,7 @@ export default function OpenAI() {
         }
     }
 
-    const handleInputKeyPress = (e) => {
+    const handleInputKeyPress = (e: any) => {
         if (e.key === 'Enter') {
             handleInput()
         }
@@ -62,7 +60,7 @@ export default function OpenAI() {
             <CardHeader className="flex gap-3 justify-between text-lg font-bold">AI問答</CardHeader>
             <Divider />
             <CardBody className="flex flex-col min-h-[350px] max-h-[350px] overflow-y-scroll gap-4">
-                {messages.map((message, index) => (
+                {messages.map((message: any, index: number) => (
                     <div key={index} className="flex flex-col gap-0.5">
                         <div className="text-xs">{message.role}</div>
                         <Card

@@ -27,7 +27,7 @@ export class User extends BaseEntity {
   role!: UserRole;
 
   @OneToMany(() => Enroll, (enroll) => enroll.student)
-  enrolls?: Enroll[];
+  enrolls?: import("./enroll").Enroll[];
 
   @OneToMany(() => Submission, (submission) => submission.user)
   submissions?: import("./submission").Submission[];

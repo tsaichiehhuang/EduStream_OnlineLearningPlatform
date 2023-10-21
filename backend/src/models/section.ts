@@ -30,5 +30,5 @@ export class Section extends BaseEntity {
   order!: number;
 
   @OneToMany(() => Block, (block) => block.section)
-  blocks?: Block[];
+  blocks?: import("./block").Block[];
 }

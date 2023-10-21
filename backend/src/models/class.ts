@@ -32,5 +32,5 @@ export class Class extends BaseEntity {
   announcement!: string;
 
   @OneToMany(() => Section, (section) => section.class)
-  sections?: Section[];
+  sections?: import("./section").Section[];
 }

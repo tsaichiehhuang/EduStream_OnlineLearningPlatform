@@ -35,6 +35,7 @@ export default function Chatroom() {
         }
         // 收到後端訊息後要做什麼（把收到的訊息加進舊訊息的Array）
         socket.onmessage = (event) => {
+            console.log(event, event.data)
             const receivedMessage = JSON.parse(event.data)
             console.log(receivedMessage.message, receivedMessage.liveID, receivedMessage)
             setMessages((prevMessages) => [...prevMessages, { 

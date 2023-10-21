@@ -55,7 +55,7 @@ export const getClass = (app: AuthType) =>
           data: {
             class: {
               id: result.id,
-              stream: result.stream?.id??null ,
+              stream: result.stream?.id ?? null,
               sections: result.sections!.map((sec) => ({
                 ...sec,
                 blocks: sec.blocks!.map((blk) => ({

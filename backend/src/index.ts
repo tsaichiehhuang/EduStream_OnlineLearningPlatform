@@ -28,6 +28,7 @@ import { homeworkRoutes } from "./block/homework";
 import { createFile, removeFile } from "./block/file";
 import { orderBlock } from "./block/order";
 
+import { overview as homeworkOverview } from "./class/homework/overview";
 import { socket } from "./socket/socket";
 
 import { getLive } from "./live/get";
@@ -65,6 +66,7 @@ const app = new Elysia()
       .group("/section", (app) =>
         app.use(updateSection).use(deleteSection).use(orderBlock)
       )
+      .group("/homework", (app) => app.use(homeworkOverview))
       .use(announceRoutes)
       .use(homeworkRoutes)
       .use(createFile)

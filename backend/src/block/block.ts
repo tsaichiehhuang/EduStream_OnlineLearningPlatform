@@ -8,9 +8,11 @@ export const createBlock = async (
   sectionIdValue: number
 ) => {
   try {
-    const order = await Block.createQueryBuilder("block")
+    console.log("test");
+
+    let order = await Block.createQueryBuilder("block")
       .select("MAX(block.order)", "max")
-      .where("block.sectionId = :sectionId", { sectionId: body.sectionId })
+      .where("block.sectionId = :sectionId", { sectionId: sectionIdValue })
       .getRawOne();
 
     const result = await Block.createQueryBuilder("block")

@@ -1,9 +1,8 @@
 import { Elysia, t } from "elysia";
 import { Class } from "../models/class";
-// import { createBlock } from "./block";
+import { createBlock } from "./block";
 import { BlockType } from "../types/type";
 import { Homework } from "../models/homework";
-import { Block } from "../models/block";
 
 // create block and homework
 const createHomework = (app: Elysia) =>
@@ -25,27 +24,33 @@ const createHomework = (app: Elysia) =>
         const homeworkId = await create(date, body.description, body.title);
 
         // create block
-        // const block = await createBlock(
-        //   BlockType.Homework,
-        //   homeworkId,
-        //   Number(body.sectionId),
-        //   body.order,
-        // );
-        const block = await Block.createQueryBuilder("block")
-          .insert()
-          .into(Block)
-          .values({
-            type: BlockType.Homework,
-            hwId: homeworkId,
-            sectionId: body.sectionId,
-          })
-          .execute();
+        const block = await createBlock(
+          BlockType.Homework,
+          homeworkId,
+          Number(body.sectionId),
+        );
+      //   let order = await Block.createQueryBuilder("block")
+      //   .select("MAX(block.order)", "max")
+      //   .where("block.sectionId = :sectionId", { sectionId: sectionIdValue })
+      //   .getRawOne();
+      // if (!order) order.max = 0;
+
+      //   const block = await Block.createQueryBuilder("block")
+      //     .insert()
+      //     .into(Block)
+      //     .values({
+      //       type: BlockType.Homework,
+      //       hwId: homeworkId,
+      //       sectionId: body.sectionId,
+      //       order: order.max + 1,
+      //     })
+      //     .execute();
 
         return {
           data: {
             class: {
               block: {
-                id: block.raw.insertId,
+                id: block.id,
                 type: BlockType.Homework,
               },
             },

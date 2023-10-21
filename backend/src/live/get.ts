@@ -1,6 +1,8 @@
 import process from "process";
 import { t } from "elysia";
 import axios, { AxiosError } from "axios";
+import { jwt } from "@elysiajs/jwt";
+import { bearer } from "@elysiajs/bearer";
 
 export const getLive = (app: Elysia) =>
   app

@@ -27,24 +27,24 @@ const createHomework = (app: Elysia) =>
         const block = await createBlock(
           BlockType.Homework,
           homeworkId,
-          Number(body.sectionId),
+          Number(body.sectionId)
         );
-      //   let order = await Block.createQueryBuilder("block")
-      //   .select("MAX(block.order)", "max")
-      //   .where("block.sectionId = :sectionId", { sectionId: sectionIdValue })
-      //   .getRawOne();
-      // if (!order) order.max = 0;
+        //   let order = await Block.createQueryBuilder("block")
+        //   .select("MAX(block.order)", "max")
+        //   .where("block.sectionId = :sectionId", { sectionId: sectionIdValue })
+        //   .getRawOne();
+        // if (!order) order.max = 0;
 
-      //   const block = await Block.createQueryBuilder("block")
-      //     .insert()
-      //     .into(Block)
-      //     .values({
-      //       type: BlockType.Homework,
-      //       hwId: homeworkId,
-      //       sectionId: body.sectionId,
-      //       order: order.max + 1,
-      //     })
-      //     .execute();
+        //   const block = await Block.createQueryBuilder("block")
+        //     .insert()
+        //     .into(Block)
+        //     .values({
+        //       type: BlockType.Homework,
+        //       hwId: homeworkId,
+        //       sectionId: body.sectionId,
+        //       order: order.max + 1,
+        //     })
+        //     .execute();
 
         return {
           data: {

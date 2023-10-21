@@ -22,8 +22,6 @@ export class AlreadyUploadedError extends KKUploadError {}
 
 export class FileNotFoundError extends KKUploadError {}
 
-export class IsLocalError extends KKUploadError {}
-
 export class InvalidArgs extends KKUploadError {}
 
 export async function complete({
@@ -35,7 +33,7 @@ export async function complete({
   const file = await File.findOneBy({ id: id });
   if (file != null) {
     if (file.location === "local") {
-      throw new IsLocalError();
+      return;
     } else if (file.location === "kkCompany") {
       throw new AlreadyUploadedError();
     }
@@ -124,9 +122,6 @@ export async function complete({
           } else if (err instanceof FileNotFoundError) {
             set.status = 404;
             return "file not found";
-          } else if (err instanceof IsLocalError) {
-            set.status = 400;
-            return "local file";
           } else if (err instanceof InvalidArgs) {
             set.status = 400;
             return "Invalid args sent to remote";

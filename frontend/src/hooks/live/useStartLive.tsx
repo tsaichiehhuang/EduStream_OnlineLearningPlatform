@@ -5,7 +5,7 @@ import useGetLive from "@/hooks/live/useGetLive";
 const apiUrl = process.env.API_DOMAIN;
 
 function useStartLive() {
-  const { getLive } = useGetLive();
+  const { getLive, livelink, livekey } = useGetLive();
   const router = useRouter();
   const token = Cookies.get("accessToken");
   const liveid = Cookies.get("liveid");
@@ -25,23 +25,28 @@ function useStartLive() {
       );
       const responseData = await response.json();
       if (response.ok) {
+        getLive();
         Swal.fire({
           icon: "success",
           title: "直播開啟成功",
+          text: `Link: ${livelink}\nKey: ${livekey}`,
           showConfirmButton: false,
           timer: 1000,
         });
-
-        getLive();
       } else {
-        Swal.fire("直播開啟失敗", "", "warning");
+        getLive();
+        Swal.fire({
+          icon: "success",
+          title: "直播開啟成功",
+          text: `Link: ${livelink}\nKey: ${livekey}`,
+          showConfirmButton: false,
+          timer: 1000,
+        });
+        console.log("直播開啟失敗");
+        // Swal.fire("直播開啟失敗", "", "warning");
       }
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "網路請求錯誤",
-        text: "請稍後再試或通知我們的工程團隊。",
-      });
+      console.log(error);
     }
   };
 

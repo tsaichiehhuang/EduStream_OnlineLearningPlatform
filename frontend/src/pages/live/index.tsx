@@ -4,6 +4,7 @@ import Header from '@/components/header'
 import { NextUIProvider } from '@nextui-org/react'
 import Chatroom from '@/components/chatroom'
 import OpenAI from '@/components/openAI'
+import { useRouter } from "next/router";
 
 const animals = [
     {

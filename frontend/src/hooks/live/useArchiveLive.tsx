@@ -8,6 +8,7 @@ function useArchiveLive() {
   const router = useRouter();
   const token = Cookies.get("accessToken");
   const liveid = Cookies.get("liveid");
+  const classid = Cookies.get("classId");
 
   const archiveLive = async () => {
     try {
@@ -18,8 +19,11 @@ function useArchiveLive() {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            "Content-Type": "application/json", // Specify the content type as JSON
           },
+          body: JSON.stringify({
+            classID: Number(classid), // Make sure classid is a number
+          }),
         }
       );
       const responseData = await response.json();
@@ -30,15 +34,12 @@ function useArchiveLive() {
           showConfirmButton: false,
           timer: 1000,
         });
+        console.log("直播封存成功");
       } else {
-        Swal.fire("直播封存失敗", "", "warning");
+        console.log("直播封存失敗");
       }
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "網路請求錯誤",
-        text: "請稍後再試或通知我們的工程團隊。",
-      });
+      console.log(error);
     }
   };
 

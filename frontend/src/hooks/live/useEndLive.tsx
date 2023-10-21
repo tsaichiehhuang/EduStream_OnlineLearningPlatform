@@ -1,11 +1,14 @@
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import Swal from "sweetalert2";
 import useArchiveLive from "@/hooks/live/useArchiveLive";
+import useGetLive from "@/hooks/live/useGetLive";
 
 const apiUrl = process.env.API_DOMAIN;
 
 function useEndLive() {
+  const { getLive, liveurl, livestate, livename } = useGetLive();
   const router = useRouter();
   const token = Cookies.get("accessToken");
   const liveid = Cookies.get("liveid");
@@ -20,7 +23,7 @@ function useEndLive() {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
           },
         }
       );
@@ -32,16 +35,12 @@ function useEndLive() {
           showConfirmButton: false,
           timer: 1000,
         });
-        archiveLive();
       } else {
-        Swal.fire("直播結束失敗", "", "warning");
+        console.log("直播結束失敗", "", "warning");
+        archiveLive();
       }
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "網路請求錯誤",
-        text: "請稍後再試或通知我們的工程團隊。",
-      });
+      console.log(error);
     }
   };
 

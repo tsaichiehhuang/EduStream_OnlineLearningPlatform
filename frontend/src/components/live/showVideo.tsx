@@ -1,32 +1,40 @@
-// LiveStreamPage.js
+import React, { useEffect } from "react";
+import videojs from "video.js";
+import "video.js/dist/video-js.css";
 
-import React, { useEffect } from 'react';
-import videojs from 'video.js';
-
-const LiveStreamPage = (props:any) => {
-  // 通过 props 获取传递的参数
-  const eventData = props.eventData;
-
+const LiveStreamPlayer = ({ source }) => {
   useEffect(() => {
-    // 使用 eventData 中的参数进行处理
-    const player = videojs('live-stream');
+    if (typeof window !== "undefined") {
+      // Initialize the Video.js player
+      const player = videojs("live-stream", {
+        controls: true,
+        width: 560,
+        height: 360,
+      });
 
-    player.ready(function () {
+      // Define the video source
       const src = {
-        src: eventData.live.source,
-        type: eventData.live.type === 'LIVE_TYPE_LIVE' ? 'application/dash+xml' : 'application/x-mpegURL',
+        src: source,
+        type: "application/dash+xml",
       };
+
+      // Set the source and play the video
       player.src(src);
       player.play();
-    });
-  }, [eventData]);
+    }
+  }, [source]);
 
   return (
     <div>
-      <video id="live-stream" className="video-js vjs-default-skin" controls width="640" height="360"></video>
-      <div id="chat-container"></div>
+      <video
+        id="live-stream"
+        className="video-js vjs-default-skin"
+        controls
+        width="560"
+        height="360"
+      ></video>
     </div>
   );
 };
 
-export default LiveStreamPage;
+export default LiveStreamPlayer;

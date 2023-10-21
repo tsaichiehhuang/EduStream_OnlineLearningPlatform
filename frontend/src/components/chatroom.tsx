@@ -13,29 +13,29 @@ export default function Chatroom() {
         setUserID(Cookies.get('userId'))
         setName(Cookies.get('userName'))
         newSocket()
-        async function sendMsg() {
-            console.log(typeof liveID, typeof userID, typeof name)
-            try {
-                socket.send(
-                    JSON.stringify({
-                        message: 'EduStream_test_connection',
-                        liveID: liveID,
-                        userID: userID,
-                        name: name,
-                    })
-                )
-                console.log('發送成功')
-            } catch (error) {
-                console.error('Error:', error)
-            }
-        }
-        sendMsg()
     }, [])
     const newSocket = () => {
         socket = new WebSocket(`wss://${process.env.API_DOMAIN!.match(/https?:\/\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5})/)![1]}/live`)
         // 確認後端是否連線（常常顯示不出來是正常的）
         socket.onopen = (msg) => {
             console.log('open connection')
+            function sendMsg() {
+                console.log(typeof liveID, typeof userID, typeof name)
+                try {
+                    socket.send(
+                        JSON.stringify({
+                            message: 'EduStream_test_connection',
+                            liveID: liveID,
+                            userID: userID,
+                            name: name,
+                        })
+                    )
+                    console.log('發送成功')
+                } catch (error) {
+                    console.error('Error:', error)
+                }
+            }
+            sendMsg()
         }
         // 收到後端訊息後要做什麼（把收到的訊息加進舊訊息的Array）
         socket.onmessage = (event) => {

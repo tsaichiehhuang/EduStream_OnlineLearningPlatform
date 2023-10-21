@@ -23,10 +23,7 @@ const kkSuccessBody = z.object({
 });
 
 async function kkUpload(name: string, size: number) {
-  const kkFileTypes = [
-    "FILE_TYPE_VIDEO",
-    "FILE_TYPE_IMAGE",
-  ];
+  const kkFileTypes = ["FILE_TYPE_VIDEO", "FILE_TYPE_IMAGE"];
 
   for (const ft of kkFileTypes) {
     try {

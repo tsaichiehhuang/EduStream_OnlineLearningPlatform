@@ -48,7 +48,7 @@ const DefaultBlock: FC<DefaultBlockProps> = ({ data, editMode }) => {
                         {editMode && (
                             <div className="gap-1 flex flex-row items-start">
                                 <Delete />
-                                <Edit file={data.announcement} status="announce" id={null} />
+                                <Edit file={data.announcement} status="defaultAnnounce" id={null} />
                             </div>
                         )}
                     </div>

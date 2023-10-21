@@ -8,6 +8,7 @@ import {
     useDisclosure,
     Input,
     Card,
+    Textarea,
 } from '@nextui-org/react'
 import { useState } from 'react'
 import Divider from '@mui/material/Divider'
@@ -88,14 +89,20 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
                                     status === 'announce' ? '更改公告' : status === 'title' ? '更改標題' : '更改名稱'
                                 }
                                 defaultValue={
-                                    status === 'announce' ? file : status === 'title' ? file : file.homework.title
+                                    status === 'announce'
+                                        ? file.announcement.content
+                                        : status === 'defaultAnnounce'
+                                        ? file
+                                        : status === 'title'
+                                        ? file
+                                        : file.homework.title
                                 }
                                 color="default"
                                 labelPlacement="outside"
                                 className="mt-4"
                                 onChange={(e) => setTitle(e.target.value)}
                             />
-                            {status !== 'announce' && status !== 'title' && (
+                            {status !== 'announce' && status !== 'defaultAnnounce' && status !== 'title' && (
                                 <Divider className="text-darkGray">or</Divider>
                             )}
 
@@ -121,7 +128,7 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
                             ) : (
                                 status === 'submit' && (
                                     <>
-                                        <Input
+                                        <Textarea
                                             variant="bordered"
                                             label="更改說明"
                                             defaultValue={file.homework.description}

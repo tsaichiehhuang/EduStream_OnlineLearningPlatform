@@ -2,18 +2,18 @@ import { useState, useEffect } from 'react'
 import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button, Skeleton, Input, Chip } from '@nextui-org/react'
 import Cookies from 'js-cookie'
 
-const socket = new WebSocket('wss://107.22.142.48:3040/live');
+const socket = new WebSocket('wss://107.22.142.48:3040/live')
 export default function Chatroom() {
     const [name, setName] = useState<string | null>('')
     const [userID, setUserID] = useState<string | null>('')
     const [messages, setMessages] = useState<object[]>([])
     const [newMessage, setNewMessage] = useState<string>('')
-    const [liveID, setLiveID] = useState<string>('1')
+    const [liveID, setLiveID] = useState<string>('1') //等沛婕做完liveID的cookie再改
     useEffect(() => {
         setUserID(Cookies.get('userId'))
         setName(Cookies.get('userName'))
         async function sendMsg() {
-            console.log(typeof(liveID),typeof(userID),typeof(name))
+            console.log(typeof liveID, typeof userID, typeof name)
             try {
                 socket.send(
                     JSON.stringify({
@@ -38,12 +38,15 @@ export default function Chatroom() {
             console.log(event, event.data)
             const receivedMessage = JSON.parse(event.data)
             console.log(receivedMessage.message, receivedMessage.liveID, receivedMessage)
-            setMessages((prevMessages) => [...prevMessages, { 
-                message: receivedMessage.message, 
-                liveID: receivedMessage.liveID, 
-                userID: receivedMessage.userID, 
-                name: receivedMessage.name 
-            }])
+            setMessages((prevMessages) => [
+                ...prevMessages,
+                {
+                    message: receivedMessage.message,
+                    liveID: receivedMessage.liveID,
+                    userID: receivedMessage.userID,
+                    name: receivedMessage.name,
+                },
+            ])
         }
         // 確認後端是否關閉連線
         socket.onclose = () => {

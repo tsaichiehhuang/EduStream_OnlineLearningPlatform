@@ -129,42 +129,47 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data,
 export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode, id }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
     const [userRole, setUserRole] = useState<string | null>('')
-
+    console.log(id)
     useEffect(() => {
         setUserRole(Cookies.get('userRole'))
     }, [])
     return (
         <>
             <div className="flex flex-row justify-between">
-                <Card onPress={onOpen} isPressable className="p-1 md:w-fit hover:bg-neutral-50 " shadow="sm">
-                    <CardHeader className="pb-0 pt-2 px-4 flex-row items-start ">
-                        <Link onPress={onOpen} className=" gap-2 cursor-pointer" color="foreground" underline="hover">
-                            <div className="w-[24px] h-[24px] bg-mainOrange rounded-full flex justify-center items-center">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="14"
-                                    height="16"
-                                    viewBox="0 0 11 12"
-                                    fill="none"
-                                >
-                                    <path
-                                        d="M1.99976 11H8.99976C9.26497 11 9.51933 10.8946 9.70686 10.7071C9.8944 10.5196 9.99976 10.2652 9.99976 10V3.75L7.24976 1H2.99976C2.73454 1 2.48019 1.10536 2.29265 1.29289C2.10511 1.48043 1.99976 1.73478 1.99976 2V4"
-                                        stroke="white"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    />
-                                    <path
-                                        d="M7 1V4H10M1 7.5H6M6 7.5L4.5 9M6 7.5L4.5 6"
-                                        stroke="white"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    />
-                                </svg>
-                            </div>
-                            {data.homework.title}
-                        </Link>
-                    </CardHeader>
-                    {userRole === 'student' && (
+                {userRole === 'student' ? (
+                    <Card onPress={onOpen} isPressable className="p-1 md:w-fit hover:bg-neutral-50 " shadow="sm">
+                        <CardHeader className="pb-0 pt-2 px-4 flex-row items-start ">
+                            <Link
+                                onPress={onOpen}
+                                className=" gap-2 cursor-pointer"
+                                color="foreground"
+                                underline="hover"
+                            >
+                                <div className="w-[24px] h-[24px] bg-mainOrange rounded-full flex justify-center items-center">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="14"
+                                        height="16"
+                                        viewBox="0 0 11 12"
+                                        fill="none"
+                                    >
+                                        <path
+                                            d="M1.99976 11H8.99976C9.26497 11 9.51933 10.8946 9.70686 10.7071C9.8944 10.5196 9.99976 10.2652 9.99976 10V3.75L7.24976 1H2.99976C2.73454 1 2.48019 1.10536 2.29265 1.29289C2.10511 1.48043 1.99976 1.73478 1.99976 2V4"
+                                            stroke="white"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        />
+                                        <path
+                                            d="M7 1V4H10M1 7.5H6M6 7.5L4.5 9M6 7.5L4.5 6"
+                                            stroke="white"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        />
+                                    </svg>
+                                </div>
+                                {data.homework.title}
+                            </Link>
+                        </CardHeader>
                         <CardBody className="gap-1 items-center overflow-visible py-4">
                             <Button
                                 onPress={onOpen}
@@ -184,8 +189,35 @@ export const SubmitArea: React.FC<SubmitAreaProps> = ({ data, key, editMode, id 
                                 )}
                             </Button>
                         </CardBody>
-                    )}
-                </Card>
+                    </Card>
+                ) : (
+                    <Link onPress={onOpen} className=" gap-2 cursor-pointer" color="foreground" underline="hover">
+                        <div className="w-[24px] h-[24px] bg-mainOrange rounded-full flex justify-center items-center">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="14"
+                                height="16"
+                                viewBox="0 0 11 12"
+                                fill="none"
+                            >
+                                <path
+                                    d="M1.99976 11H8.99976C9.26497 11 9.51933 10.8946 9.70686 10.7071C9.8944 10.5196 9.99976 10.2652 9.99976 10V3.75L7.24976 1H2.99976C2.73454 1 2.48019 1.10536 2.29265 1.29289C2.10511 1.48043 1.99976 1.73478 1.99976 2V4"
+                                    stroke="white"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                                <path
+                                    d="M7 1V4H10M1 7.5H6M6 7.5L4.5 9M6 7.5L4.5 6"
+                                    stroke="white"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                            </svg>
+                        </div>
+                        {data.homework.title}
+                    </Link>
+                )}
+
                 {editMode && (
                     <div className="gap-1 flex flex-row items-start">
                         <Delete status="submit" id={data.hwId} onClick={Cookies.set('status', 'submit')} />

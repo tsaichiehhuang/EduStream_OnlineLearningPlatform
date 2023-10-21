@@ -8,18 +8,20 @@ const apiUrl = process.env.API_DOMAIN;
 function usePreviewLive() {
   const router = useRouter();
   const token = Cookies.get("accessToken");
-  const classid = Cookies.get("classId");
+  const liveid = Cookies.get("liveid");
+
   const { startLive } = useStartLive();
 
   const previewLive = async () => {
     try {
       const response = await fetch(
-        `https://api.one-stage.kkstream.io/bv/cms/v1/lives/${classid}/preview`,
+        `${apiUrl}/live/${liveid}/preview`,
 
         {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
           },
         }
       );

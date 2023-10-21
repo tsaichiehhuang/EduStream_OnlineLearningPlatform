@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button, Skeleton, Input, Chip } from '@nextui-org/react'
 import Cookies from 'js-cookie'
 
@@ -71,11 +71,21 @@ export default function Chatroom() {
         setMessages((prevMessages: any) => [...prevMessages, { message: newMessage, liveID, userID, name }])
         setNewMessage('')
     }
+
+    // 如果有新的訊息，捲動到最底下以顯示新的訊息
+    const cardBodyRef = useRef(null);
+    useEffect(() => {
+        const element = cardBodyRef.current;
+        if (element) {
+            element.scrollTop = element.scrollHeight;
+        }
+    }, [messages]);
+
     return (
         <Card className=" w-full  max-h-[450px]">
             <CardHeader className="flex gap-3 justify-between text-lg font-bold">聊天室</CardHeader>
             <Divider />
-            <CardBody className="flex flex-col min-h-[350px] max-h-[350px] overflow-y-scroll gap-4">
+            <CardBody ref={cardBodyRef} className="flex flex-col min-h-[350px] max-h-[350px] overflow-y-scroll gap-4">
                 {messages.map((message: any, index) => (
                     <div key={index} className="flex flex-col gap-0.5">
                         <div className="text-xs">{message.name}</div>

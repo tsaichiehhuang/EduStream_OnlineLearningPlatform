@@ -36,21 +36,21 @@ export class Block extends BaseEntity {
 
   @OneToOne(() => File)
   @JoinColumn({ name: "fileId" })
-  file?: File;
+  file?: import("./file").File;
 
   @Column({ type: "int", unsigned: true, nullable: true })
   hwId?: number;
 
   @OneToOne(() => Homework)
   @JoinColumn({ name: "hwId" })
-  homework?: Homework;
+  homework?: import("./homework").Homework;
 
   @Column({ type: "int", unsigned: true, nullable: true })
   announceId?: number;
 
   @OneToOne(() => Announcement)
   @JoinColumn({ name: "announceId" })
-  announcement?: Announcement;
+  announcement?: import("./announcement").Announcement;
 
   @Column({ type: "int", unsigned: true, nullable: false })
   order!: number;

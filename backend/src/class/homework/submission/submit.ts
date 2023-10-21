@@ -1,29 +1,14 @@
-import { Elysia, t } from "elysia";
+import { t } from "elysia";
 import axios, { AxiosError } from "axios";
-
-import { ElysiaRequest } from "../../../types/typeConverter";
-import { auth } from "../../../utils/auth";
 import { KKFileUploadComplete } from "../../../types/type";
 import { KK_API_ENDPOINT } from "../../../utils/constant";
 import { Homework } from "../../../models/homework";
 import { User } from "../../../models/user";
 import { File } from "../../../models/file";
 import { Submission } from "../../../models/submission";
+import { AuthType } from "../../../types/type";
 
-export const submit = (
-  app: Elysia<
-    "",
-    {
-      request: {
-        profile: Exclude<
-          ElysiaRequest<typeof auth>["profile"],
-          null | undefined
-        >;
-      };
-      store: {};
-    }
-  >
-) =>
+export const submit = (app: AuthType) =>
   app.post(
     "/:id/submit",
     async function ({ params: { id: hwId }, body, set, profile }) {
@@ -161,6 +146,7 @@ export const submit = (
         fileId: body.id,
         userId: profile.id,
       }).save();
+      return {};
     },
     {
       params: t.Object({

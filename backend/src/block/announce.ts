@@ -2,10 +2,10 @@ import { Elysia, t } from "elysia";
 import { Announcement } from "../models/announcement";
 import { Class } from "../models/class";
 import { createBlock } from "./block";
-import { BlockType } from "../types/type";
+import { AuthType, BlockType } from "../types/type";
 
 // create block and announce
-const createAnnounce = (app: Elysia) =>
+const createAnnounce = (app: AuthType) =>
   app.post(
     "/:id/announce",
     async ({ body, profile, set, params: { id } }) => {
@@ -58,7 +58,7 @@ const createAnnounce = (app: Elysia) =>
   );
 
 // update block and announce
-const updateAnnounce = (app: Elysia) =>
+const updateAnnounce = (app: AuthType) =>
   app.put(
     "/:id",
     async ({ body, profile, set, params: { id } }) => {
@@ -92,7 +92,7 @@ const updateAnnounce = (app: Elysia) =>
   );
 
 // delete block and announce
-const deleteAnnounce = (app: Elysia) =>
+const deleteAnnounce = (app: AuthType) =>
   app.delete(
     "/:id",
     async ({ profile, set, params: { id } }) => {

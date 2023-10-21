@@ -24,5 +24,5 @@ export class Stream extends BaseEntity {
 
   @OneToOne(() => Class)
   @JoinColumn({ name: "classId" })
-  class?: Class;
+  class?: import("./class").Class;
 }

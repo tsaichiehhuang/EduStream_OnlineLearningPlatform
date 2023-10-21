@@ -1,11 +1,11 @@
-import { Elysia, t } from "elysia";
+import { t } from "elysia";
 import { Class } from "../models/class";
-import { BlockType } from "../types/type";
+import { AuthType } from "../types/type";
 
-export const defaultclass = (app: Elysia) =>
+export const defaultclass = (app: AuthType) =>
   app.get(
     "/default/:id",
-    async ({ profile, set, params: { id } }) => {
+    async ({ set, params: { id } }) => {
       try {
         // find the section by class id, and order = 0
         const result = await Class.createQueryBuilder("class")

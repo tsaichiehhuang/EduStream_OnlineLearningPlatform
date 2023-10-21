@@ -1,7 +1,8 @@
-import { Elysia, t } from "elysia";
+import { t } from "elysia";
 import { Enroll } from "../models/enroll";
+import { AuthType } from "../types/type";
 
-export const enroll = (app: Elysia) =>
+export const enroll = (app: AuthType) =>
   app.post(
     "/:id",
     async ({ profile, set, params: { id } }) => {

@@ -1,7 +1,5 @@
 import process from "process";
-import { Elysia, t } from "elysia";
-import { bearer } from "@elysiajs/bearer";
-import { jwt } from "@elysiajs/jwt";
+import { t } from "elysia";
 import axios, { AxiosError } from "axios";
 
 export const getLive = (app: Elysia) =>
@@ -71,30 +69,30 @@ export const getLive = (app: Elysia) =>
             ? null
             : result.live.stream[0].manifests[0].uris[0].uri;
 
-          return {
-            data: {
-              live: {
-                id: result.live.id,
-                name: result.live.name,
-                created_at: result.live.created_at,
-                updated_at: result.live.updated_at,
-                status: result.live.status,
-                setup: {
-                  links: link,
-                  key: key,
-                },
-                url: url,
+        return {
+          data: {
+            live: {
+              id: result.live.id,
+              name: result.live.name,
+              created_at: result.live.created_at,
+              updated_at: result.live.updated_at,
+              status: result.live.status,
+              setup: {
+                links: link,
+                key: key,
               },
+              url: url,
             },
-          };
-        }
-      },
-      {
-        params: t.Object({
-          liveId: t.String({
-            format: "uuid",
-            default: "00000000-0000-0000-0000-000000000000",
-          }),
-        }),
+          },
+        };
       }
-    );
+    },
+    {
+      params: t.Object({
+        liveId: t.String({
+          format: "uuid",
+          default: "00000000-0000-0000-0000-000000000000",
+        }),
+      }),
+    }
+  );

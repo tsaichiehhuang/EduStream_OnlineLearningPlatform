@@ -36,7 +36,7 @@ export const cancel = (app: Elysia) =>
         }
         try {
           await kkCancel(body.id, body.uploadId);
-          return;
+          return {};
         } catch (error) {
           if (error instanceof AxiosError) {
             if (

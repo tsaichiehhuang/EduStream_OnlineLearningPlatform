@@ -15,7 +15,6 @@ import { classlist } from "./class/classlist";
 import { create } from "./class/create";
 import { update } from "./class/update";
 import { getClass } from "./class/getClass";
-import { getHomework } from "./class/getHomework";
 
 import { defaultclass } from "./class/defaultclass";
 import { create as createSection } from "./section/create";
@@ -59,7 +58,6 @@ const app = new Elysia()
       .use(create)
       .use(update)
       .use(getClass)
-      .use(getHomework)
       .use(defaultclass)
       .use(createSection)
       .use(orderSection)

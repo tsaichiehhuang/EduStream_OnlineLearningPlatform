@@ -15,6 +15,7 @@
     "bcrypt-ts": "^4.0.1",
     "dotenv": "^16.3.1",
     "elysia": "latest",
+    "hnswlib-node": "^2.0.0",
     "langchain": "^0.0.170",
     "mysql2": "^3.6.1",
     "pdf-parse": "^1.1.1",

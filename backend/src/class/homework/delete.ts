@@ -25,23 +25,14 @@ export const deleteHomework = (app: Elysia) =>
             if (!file) {
                 set.status = 404;
                 return "File Not Found";
-            } else if (file.location == 'local') {
-                console.warn("Local File：",file)
-                await File.createQueryBuilder("file")
-                .delete()
-                .where({
-                    id: body.id
-                })
-                .execute();
-            } else {
+            } else if (file.location == 'kkCompany') {
                 console.warn("KK File：",file)
                 const access_token = process.env.API_TOKEN;
                 await (async function () {
                     try {
                       return (
-                        await axios.post(
+                        await axios.delete(
                             `cms/v1/library/files/${body.id}`,
-                            {},
                             {
                                 baseURL: "https://api.one-stage.kkstream.io/bv/",
                                 headers: {
@@ -63,7 +54,19 @@ export const deleteHomework = (app: Elysia) =>
                         return "File delete from KK failed.";
                     }
                 })();
-            }
+            } 
+            await File.createQueryBuilder("file")
+            .delete()
+            .where({
+                id: body.id
+            })
+            .execute();
+            await Submission.createQueryBuilder("submission")
+            .delete()
+            .where({
+                fileId: body.id
+            })
+            .execute();
 
             set.status = 200
             return {

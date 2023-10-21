@@ -26,7 +26,6 @@ async function kkUpload(name: string, size: number) {
   const kkFileTypes = [
     "FILE_TYPE_VIDEO",
     "FILE_TYPE_IMAGE",
-    "FILE_TYPE_DOCUMENT",
   ];
 
   for (const ft of kkFileTypes) {

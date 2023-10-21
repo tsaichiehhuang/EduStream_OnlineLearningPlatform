@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ChatGPT } from '@/components/ChatGPT'
 import {
     Card,
@@ -13,46 +13,64 @@ import {
     Tabs,
     Tab,
 } from '@nextui-org/react'
+import Cookies from 'js-cookie'
 
 export default function OpenAI() {
     const [input, setInput] = useState('')
-    const [response, setResponse] = useState('')
     const [isLoading, setIsLoading] = useState(false)
+    const [messages, setMessages] = useState<any>([])
+    const [userName, setUserName] = useState<any>('')
+
+    useEffect(() => {
+        setUserName(Cookies.get('userName'))
+    }, [])
 
     const handleInput = async () => {
         if (input.trim() === '') {
             return
         }
 
-        const newMessage = { content: input, role: 'user' }
+        const userMessage = { content: input, role: userName }
 
-        // setMessages([...messages, newMessage])
+        // 将用户消息添加到消息列表
+        setMessages((prevMessages: any) => [...prevMessages, userMessage])
+
         setInput('')
         setIsLoading(true)
 
         try {
             const chatResponse = await ChatGPT(input)
-            const responseMessage = { content: chatResponse, role: 'ai' }
-            // setMessages([...messages, responseMessage])
+            const aiResponse = chatResponse.content
+            setMessages((prevMessages: any) => [...prevMessages, { content: aiResponse, role: 'AI小幫手' }])
         } catch (error) {
             console.error('Error communicating with ChatGPT:', error)
         } finally {
             setIsLoading(false)
         }
     }
+
     const handleInputKeyPress = (e: any) => {
         if (e.key === 'Enter') {
             handleInput()
         }
     }
+
     return (
         <Card className=" w-full  max-h-[450px]">
             <CardHeader className="flex gap-3 justify-between text-lg font-bold">AI問答</CardHeader>
             <Divider />
             <CardBody className="flex flex-col min-h-[350px] max-h-[350px] overflow-y-scroll gap-4">
-                {/* {messages.map((message, index) => (
-                    <Message key={index} content={message.content} role={message.role} />
-                ))} */}
+                {messages.map((message: any, index: number) => (
+                    <div key={index} className="flex flex-col gap-0.5">
+                        <div className="text-xs">{message.role}</div>
+                        <Card
+                            shadow="sm"
+                            className="w-fit max-w-full min-h-[30px] px-3 py-1 flex-row items-center justify-center break-all box-border"
+                        >
+                            {message.content}
+                        </Card>
+                    </div>
+                ))}
             </CardBody>
             <CardFooter className="flex flex-row justify-center items-center gap-1">
                 <Input

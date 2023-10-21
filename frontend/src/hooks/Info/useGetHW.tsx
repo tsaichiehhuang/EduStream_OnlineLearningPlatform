@@ -11,7 +11,7 @@ function useGetHW() {
 
     const getHW = async (classID: number, homeworkID: number) => {
         try {
-            const response = await fetch(`${apiUrl}/${classID}/${homeworkID}`, {
+            const response = await fetch(`${apiUrl}/class/${classID}/${homeworkID}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

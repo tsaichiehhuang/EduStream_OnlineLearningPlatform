@@ -2,26 +2,27 @@ import { useState, useEffect } from 'react'
 import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button, Skeleton, Input, Chip } from '@nextui-org/react'
 import Cookies from 'js-cookie'
 
-const socket = new WebSocket('wss://107.22.142.48:3040/teacher/live')
+const socket = new WebSocket('ws://107.22.142.48:3040/live');
 export default function Chatroom() {
     const [name, setName] = useState<string | null>('')
     const [userID, setUserID] = useState<string | null>('')
-    const [messages, setMessages] = useState<string[]>([])
+    const [messages, setMessages] = useState<object[]>([])
     const [newMessage, setNewMessage] = useState<string>('')
     const [liveID, setLiveID] = useState<string>('1')
     useEffect(() => {
         setUserID(Cookies.get('userId'))
         setName(Cookies.get('userName'))
         async function sendMsg() {
+            console.log(typeof(liveID),typeof(userID),typeof(name))
             try {
-                // socket.send(
-                //     JSON.stringify({
-                //         message: 'Entered',
-                //         liveID: liveID,
-                //         userID: userID,
-                //         name: name,
-                //     })
-                // )
+                socket.send(
+                    JSON.stringify({
+                        message: 'EduStream_test_connection',
+                        liveID: liveID,
+                        userID: userID,
+                        name: name,
+                    })
+                )
                 console.log('發送成功')
             } catch (error) {
                 console.error('Error:', error)
@@ -34,9 +35,14 @@ export default function Chatroom() {
         }
         // 收到後端訊息後要做什麼（把收到的訊息加進舊訊息的Array）
         socket.onmessage = (event) => {
-            const receivedMessage = event.data
-            setMessages((prevMessages) => [...prevMessages, receivedMessage])
-            console.log(`Frontend receive ${receivedMessage}`)
+            const receivedMessage = JSON.parse(event.data)
+            console.log(receivedMessage.message, receivedMessage.liveID, receivedMessage)
+            setMessages((prevMessages) => [...prevMessages, { 
+                message: receivedMessage.message, 
+                liveID: receivedMessage.liveID, 
+                userID: receivedMessage.userID, 
+                name: receivedMessage.name 
+            }])
         }
         // 確認後端是否關閉連線
         socket.onclose = () => {

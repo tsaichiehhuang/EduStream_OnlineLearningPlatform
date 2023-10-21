@@ -1,23 +1,11 @@
 // for instructor to overview homework {id} 's all submissions' status
 import { Elysia, t } from "elysia";
 import { User } from "../../models/user";
-import { auth } from "../../utils/auth";
-import { ElysiaRequest } from "../../types/typeConverter";
+import { AuthType } from "../../types/type";
 
 // Endpoint: /class/homework/:id/overview
 export const overview = (
-  app: Elysia<
-    "",
-    {
-      request: {
-        profile: Exclude<
-          ElysiaRequest<typeof auth>["profile"],
-          null | undefined
-        >;
-      };
-      store: {};
-    }
-  >
+  app: AuthType 
 ) =>
   app.get(
     "/:id/overview",

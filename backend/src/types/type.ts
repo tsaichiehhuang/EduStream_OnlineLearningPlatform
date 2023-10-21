@@ -1,3 +1,7 @@
+import { Elysia } from "elysia";
+import { auth } from "../utils/auth";
+import { ElysiaRequest } from "./typeConverter";
+
 // Enums
 export enum UserRole {
   instructor = "instructor",
@@ -118,3 +122,16 @@ export interface IToken {
 }
 
 export type IKKFileUploadComplete = (typeof KKFileUploadComplete)["static"];
+
+export type AuthType = Elysia<
+"",
+{
+  request: {
+    profile: Exclude<
+      ElysiaRequest<typeof auth>["profile"],
+      null | undefined
+    >;
+  };
+  store: {};
+}
+>

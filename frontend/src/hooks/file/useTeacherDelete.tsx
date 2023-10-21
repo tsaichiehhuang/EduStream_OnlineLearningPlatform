@@ -1,26 +1,26 @@
 import Cookies from 'js-cookie'
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Swal from 'sweetalert2'
 
 const apiUrl = process.env.API_DOMAIN
 
-function useCreateHW() {
+function useTeacherDelete() {
     const accessToken = Cookies.get('accessToken')
 
-    const createHW = async (requestBody: any, classId: any) => {
+    const teacherDelete = async (id: any) => {
         try {
-            const response = await fetch(`${apiUrl}/class/${classId}/homework`, {
-                method: 'POST',
+            const response = await fetch(`${apiUrl}/class/file/${id}`, {
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${accessToken}`,
                 },
-                body: JSON.stringify(requestBody),
             })
             if (response.ok) {
                 Swal.fire({
                     icon: 'success',
-                    title: '新增成功',
+                    title: '刪除成功',
                     showConfirmButton: false,
                     timer: 600,
                 })
@@ -29,13 +29,12 @@ function useCreateHW() {
                 }, 550)
             }
         } catch (error) {
-            Swal.fire('新增失敗', '', 'warning')
-
             console.error('Error fetching class data:', error)
+            Swal.fire('刪除失敗', '', 'warning')
         }
     }
 
-    return { createHW }
+    return { teacherDelete }
 }
 
-export default useCreateHW
+export default useTeacherDelete

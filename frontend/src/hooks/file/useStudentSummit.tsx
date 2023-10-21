@@ -5,22 +5,19 @@ import Swal from 'sweetalert2'
 
 const apiUrl = process.env.API_DOMAIN
 
-function useTeacherLocalFinal() {
+function useStudentSummit() {
     const router = useRouter()
     const token = Cookies.get('accessToken')
     const classid = Cookies.get('classId')
     const [type, settype] = useState('')
 
-    const teacherlocalfinal = async (id: string, sectionId: string) => {
+    const studentsummit = async (id: string, hwid: string) => {
         const requestBody = {
-            file: {
-                id: id,
-            },
-            sectionId: sectionId,
+            id: id,
         }
 
         try {
-            const response = await fetch(`${apiUrl}/class/file`, {
+            const response = await fetch(`${apiUrl}/class/homework/${hwid}/submit`, {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -32,7 +29,7 @@ function useTeacherLocalFinal() {
             if (response.ok) {
                 Swal.fire({
                     icon: 'success',
-                    title: '老師上傳本地確認成功',
+                    title: '學生上傳本地確認成功',
                     showConfirmButton: false,
                     timer: 1000,
                 })
@@ -40,7 +37,7 @@ function useTeacherLocalFinal() {
                     window.location.reload()
                 }, 1100)
             } else {
-                Swal.fire('老師上傳本地確認失敗', '', 'warning')
+                Swal.fire('學生上傳本地確認失敗', '', 'warning')
             }
         } catch (error) {
             Swal.fire({
@@ -51,7 +48,7 @@ function useTeacherLocalFinal() {
         }
     }
 
-    return { teacherlocalfinal }
+    return { studentsummit }
 }
 
-export default useTeacherLocalFinal
+export default useStudentSummit

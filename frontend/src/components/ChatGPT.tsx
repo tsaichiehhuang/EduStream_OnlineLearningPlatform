@@ -27,7 +27,7 @@ export async function ChatGPT(prompt: any) {
 
         if (response.ok) {
             const responseData = await response.json()
-            return responseData.choices[0].message.content
+            return responseData.choices[0].message
         } else {
             console.error('Error communicating with ChatGPT:', response.statusText)
             throw new Error(`Error communicating with ChatGPT: ${response.statusText}`)

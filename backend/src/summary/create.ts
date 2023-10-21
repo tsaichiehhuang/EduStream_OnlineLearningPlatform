@@ -50,13 +50,6 @@ export const createSummary = (app: Elysia) =>
           output.length
         );
 
-            const splitter = new CharacterTextSplitter({
-                separator: "\n",
-                chunkSize: concat_doc_len,
-                chunkOverlap: Math.floor(concat_doc_len/5) == 0 ? 1 : Math.floor(concat_doc_len/5),
-            });
-            const output = await splitter.createDocuments([concat_doc]);
-
             const vectorStore = await MemoryVectorStore.fromDocuments(
                 output,
                 new OpenAIEmbeddings()
@@ -68,25 +61,9 @@ export const createSummary = (app: Elysia) =>
             const response = await chain.call({
                 query: "這份文件的摘要是什麼？",
             });
-            console.warn(response);
-
-            set.status = 200
-            return {
-                message: response
-            }
-
-        } catch (err) {
-            console.warn(err)
-            set.status = 500;
-            return {
-                api: "Create Summary",
-                error: "Create summary failed.",
-            };
-        }
-
         set.status = 200;
         return {
-          message: answer,
+          message: response,
         };
       } catch (err) {
         console.warn(err);

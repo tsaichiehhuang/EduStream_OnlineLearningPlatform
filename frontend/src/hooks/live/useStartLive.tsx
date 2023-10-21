@@ -29,8 +29,8 @@ function useStartLive() {
         Swal.fire({
           icon: "success",
           title: "直播開啟成功",
-          text: `Link: ${livelink}\nKey: ${livekey}`,
-          showConfirmButton: false,
+          text: `請記得在 OBS 輸入以下資訊`,
+          showConfirmButton: true,
           timer: 1000,
         });
       } else {

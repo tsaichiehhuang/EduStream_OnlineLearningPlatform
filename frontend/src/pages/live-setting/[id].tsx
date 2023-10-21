@@ -144,7 +144,11 @@ export default function Live() {
             <LiveStreamPlayer source={liveurl} />
             {/* <div className="bg-gray-500  w-full h-full "></div> */}
             <div className="text-3xl font-medium pt-2 px-2 md-2">
-              {livename}
+              {livename === undefined ? (
+                <span>直播名稱</span>
+              ) : (
+                <span>{livename}</span>
+              )}
             </div>
           </div>
 

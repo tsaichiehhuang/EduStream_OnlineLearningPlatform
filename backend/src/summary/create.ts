@@ -30,7 +30,7 @@ export const createSummary = (app: Elysia) =>
 
         const concat_doc = docs.map((doc) => doc.pageContent).join("");
         const concat_doc_len =
-          Math.floor(concat_doc.length * 0.2) > 0
+          Math.floor(concat_doc.length * 0.2) > 1
             ? Math.floor(concat_doc.length * 0.2)
             : 2;
 

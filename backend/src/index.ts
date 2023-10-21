@@ -66,7 +66,7 @@ const app = new Elysia()
       .group("/section", (app) =>
         app.use(updateSection).use(deleteSection).use(orderBlock)
       )
-      .group("/homework", (app) => 
+      .group("/homework", (app) =>
         app.use(homeworkOverview).use(deleteHomework)
       )
       .use(announceRoutes)

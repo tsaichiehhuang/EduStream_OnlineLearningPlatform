@@ -54,24 +54,32 @@ export const createFile = (app: AuthType) =>
   );
 
 export const removeFile = (app: Elysia) =>
-  app.delete("/file/:id", async ({ params: { id }, set }) => {
-    try {
-      const file = await File.findOneBy({ id: id });
-      if (!file) {
-        set.status = 404;
-        return "File Not Found";
-      }
-      await file.remove();
-      return {
-        data: {
-          file: {
-            id: id,
+  app.delete(
+    "/file/:id",
+    async ({ params: { id }, set }) => {
+      try {
+        const file = await File.findOneBy({ id: id });
+        if (!file) {
+          set.status = 404;
+          return "File Not Found";
+        }
+        await file.remove();
+        return {
+          data: {
+            file: {
+              id: id,
+            },
           },
-        },
-      };
-    } catch (err) {
-      set.status = 500;
-      console.log(err);
-      return "Query Failed";
+        };
+      } catch (err) {
+        set.status = 500;
+        console.log(err);
+        return "Query Failed";
+      }
+    },
+    {
+      params: t.Object({
+        id: t.String(),
+      }),
     }
-  });
+  );

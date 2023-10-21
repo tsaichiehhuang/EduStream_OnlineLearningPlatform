@@ -5,7 +5,7 @@ import axios, { AxiosError } from "axios";
 
 export const deleteHomework = (app: Elysia) =>
   app.delete(
-    "/:homeworkId",
+    "/:homeworkId/delete",
     async ({ profile, params, set }) => {
 
         if (!profile) {

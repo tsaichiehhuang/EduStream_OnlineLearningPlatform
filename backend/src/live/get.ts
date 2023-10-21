@@ -68,7 +68,7 @@ export const getLive = (app: Elysia) =>
             result.live.setup == null
               ? null
               : result.live.setup.rtmp.links[0].stream_key;
-          const url = result.live.stream[0]
+          const url = result.live.stream[0] == null
             ? null
             : result.live.stream[0].manifests[0].uris[0].uri;
 

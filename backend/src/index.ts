@@ -46,12 +46,12 @@ import { cancel } from "./file/upload/cancel";
 await initDatabase();
 
 const app = new Elysia()
+  .use(socket)
   .use(cors())
   .get("/", () => "Hello World!")
   .group("user", (app) => app.use(signup).use(signin).use(info))
   .use(auth)
   .group("/enroll", (app) => app.use(enroll).use(drop))
-  .group("/teacher", (app) => app.use(socket))
   .group("/class", (app) =>
     app
       .use(classlist)

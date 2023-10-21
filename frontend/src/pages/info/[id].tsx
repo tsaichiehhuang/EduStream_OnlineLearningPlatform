@@ -111,7 +111,7 @@ export default function Info() {
                                                                 data={data}
                                                                 editMode={editMode}
                                                                 index={index}
-                                                                id={id}
+                                                                id={data.classId}
                                                             />
                                                         ))
                                                     )}
@@ -124,7 +124,13 @@ export default function Info() {
                                 </DragDropContext>
                             ) : (
                                 weeksData.map((data, index) => (
-                                    <WeekBlock key={data.id} data={data} editMode={editMode} index={index} id={null} />
+                                    <WeekBlock
+                                        key={data.id}
+                                        data={data}
+                                        editMode={editMode}
+                                        index={index}
+                                        id={data.classId}
+                                    />
                                 ))
                             )}
 
@@ -157,7 +163,16 @@ export default function Info() {
                                         </CardHeader>
 
                                         <CardBody>
-                                            <p>Make beautiful websites regardless of your design experience.</p>
+                                            {weeksData.map((week: any) =>
+                                                week.blocks
+                                                    .filter(
+                                                        (block: any) =>
+                                                            block.type === 'homework' && !block.homework?.done
+                                                    )
+                                                    .map((homework: any) => (
+                                                        <p key={homework.id}>尚未完成：{homework.homework?.title}</p>
+                                                    ))
+                                            )}
                                         </CardBody>
                                     </Card>
                                 </>

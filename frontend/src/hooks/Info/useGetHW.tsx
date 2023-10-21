@@ -27,7 +27,7 @@ function useGetHW() {
         }
     }
     // useEffect(() => {
-    //     getHW()
+    //     getHW(classID, homeworkID)
     // }, [])
     return { getHW, hwData }
 }

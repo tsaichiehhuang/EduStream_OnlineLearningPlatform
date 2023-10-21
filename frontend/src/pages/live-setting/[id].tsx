@@ -1,30 +1,48 @@
-import React, { useState } from 'react'
-import { Card, CardHeader, Button, CardBody, Input, CardFooter, Divider, Tab, Tabs } from '@nextui-org/react'
+import React, { useState, useEffect } from 'react'
+import { Card, CardHeader, Button, CardBody, Input, CardFooter, Divider, Link, Image } from '@nextui-org/react'
+import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@nextui-org/react'
+import { Checkbox } from '@nextui-org/react'
+import { Select, SelectItem } from '@nextui-org/react'
+import usePreviewLive from '@/hooks/live/usePreviewLive'
+import useGetLive from '@/hooks/live/useGetLive'
+import useCancelLive from '@/hooks/live/useCancelLive'
+
+import LiveStreamPage from '@/components/live/showVideo'
+import { useRouter } from 'next/router'
+
+import Head from 'next/head'
+import { Inter } from 'next/font/google'
 import Header from '@/components/header'
 import { NextUIProvider } from '@nextui-org/react'
 import Chatroom from '@/components/chatroom'
-import OpenAI from '@/components/openAI'
-
-const animals = [
-    {
-        label: 'Cat',
-        value: 'cat',
-        description: 'The second most popular pet in the world',
-    },
-    {
-        label: 'Dog',
-        value: 'dog',
-        description: 'The most popular pet in the world',
-    },
-    {
-        label: 'Elephant',
-        value: 'elephant',
-        description: 'The largest land animal',
-    },
-    { label: 'Lion', value: 'lion', description: 'The king of the jungle' },
-]
+import OpenAi from '@/components/openAI'
 
 export default function Live() {
+    const { previewLive } = usePreviewLive()
+    const { getLive, liveurl } = useGetLive()
+    const { cancelLive } = useCancelLive()
+    const [isLive, setIsLive] = useState(false)
+
+    useEffect(() => {
+        previewLive()
+    }, [])
+
+    const handleStartLive = () => {
+        getLive()
+        setIsLive(true)
+    }
+
+    const handleEndLive = () => {
+        cancelLive()
+        setIsLive(false)
+    }
+
+    const eventData = {
+        live: {
+            source: 'https://example.com/live-stream',
+            type: 'LIVE_TYPE_LIVE',
+        },
+    }
     const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches
 
     const [theme, setTheme] = useState('light')
@@ -33,11 +51,17 @@ export default function Live() {
         setTheme(theme === 'light' ? 'dark' : 'light')
     }
     const [isSelected, setIsSelected] = React.useState(false)
+    const router = useRouter()
+    const { id } = router.query
+
     return (
         <>
             <Header toggleTheme={toggleTheme} theme={theme} />
+
             <main className="px-20 w-full flex   flex-row mt-5 gap-5 items-start justify-center">
-                <div className=" w-1/2 md:7/12 flex-col ">
+                <div className="w-1/2 md:7/12 flex-col">
+                    {/* <LiveStreamPage eventData={eventData} className="bg-gray-500  w-[600px] h-[400px] md:w-full md:h-full" /> */}
+
                     <div className="flex flex-col  w-full h-1/5  md:h-96">
                         <div className="bg-gray-500  w-full h-full md:w-full md:h-full"></div>
                         <Input className={'mt-4'} type="直播名稱" variant="bordered" label="直播名稱" />
@@ -48,6 +72,7 @@ export default function Live() {
                         size="lg"
                         color="danger"
                         variant="bordered"
+                        onClick={isLive ? handleEndLive : handleStartLive}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                             <path
@@ -55,18 +80,13 @@ export default function Live() {
                                 fill="red"
                             />
                         </svg>
-                        開始直播
+                        {isLive ? '結束直播' : '開始直播'}
                     </Button>
                 </div>
-                <div className="w-full  h-1/5  md:w-5/12 flex flex-col ">
-                    <Tabs aria-label="Options" size="sm">
-                        <Tab key="chatroom" title="聊天室">
-                            <Chatroom />
-                        </Tab>
-                        <Tab key="ai" title="AI問答">
-                            <OpenAI />
-                        </Tab>
-                    </Tabs>
+
+                <div className="w-full  h-1/5  md:w-5/12 flex flex-col gap-4">
+                    <Chatroom />
+                    <OpenAi />
                 </div>
             </main>
         </>

@@ -146,6 +146,7 @@ export const submit = (app: AuthType) =>
         fileId: body.id,
         userId: profile.id,
       }).save();
+      return {};
     },
     {
       params: t.Object({

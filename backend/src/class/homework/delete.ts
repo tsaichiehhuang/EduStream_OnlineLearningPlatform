@@ -32,7 +32,7 @@ export const deleteHomework = (app: AuthType) =>
           set.status = 404;
           return "File Not Found";
         } else if (file.location == "kkCompany") {
-          console.warn("KK File: ", file);
+          console.warn("KK File：", file);
           const access_token = process.env.API_TOKEN;
           await (async function () {
             try {

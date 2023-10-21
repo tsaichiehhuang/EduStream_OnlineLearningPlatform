@@ -8,11 +8,6 @@ export const overview = (app: AuthType) =>
   app.get(
     "/:id/overview",
     async ({ profile, set, params: { id } }) => {
-      if (!profile) {
-        set.status = 401;
-        return "Unauthorized";
-      }
-
       if (profile.role !== "instructor") {
         set.status = 403;
         return "Not an Instructor";

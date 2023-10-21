@@ -1,13 +1,12 @@
-import { Elysia, t } from "elysia";
+import { t } from "elysia";
 import { Section } from "../models/section";
-import { Class } from "../models/class";
+import { AuthType } from "../types/type";
 
-export const update = (app: Elysia) =>
+export const update = (app: AuthType) =>
   app.put(
     "/:id",
-    async ({ profile, set, body, params: { id } }) => {
+    async ({ set, body, params: { id } }) => {
       const title = body.title;
-
       try {
         await Section.createQueryBuilder("section")
           .update(Section)

@@ -1,25 +1,10 @@
-import { Elysia, t } from "elysia";
-
+import { t } from "elysia";
 import { Class } from "../models/class";
-import { auth } from "../utils/auth";
-import { ElysiaRequest } from "../types/typeConverter";
 import { UserRole } from "../types/type";
 import { Submission } from "../models/submission";
+import { AuthType } from "../types/type";
 
-export const getClass = (
-  app: Elysia<
-    "",
-    {
-      request: {
-        profile: Exclude<
-          ElysiaRequest<typeof auth>["profile"],
-          null | undefined
-        >;
-      };
-      store: {};
-    }
-  >
-) =>
+export const getClass = (app: AuthType) =>
   app.get(
     "/:classId",
     async ({ profile, params, set }) => {

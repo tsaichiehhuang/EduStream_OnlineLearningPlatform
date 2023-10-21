@@ -7,11 +7,11 @@ import {
   IsLocalError,
   InvalidArgs,
 } from "../file/upload/complete";
-import { BlockType, KKFileUploadComplete } from "../types/type";
+import { AuthType, BlockType, KKFileUploadComplete } from "../types/type";
 import { createBlock } from "./block";
 import { File } from "../models/file";
 
-export const createFile = (app: Elysia) =>
+export const createFile = (app: AuthType) =>
   app.post(
     "/file",
     async function ({ body, set }) {

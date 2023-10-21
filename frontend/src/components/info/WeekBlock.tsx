@@ -115,7 +115,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                                                 underline="hover"
                                                 onPress={() => handleFileClick(block.fileId, block.file.name)}
                                             >
-                                                {getFileIcon(block.file.path)}
+                                                {getFileIcon(block.file.name)}
                                                 {block.file.name}
                                             </Link>
                                             {editMode && (
@@ -197,7 +197,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                                         underline="hover"
                                         onPress={() => handleFileClick(block.fileId, block.file.name)}
                                     >
-                                        {getFileIcon(block.file.path)}
+                                        {getFileIcon(block.file.name)}
                                         {block.file.name}
                                     </Link>
                                 </div>

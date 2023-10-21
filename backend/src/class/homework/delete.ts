@@ -5,7 +5,7 @@ import axios, { AxiosError } from "axios";
 
 export const deleteHomework = (app: Elysia) =>
   app.delete(
-    "/:homeworkId/delete",
+    "/:id/delete",
     async ({ profile, params, set }) => {
 
         if (!profile) {
@@ -16,7 +16,7 @@ export const deleteHomework = (app: Elysia) =>
         try {
 
             const sub = await Submission.findOneBy({ 
-                hwId: Number(params.homeworkId), 
+                hwId: Number(params.id), 
                 userId: profile.id
             })
             if (!sub) {
@@ -27,7 +27,7 @@ export const deleteHomework = (app: Elysia) =>
             await Submission.createQueryBuilder("submission")
             .delete()
             .where({
-                hwId: params.homeworkId,
+                hwId: params.id,
                 userId: profile.id
             })
             .execute();
@@ -76,7 +76,7 @@ export const deleteHomework = (app: Elysia) =>
             await Submission.createQueryBuilder("submission")
             .delete()
             .where({
-                fileId: params.homeworkId
+                fileId: params.id
             })
             .execute();
 
@@ -84,7 +84,7 @@ export const deleteHomework = (app: Elysia) =>
             return {
                 data: {
                     class: {
-                        id: params.homeworkId
+                        id: params.id
                     },
                 },
             };

@@ -76,9 +76,9 @@ export default function Chatroom() {
     }
 
     // 如果有新的訊息，捲動到最底下以顯示新的訊息
-    const cardBodyRef = useRef(null)
+    const cardBodyRef = useRef<any>(null)
     useEffect(() => {
-        const element = cardBodyRef.current
+        const element: any = cardBodyRef.current
         if (element) {
             element.scrollTop = element.scrollHeight
         }
@@ -88,7 +88,7 @@ export default function Chatroom() {
         <Card className=" w-full  max-h-[450px]">
             <CardHeader className="flex gap-3 justify-between text-lg font-bold">聊天室</CardHeader>
             <Divider />
-            <CardBody ref={cardBodyRef} className="flex flex-col min-h-[350px] max-h-[350px] overflow-y-scroll gap-4">
+            <div ref={cardBodyRef} className="flex flex-col min-h-[350px] max-h-[350px] overflow-y-scroll gap-4">
                 {messages.map((message: any, index) => (
                     <div key={index} className="flex flex-col gap-0.5">
                         <div className="text-xs">{message.name}</div>
@@ -100,7 +100,7 @@ export default function Chatroom() {
                         </Card>
                     </div>
                 ))}
-            </CardBody>
+            </div>
             <CardFooter className="flex flex-row justify-center items-center gap-1">
                 <Input
                     className=" rounded-lg text-xs z-0 flex"

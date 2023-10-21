@@ -1,17 +1,14 @@
-// path.resolve(staticRoot, dbFile.path)
-// file/download.ts
-
-// const dbFile = await File.findOneBy({ id: fileId });
-// import { KK_API_ENDPOINT, staticRoot } from "../utils/constant";
-
 import { Elysia, t } from "elysia";
 import { File } from "../models/file";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
-import { KK_API_ENDPOINT, staticRoot } from "../utils/constant";
+import { staticRoot } from "../utils/constant";
 import path from "path";
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { RetrievalQAChain } from "langchain/chains";
+import { ChatOpenAI } from "langchain/chat_models/openai";
+import { Chroma } from "langchain/vectorstores/chroma";
 import { CharacterTextSplitter } from "langchain/text_splitter";
-import { OpenAI } from "langchain/llms/openai";
-import { loadSummarizationChain } from "langchain/chains";
+import { MemoryVectorStore } from "langchain/vectorstores/memory";
 
 export const createSummary = (app: Elysia) =>
   app.post(
@@ -53,13 +50,39 @@ export const createSummary = (app: Elysia) =>
           output.length
         );
 
-        const chain = loadSummarizationChain(new OpenAI({ temperature: 0 }), {
-          type: "map_reduce",
-        });
-        const answer = await chain.call({
-          input_documents: docs,
-        });
-        console.warn({ answer });
+            const splitter = new CharacterTextSplitter({
+                separator: "\n",
+                chunkSize: concat_doc_len,
+                chunkOverlap: Math.floor(concat_doc_len/5) == 0 ? 1 : Math.floor(concat_doc_len/5),
+            });
+            const output = await splitter.createDocuments([concat_doc]);
+
+            const vectorStore = await MemoryVectorStore.fromDocuments(
+                output,
+                new OpenAIEmbeddings()
+            );
+
+            const model = new ChatOpenAI({ modelName: "gpt-3.5-turbo" });
+            const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
+
+            const response = await chain.call({
+                query: "這份文件的摘要是什麼？",
+            });
+            console.warn(response);
+
+            set.status = 200
+            return {
+                message: response
+            }
+
+        } catch (err) {
+            console.warn(err)
+            set.status = 500;
+            return {
+                api: "Create Summary",
+                error: "Create summary failed.",
+            };
+        }
 
         set.status = 200;
         return {

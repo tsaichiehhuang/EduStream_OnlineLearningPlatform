@@ -141,11 +141,30 @@ export const submit = (app: AuthType) =>
           return "Local file not completely uploaded";
         }
       }
-      await Submission.create({
-        hwId: hwId,
-        fileId: body.id,
-        userId: profile.id,
-      }).save();
+
+      const maybeOldSubmission = await Submission.findOne({
+        relations: {
+          file: true,
+        },
+        where: {
+          hwId: hwId,
+          userId: profile.id,
+        },
+      });
+
+      if (maybeOldSubmission === null) {
+        await Submission.create({
+          hwId: hwId,
+          fileId: body.id,
+          userId: profile.id,
+        }).save();
+      } else {
+        if (maybeOldSubmission.file) {
+          await maybeOldSubmission.file.remove();
+        }
+        maybeOldSubmission.fileId = body.id;
+        await maybeOldSubmission.save();
+      }
       return {};
     },
     {

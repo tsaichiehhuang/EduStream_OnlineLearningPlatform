@@ -74,4 +74,9 @@ export const removeFile = (app: Elysia) =>
       console.log(err);
       return "Query Failed";
     }
+  }, {
+    params: t.Object({
+      id: t.String(),
+    }),
+
   });

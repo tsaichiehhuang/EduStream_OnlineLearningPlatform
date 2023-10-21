@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import videojs from "video.js";
-import "video.js/dist/video-js.css";
+import React, { useEffect } from 'react'
+import videojs from 'video.js'
+import 'video.js/dist/video-js.css'
 
 type LiveStreamPlayerProps = {
   source: string; // Change the type to match the actual type of 'source'
@@ -16,17 +16,17 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = ({ source }) => {
         height: 360,
       });
 
-      // Define the video source
-      const src = {
-        src: source,
-        type: "application/dash+xml",
-      };
+            // Define the video source
+            const src = {
+                src: source,
+                type: 'application/dash+xml',
+            }
 
-      // Set the source and play the video
-      player.src(src);
-      player.play();
-    }
-  }, [source]);
+            // Set the source and play the video
+            player.src(src)
+            player.play()
+        }
+    }, [source])
 
   return (
     <div>
@@ -41,4 +41,4 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = ({ source }) => {
   );
 };
 
-export default LiveStreamPlayer;
+export default LiveStreamPlayer

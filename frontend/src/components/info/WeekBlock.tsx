@@ -22,7 +22,6 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
     const handleFileClick = (fileId: number, fileName: string) => {
         downloadFile(fileId, fileName)
     }
-    const { getSummary, summaryData } = useGetSummary()
     const handleSummary = (fileId: any, fileName: string) => {
         Cookies.set('fileName', fileName)
         window.open(`http://localhost:3000/point/${fileId}`, '_blank')

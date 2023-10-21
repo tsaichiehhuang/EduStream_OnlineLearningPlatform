@@ -50,17 +50,20 @@ export const createSummary = (app: Elysia) =>
           output.length
         );
 
-            const vectorStore = await MemoryVectorStore.fromDocuments(
-                output,
-                new OpenAIEmbeddings()
-            );
+        const vectorStore = await MemoryVectorStore.fromDocuments(
+          output,
+          new OpenAIEmbeddings()
+        );
 
-            const model = new ChatOpenAI({ modelName: "gpt-3.5-turbo" });
-            const chain = RetrievalQAChain.fromLLM(model, vectorStore.asRetriever());
+        const model = new ChatOpenAI({ modelName: "gpt-3.5-turbo" });
+        const chain = RetrievalQAChain.fromLLM(
+          model,
+          vectorStore.asRetriever()
+        );
 
-            const response = await chain.call({
-                query: "這份文件的摘要是什麼？",
-            });
+        const response = await chain.call({
+          query: "這份文件的摘要是什麼？",
+        });
         set.status = 200;
         return {
           message: response,

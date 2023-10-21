@@ -6,9 +6,11 @@ import {
   JoinColumn,
   BaseEntity,
   OneToMany,
+  OneToOne
 } from "typeorm";
 import { User } from "./user";
 import { Section } from "./section";
+import { Stream } from "./stream";
 
 @Entity("Class")
 export class Class extends BaseEntity {
@@ -33,4 +35,7 @@ export class Class extends BaseEntity {
 
   @OneToMany(() => Section, (section) => section.class)
   sections?: import("./section").Section[];
+
+  @OneToOne(() => Stream, (stream) => stream.class)
+  stream?: import("./stream").Stream;
 }

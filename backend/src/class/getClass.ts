@@ -15,6 +15,7 @@ export const getClass = (app: AuthType) =>
 
       const result = await Class.createQueryBuilder("class")
         .leftJoinAndSelect("class.sections", "sections")
+        .leftJoinAndSelect("class.stream", "stream")
         .leftJoinAndSelect("sections.blocks", "blocks")
         .leftJoinAndSelect("blocks.file", "file")
         .leftJoinAndSelect("blocks.announcement", "announcement")
@@ -54,6 +55,7 @@ export const getClass = (app: AuthType) =>
           data: {
             class: {
               id: result.id,
+              stream: result.stream!.id,
               sections: result.sections!.map((sec) => ({
                 ...sec,
                 blocks: sec.blocks!.map((blk) => ({

@@ -2,16 +2,12 @@ import { Elysia, t } from "elysia";
 import { Submission } from "../../models/submission";
 import { File } from "../../models/file";
 import axios, { AxiosError } from "axios";
+import { AuthType } from "../../types/type";
 
-export const deleteHomework = (app: Elysia) =>
+export const deleteHomework = (app: AuthType) =>
   app.delete(
     "/:id/delete",
     async ({ profile, params, set }) => {
-      if (!profile) {
-        set.status = 401;
-        return "Unauthorized";
-      }
-
       try {
         const sub = await Submission.findOneBy({
           hwId: Number(params.id),
@@ -36,7 +32,7 @@ export const deleteHomework = (app: Elysia) =>
           set.status = 404;
           return "File Not Found";
         } else if (file.location == "kkCompany") {
-          console.warn("KK File：", file);
+          console.warn("KK File: ", file);
           const access_token = process.env.API_TOKEN;
           await (async function () {
             try {
@@ -51,12 +47,12 @@ export const deleteHomework = (app: Elysia) =>
               ).data;
             } catch (err) {
               console.warn(
-                "Error status：",
+                "Error status: ",
                 err.response?.status,
-                "Reason：",
+                "Reason: ",
                 err.response?.statusText
               );
-              console.warn("Details：", err.response?.data);
+              console.warn("Details: ", err.response?.data);
               set.status = err.response?.status;
               return "File delete from KK failed.";
             }

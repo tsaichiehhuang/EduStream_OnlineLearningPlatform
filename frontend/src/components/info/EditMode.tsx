@@ -26,6 +26,8 @@ import useDeleteAnnounce from '@/hooks/Info/useDeleteAnnounce'
 import useDeleteHW from '@/hooks/Info/useDeleteHW'
 import useUpdateHW from '@/hooks/Info/useUpdateHW'
 import Cookies from 'js-cookie'
+import useTeacherDelete from '@/hooks/file/useTeacherDelete'
+import useTeacherUpload from '@/hooks/file/useTeacherUpload'
 
 type EditModalProps = {
     isOpen: any
@@ -33,6 +35,7 @@ type EditModalProps = {
     file: any
     status: string
     id: number | null
+    sectionId: any
 }
 type DeleteModalProps = {
     isOpen: any
@@ -40,7 +43,7 @@ type DeleteModalProps = {
     id: any
     status: any
 }
-const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, status, id }) => {
+const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, status, id, sectionId }) => {
     const [selectedFile, setSelectedFile] = useState<any>(null)
     const [title, setTitle] = useState<string>('')
     const [description, setDescription] = useState<string>('')
@@ -49,6 +52,9 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
     const { updateSection } = useUpdateSection()
     const { updateAnnounce } = useUpdateAnnounce()
     const { updateHW } = useUpdateHW()
+    const { teacherDelete } = useTeacherDelete()
+    const [deleteFile, setDeleteFile] = useState<boolean>(false) //老師編輯檔案
+    const { teacherupload } = useTeacherUpload()
 
     const handleFileChange = (event: any) => {
         const file = event.target.files[0]
@@ -75,6 +81,15 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
             updateHW(updateHWReqestBody, id)
         }
     }
+    const handleTeachDelete = (fileId: any) => {
+        teacherDelete(fileId)
+        //發刪除api&前端即時更新
+        setDeleteFile(true)
+    }
+
+    const handleAddFile = () => {
+        teacherupload(selectedFile.name, selectedFile, sectionId)
+    }
 
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -83,46 +98,68 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
                     <>
                         <ModalHeader className="flex flex-col gap-1">編輯</ModalHeader>
                         <ModalBody>
-                            <Input
-                                variant="bordered"
-                                label={
-                                    status === 'announce' ? '更改公告' : status === 'title' ? '更改標題' : '更改名稱'
-                                }
-                                defaultValue={
-                                    status === 'announce'
-                                        ? file.announcement.content
-                                        : status === 'defaultAnnounce'
-                                        ? file
-                                        : status === 'title'
-                                        ? file
-                                        : file.homework.title
-                                }
-                                color="default"
-                                labelPlacement="outside"
-                                className="mt-4"
-                                onChange={(e) => setTitle(e.target.value)}
-                            />
-                            {status !== 'announce' && status !== 'defaultAnnounce' && status !== 'title' && (
-                                <Divider className="text-darkGray">or</Divider>
+                            {status !== 'file' && (
+                                <Input
+                                    variant="bordered"
+                                    label={
+                                        status === 'announce'
+                                            ? '更改公告'
+                                            : status === 'title'
+                                            ? '更改標題'
+                                            : '更改名稱'
+                                    }
+                                    defaultValue={
+                                        status === 'announce'
+                                            ? file.announcement.content
+                                            : status === 'defaultAnnounce'
+                                            ? file
+                                            : status === 'title'
+                                            ? file
+                                            : status === 'file'
+                                            ? file.file.name
+                                            : file.homework.title
+                                    }
+                                    color="default"
+                                    labelPlacement="outside"
+                                    className="mt-4"
+                                    onChange={(e) => setTitle(e.target.value)}
+                                />
                             )}
-
+                            {status === 'submit' && <Divider className="text-darkGray">or</Divider>}
                             {status === 'file' ? (
                                 <>
-                                    <p className="text-sm">更改檔案</p>
-                                    <Button variant="bordered" color="warning" className="text-warning hover:shadow">
-                                        <label
-                                            htmlFor="fileInput"
-                                            className="cursor-pointer bg-transparent px-4 py-2 rounded-lg w-full"
-                                        >
-                                            選擇檔案
-                                        </label>
-                                        <input
-                                            type="file"
-                                            id="fileInput"
-                                            className="hidden"
-                                            onChange={handleFileChange}
-                                        />
-                                    </Button>
+                                    {deleteFile && (
+                                        <>
+                                            <p className="text-sm">更改檔案</p>
+                                            <Button
+                                                variant="bordered"
+                                                color="warning"
+                                                className="text-warning hover:shadow"
+                                            >
+                                                <label
+                                                    htmlFor="fileInput"
+                                                    className="cursor-pointer bg-transparent px-4 py-2 rounded-lg w-full"
+                                                >
+                                                    選擇檔案
+                                                </label>
+                                                <input
+                                                    type="file"
+                                                    id="fileInput"
+                                                    className="hidden"
+                                                    onChange={handleFileChange}
+                                                />
+                                            </Button>
+                                        </>
+                                    )}
+                                    {file.file.name && !deleteFile && !selectedFile && (
+                                        <div className="mt-2 flex-row flex gap-4 items-center">
+                                            <div className="text-sm">已選擇: {file.file.name}</div>
+                                            <Button size="sm" onPress={() => handleTeachDelete(file.file.id)}>
+                                                刪除檔案
+                                            </Button>
+                                        </div>
+                                    )}
+
                                     {selectedFile && <div className="mt-2">已選擇: {selectedFile.name}</div>}
                                 </>
                             ) : (
@@ -157,7 +194,11 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
                             <Button color="default" variant="light" onPress={handleCloseModal}>
                                 取消
                             </Button>
-                            <Button color="primary" className="text-white" onPress={handleSubmit}>
+                            <Button
+                                color="primary"
+                                className="text-white"
+                                onPress={status === 'file' ? handleAddFile : handleSubmit}
+                            >
                                 確定
                             </Button>
                         </ModalFooter>
@@ -171,6 +212,7 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onOpenChange, id }) =
     const { deleteSection } = useDeleteSection()
     const { deleteAnnounce } = useDeleteAnnounce()
     const { deleteHW } = useDeleteHW()
+    const { teacherDelete } = useTeacherDelete()
     const status = Cookies.get('status')
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -209,8 +251,9 @@ type EditProps = {
     file: any
     status: string
     id: number | null
+    sectionId: any
 }
-export const Edit: React.FC<EditProps> = ({ file, status, id }) => {
+export const Edit: React.FC<EditProps> = ({ file, status, id, sectionId }) => {
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
     return (
@@ -228,7 +271,14 @@ export const Edit: React.FC<EditProps> = ({ file, status, id }) => {
                 </svg>
                 <div className="text-zinc-400 text-[8px] font-normal font-['Noto Sans TC']">編輯</div>
             </Button>
-            <EditModal isOpen={isOpen} onOpenChange={onOpenChange} file={file} status={status} id={id} />
+            <EditModal
+                isOpen={isOpen}
+                onOpenChange={onOpenChange}
+                file={file}
+                status={status}
+                id={id}
+                sectionId={sectionId}
+            />
         </>
     )
 }

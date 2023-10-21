@@ -53,7 +53,7 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, statu
     }
     const requestBody = {
         title: title,
-        endTime: time,
+        endTime: time || selectedDate,
         description: description,
         sectionId: sectionId,
     }

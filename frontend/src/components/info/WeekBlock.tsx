@@ -40,7 +40,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
 
                         <div className="gap-1 flex flex-row items-center justify-center">
                             <Delete status="title" id={data.id} onClick={Cookies.set('status', 'title')} />
-                            <Edit status="title" file={data.description} id={data.id} />
+                            <Edit status="title" file={data.description} id={data.id} sectionId={null} />
                             <svg
                                 className="ml-1"
                                 xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +97,12 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                                                         status="announce"
                                                         onClick={Cookies.set('status', 'announce')}
                                                     />
-                                                    <Edit file={block} status="announce" id={block.announceId} />
+                                                    <Edit
+                                                        file={block}
+                                                        status="announce"
+                                                        id={block.announceId}
+                                                        sectionId={null}
+                                                    />
                                                 </div>
                                             )}
                                         </div>
@@ -117,7 +122,12 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                                             {editMode && (
                                                 <div className="gap-1 flex flex-row items-start">
                                                     <Delete />
-                                                    <Edit file={block} status="file" id={null} />
+                                                    <Edit
+                                                        file={block}
+                                                        status="file"
+                                                        id={null}
+                                                        sectionId={block.sectionId}
+                                                    />
                                                 </div>
                                             )}
                                         </div>
@@ -181,10 +191,10 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                                         className="ml-5 gap-2"
                                         color="foreground"
                                         underline="hover"
-                                        onPress={() => handleFileClick(block.fileId, block.path)}
+                                        onPress={() => handleFileClick(block.fileId, block.file.path)}
                                     >
-                                        {getFileIcon(block.path)}
-                                        {block.name}
+                                        {getFileIcon(block.file.path)}
+                                        {block.file.name}
                                     </Link>
                                 </div>
                             )

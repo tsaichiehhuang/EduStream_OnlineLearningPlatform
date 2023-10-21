@@ -48,7 +48,16 @@ function getFileIcon(filePath: string) {
                     </div>
                 )
             default:
-                return null
+                return (
+                    <div className="w-[24px] h-[24px] bg-mainGreen rounded-full flex justify-center items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="12" viewBox="0 0 8 10" fill="none">
+                            <path
+                                d="M4.5 3.5V0.75L7.25 3.5M1 0C0.445 0 0 0.445 0 1V9C0 9.26522 0.105357 9.51957 0.292893 9.70711C0.48043 9.89464 0.734784 10 1 10H7C7.26522 10 7.51957 9.89464 7.70711 9.70711C7.89464 9.51957 8 9.26522 8 9V3L5 0H1Z"
+                                fill="white"
+                            />
+                        </svg>
+                    </div>
+                )
         }
     }
 

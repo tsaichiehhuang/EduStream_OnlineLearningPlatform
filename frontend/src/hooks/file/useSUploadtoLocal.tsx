@@ -1,18 +1,18 @@
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
-import useTeacherLocalFinal from "@/hooks/file/useTeacherLocalFinal";
+import useStudentSummit  from "@/hooks/file/useStudentSummit ";
 import { string } from "yup";
 
 const apiUrl = process.env.API_DOMAIN;
 
-function useUploadtoLocal() {
+function useSUploadtoLocal() {
   const router = useRouter();
   const token = Cookies.get("accessToken");
   const classid = Cookies.get("classId");
-  const { teacherlocalfinal } = useTeacherLocalFinal();
+  const { studentsummit } = useStudentSummit ();
 
-  const uploadtolocal = async (id: string, file: File,sectionId:string) => {
+  const suploadtolocal = async (id: string, file: File,hwid:string) => {
     const formData = new FormData();
     formData.append("id", id);
     formData.append("file", file);
@@ -28,19 +28,19 @@ function useUploadtoLocal() {
 
       const responseData = await response.json();
       if (response.ok) {
-        teacherlocalfinal(id,sectionId);
+        studentsummit(id,hwid);
         console.log("檔案上傳本地端成功");
       } else {
         console.log("檔案上傳本地端失敗");
-        teacherlocalfinal(id,sectionId);
+        studentsummit(id,hwid);
       }
     } catch (error) {
-      teacherlocalfinal(id,sectionId);
+      studentsummit(id,hwid);
       console.log("網路請求錯誤");
     }
   };
 
-  return { uploadtolocal };
+  return { suploadtolocal };
 }
 
-export default useUploadtoLocal;
+export default useSUploadtoLocal;

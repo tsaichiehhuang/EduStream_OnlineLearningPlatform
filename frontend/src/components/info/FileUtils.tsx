@@ -51,6 +51,7 @@ function getFileIcon(filePath: string) {
                 return null
         }
     }
+
     return null
 }
 export default getFileIcon

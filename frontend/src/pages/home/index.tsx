@@ -44,6 +44,7 @@ export default function Home() {
   const [formattedDate, setFormattedDate] = useState<string | undefined>();
   const handleClassClick = (classId: number, className: string) => {
     Cookies.set("className", className);
+    Cookies.set("classId", String(classId));
     window.location.href = `/info/${classId}`;
   };
   useEffect(() => {

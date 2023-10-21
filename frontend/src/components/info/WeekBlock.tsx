@@ -109,10 +109,10 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                                                 className="ml-5 gap-2"
                                                 color="foreground"
                                                 underline="hover"
-                                                onPress={() => handleFileClick(block.fileId, block.path)}
+                                                onPress={() => handleFileClick(block.fileId, block.file.path)}
                                             >
-                                                {getFileIcon(block.path)}
-                                                {block.name}
+                                                {getFileIcon(block.file.path)}
+                                                {block.file.name}
                                             </Link>
                                             {editMode && (
                                                 <div className="gap-1 flex flex-row items-start">

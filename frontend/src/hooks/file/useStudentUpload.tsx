@@ -2,18 +2,18 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import useUploadtoLocal from "@/hooks/file/useUploadtoLocal";
+import useSUploadtoLocal from "@/hooks/file/useSUploadtoLocal";
 
 const apiUrl = process.env.API_DOMAIN;
 
-function useFileUploadInit() {
+function useStudentUpload() {
   const router = useRouter();
   const token = Cookies.get("accessToken");
   const classid = Cookies.get("classId");
   const [type, settype] = useState("");
-  const { uploadtolocal } = useUploadtoLocal();
+  const { suploadtolocal } = useSUploadtoLocal();
 
-  const fileuploadinit = async (name: string, file: File) => {
+  const studentupload = async (name: string, file: File, hwid: string) => {
     const requestBody = {
       name: name,
       size: file.size,
@@ -23,6 +23,7 @@ function useFileUploadInit() {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(requestBody),
       });
@@ -36,10 +37,10 @@ function useFileUploadInit() {
         });
 
         if (responseData.location == "local") {
-          //第一步
-          uploadtolocal(responseData.id, file);
-          //第二步
+          suploadtolocal(responseData.id, file, hwid);
+      
         } else if (responseData.location == "kkCompany") {
+          
         }
       } else {
         Swal.fire("檔案準備上傳失敗", "", "warning");
@@ -53,7 +54,7 @@ function useFileUploadInit() {
     }
   };
 
-  return { fileuploadinit, type };
+  return { studentupload };
 }
 
-export default useFileUploadInit;
+export default useStudentUpload;

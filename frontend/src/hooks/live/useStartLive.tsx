@@ -1,10 +1,11 @@
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
-
+import useGetLive from "@/hooks/live/useGetLive";
 const apiUrl = process.env.API_DOMAIN;
 
 function useStartLive() {
+  const { getLive } = useGetLive();
   const router = useRouter();
   const token = Cookies.get("accessToken");
   const liveid = Cookies.get("liveid");
@@ -18,8 +19,8 @@ function useStartLive() {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
+            "Content-Type": "application/json",
+          },
         }
       );
       const responseData = await response.json();
@@ -31,7 +32,7 @@ function useStartLive() {
           timer: 1000,
         });
 
-        
+        getLive();
       } else {
         Swal.fire("直播開啟失敗", "", "warning");
       }

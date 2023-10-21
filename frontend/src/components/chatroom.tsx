@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button, Skeleton, Input, Chip } from '@nextui-org/react'
 import Cookies from 'js-cookie'
 
-const socket = new WebSocket(`wss://${process.env.API_DOMAIN!.match(/https?:\/\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5})/)![1]}/live`)
+let socket: WebSocket;
 export default function Chatroom() {
     const [name, setName] = useState<string | null>('')
     const [userID, setUserID] = useState<string | null>('')
@@ -12,6 +12,7 @@ export default function Chatroom() {
     useEffect(() => {
         setUserID(Cookies.get('userId'))
         setName(Cookies.get('userName'))
+        newSocket()
         async function sendMsg() {
             console.log(typeof liveID, typeof userID, typeof name)
             try {
@@ -29,6 +30,9 @@ export default function Chatroom() {
             }
         }
         sendMsg()
+    }, [])
+    const newSocket = () => {
+        socket = new WebSocket(`wss://${process.env.API_DOMAIN!.match(/https?:\/\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5})/)![1]}/live`)
         // 確認後端是否連線（常常顯示不出來是正常的）
         socket.onopen = (msg) => {
             console.log('open connection')
@@ -51,8 +55,10 @@ export default function Chatroom() {
         // 確認後端是否關閉連線
         socket.onclose = () => {
             console.log('close connection')
+            newSocket();
+            console.log('connection re-established')
         }
-    }, [])
+    }
     const handleInputKeyPress = (e: any) => {
         if (e.key === 'Enter') {
             sendMessage()

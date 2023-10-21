@@ -32,7 +32,7 @@ export const createSummary = (app: Elysia) =>
         const concat_doc_len =
           Math.floor(concat_doc.length * 0.2) > 0
             ? Math.floor(concat_doc.length * 0.2)
-            : 1;
+            : 2;
 
         const splitter = new CharacterTextSplitter({
           separator: "\n",

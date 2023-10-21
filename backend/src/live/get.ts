@@ -27,7 +27,6 @@ export const getLive = (app: Elysia) =>
           set.status = 401;
           return "Unauthorized";
         }
-
         const access_token = process.env.API_TOKEN;
         const result = await (async function () {
           try {

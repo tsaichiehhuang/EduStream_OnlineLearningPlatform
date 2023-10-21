@@ -22,11 +22,11 @@ function useCreateHW() {
                     icon: 'success',
                     title: '新增成功',
                     showConfirmButton: false,
-                    timer: 1000,
+                    timer: 600,
                 })
-                // setTimeout(() => {
-                //     window.location.reload()
-                // }, 1000)
+                setTimeout(() => {
+                    window.location.reload()
+                }, 550)
             }
         } catch (error) {
             Swal.fire('新增失敗', '', 'warning')

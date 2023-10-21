@@ -127,7 +127,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                     </CardBody>
                     <CardFooter className="justify-end gap-4">
                         <AddSubmittedArea sectionId={data.id} classId={data.classId} blockOrder={data.order} />
-                        <AddFileButton />
+                        <AddFileButton sectionId={data.id} classId={data.classId} blockOrder={data.order} />
                         <AddTextButton sectionId={data.id} classId={data.classId} blockOrder={data.order} />
                     </CardFooter>
                 </Card>

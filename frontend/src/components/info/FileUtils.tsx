@@ -34,6 +34,19 @@ function getFileIcon(filePath: string) {
                         </svg>
                     </div>
                 )
+            case 'jpg':
+            case 'png':
+            case 'jpeg':
+                return (
+                    <div className="w-[24px] h-[24px] bg-mainBlue rounded-full flex justify-center items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <path
+                                d="M13.9035 12.5966V3.44891C13.9035 2.73016 13.3154 2.14209 12.5966 2.14209H3.44891C2.73016 2.14209 2.14209 2.73016 2.14209 3.44891V12.5966C2.14209 13.3154 2.73016 13.9035 3.44891 13.9035H12.5966C13.3154 13.9035 13.9035 13.3154 13.9035 12.5966ZM5.73584 9.00289L7.36936 10.9696L9.65629 8.02277L12.5966 11.9432H3.44891L5.73584 9.00289Z"
+                                fill="white"
+                            />
+                        </svg>
+                    </div>
+                )
             default:
                 return null
         }

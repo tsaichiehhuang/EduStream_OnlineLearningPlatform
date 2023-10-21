@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
 
-const LiveStreamPlayer = ({ source }) => {
+type LiveStreamPlayerProps = {
+  source: string; // Change the type to match the actual type of 'source'
+};
+
+const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = ({ source }) => {
   useEffect(() => {
     if (typeof window !== "undefined") {
       // Initialize the Video.js player

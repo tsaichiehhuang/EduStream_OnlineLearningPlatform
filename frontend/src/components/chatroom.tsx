@@ -19,23 +19,14 @@ export default function Chatroom() {
         // 確認後端是否連線（常常顯示不出來是正常的）
         socket.onopen = (msg) => {
             console.log('open connection')
-            function sendMsg() {
-                console.log(typeof liveID, typeof userID, typeof name)
-                try {
-                    socket.send(
-                        JSON.stringify({
-                            message: 'EduStream_test_connection',
-                            liveID: liveID,
-                            userID: userID,
-                            name: name,
-                        })
-                    )
-                    console.log('發送成功')
-                } catch (error) {
-                    console.error('Error:', error)
-                }
-            }
-            sendMsg()
+            socket.send(
+                JSON.stringify({
+                    message: 'EduStream_test_connection',
+                    liveID: liveID,
+                    userID: userID,
+                    name: name,
+                })
+            )
         }
         // 收到後端訊息後要做什麼（把收到的訊息加進舊訊息的Array）
         socket.onmessage = (event) => {

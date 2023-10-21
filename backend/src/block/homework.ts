@@ -3,6 +3,7 @@ import { Class } from "../models/class";
 import { createBlock } from "./block";
 import { BlockType } from "../types/type";
 import { Homework } from "../models/homework";
+import { submit } from "../class/homework/submission/submit";
 
 // create block and homework
 const createHomework = (app: Elysia) =>
@@ -205,4 +206,6 @@ const remove = async (id: number) => {
 export const homeworkRoutes = (app: Elysia) =>
   app
     .use(createHomework)
-    .group("/homework", (app) => app.use(updateHomework).use(deleteHomework));
+    .group("/homework", (app) =>
+      app.use(updateHomework).use(deleteHomework).use(submit)
+    );

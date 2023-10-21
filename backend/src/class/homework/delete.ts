@@ -37,7 +37,7 @@ export const deleteHomework = (app: AuthType) =>
           await (async function () {
             try {
               return (
-                await axios.delete(`cms/v1/library/files/${body.id}`, {
+                await axios.delete(`cms/v1/library/files/${params.id}`, {
                   baseURL: "https://api.one-stage.kkstream.io/bv/",
                   headers: {
                     Authorization: `Bearer ${access_token}`,
@@ -88,7 +88,7 @@ export const deleteHomework = (app: AuthType) =>
       }
     },
     {
-      body: t.Object({
+      params: t.Object({
         id: t.String(),
       }),
     }

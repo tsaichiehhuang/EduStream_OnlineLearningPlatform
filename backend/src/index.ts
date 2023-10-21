@@ -29,11 +29,11 @@ import { createFile, removeFile } from "./block/file";
 import { orderBlock } from "./block/order";
 
 import { overview as homeworkOverview } from "./class/homework/overview";
+import { socket } from "./socket/socket";
 
 import { getLive } from "./live/get";
 import { endLive } from "./live/end";
 import { startLive } from "./live/start";
-import { socketChat } from "./live/socket";
 import { cancelLive } from "./live/cancel";
 import { createLive } from "./live/create";
 import { archiveLive } from "./live/archive";
@@ -47,6 +47,7 @@ import { cancel } from "./file/upload/cancel";
 await initDatabase();
 
 const app = new Elysia()
+  .use(socket)
   .use(cors())
   .get("/", () => "Hello World!")
   .group("user", (app) => app.use(signup).use(signin).use(info))
@@ -78,7 +79,6 @@ const app = new Elysia()
       .use(startLive)
       .use(cancelLive)
       .use(createLive)
-      .use(socketChat)
       .use(archiveLive)
       .use(previewLive)
   )

@@ -10,6 +10,7 @@ function useGetLive() {
   const token = Cookies.get("accessToken");
   const liveid = Cookies.get("liveid");
   const [liveurl, setliveurl] = useState("");
+  const [livestate, setlivestate] = useState("88");
 
   const getLive = async () => {
     try {
@@ -33,20 +34,19 @@ function useGetLive() {
           showConfirmButton: false,
           timer: 1000,
         });
-        setliveurl(responseData.live.setup.url);
+        setliveurl(responseData.data.live.setup.url);
+        setlivestate(responseData.data.live.status);
+        console.log(livestate);
       } else {
-        Swal.fire("直播資訊失敗", "", "warning");
+        setlivestate(responseData.data.live.status);
       }
     } catch (error) {
-      Swal.fire({
-        icon: "error",
-        title: "網路請求錯誤",
-        text: "請稍後再試或通知我們的工程團隊。",
-      });
+      console.log("yl k7x");
+      //setlivestate(responseData.data.live.status);
     }
   };
 
-  return { getLive, liveurl };
+  return { getLive, liveurl, livestate };
 }
 
 export default useGetLive;

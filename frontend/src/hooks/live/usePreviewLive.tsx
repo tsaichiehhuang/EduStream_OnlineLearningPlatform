@@ -2,10 +2,11 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import Swal from "sweetalert2";
 import useStartLive from "@/hooks/live/useStartLive";
-
+import useGetLive from "@/hooks/live/useGetLive";
 const apiUrl = process.env.API_DOMAIN;
 
 function usePreviewLive() {
+  const { getLive } = useGetLive();
   const router = useRouter();
   const token = Cookies.get("accessToken");
   const liveid = Cookies.get("liveid");
@@ -36,7 +37,6 @@ function usePreviewLive() {
         startLive();
       } else {
         console.log("直播準備失敗")
-      
       }
     } catch (error) {
       Swal.fire({

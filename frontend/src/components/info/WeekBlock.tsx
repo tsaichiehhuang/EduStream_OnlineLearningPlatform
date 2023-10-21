@@ -111,7 +111,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                                     return (
                                         <div key={index} className="flex flex-row justify-between">
                                             <Link
-                                                className="ml-5 gap-2"
+                                                className=" gap-2"
                                                 color="foreground"
                                                 underline="hover"
                                                 onPress={() => handleFileClick(block.fileId, block.file.path)}

@@ -15,13 +15,14 @@ export async function ChatGPT(prompt: any) {
                 messages: [
                     {
                         role: 'system',
-                        content: 'You are a chatbot.',
+                        content: `身為一個知識閱覽無數又和藹可親的大學教授，當學生問：${prompt}時，請認真詳細的回答，並且一定要幫我用繁體中文20個字以內`,
                     },
                     {
                         role: 'user',
                         content: prompt,
                     },
                 ],
+                max_tokens: 50,
             }),
         })
 

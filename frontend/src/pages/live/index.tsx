@@ -34,6 +34,7 @@ export default function Live() {
         setTheme(theme === 'light' ? 'dark' : 'light')
     }
     const [isSelected, setIsSelected] = React.useState(false)
+    const [chatMsg, setChatMsg] = useState([] as Record<string, any>[])
     return (
         <>
             <Header toggleTheme={toggleTheme} theme={theme} />
@@ -62,7 +63,7 @@ export default function Live() {
                 <div className="w-full  h-1/5  md:w-5/12 flex flex-col ">
                     <Tabs aria-label="Options" size="sm">
                         <Tab key="chatroom" title="聊天室">
-                            <Chatroom />
+                            <Chatroom messages={chatMsg} setMessages={setChatMsg} />
                         </Tab>
                         <Tab key="ai" title="AI問答">
                             <OpenAI />

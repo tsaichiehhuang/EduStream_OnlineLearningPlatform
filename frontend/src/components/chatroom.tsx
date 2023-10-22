@@ -3,10 +3,15 @@ import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button, Skeleton
 import Cookies from 'js-cookie'
 
 let socket: WebSocket;
-export default function Chatroom() {
+
+type Props = {
+    messages: Record<string, any>[],
+    setMessages: React.Dispatch<React.SetStateAction<Record<string, any>[]>>
+}
+
+export default function Chatroom({ messages, setMessages }: Props) {
     const [name, setName] = useState<string | null>('')
     const [userID, setUserID] = useState<string | null>('')
-    const [messages, setMessages] = useState<object[]>([])
     const [newMessage, setNewMessage] = useState<string>('')
     const [liveID, setLiveID] = useState<string>('1') //等沛婕做完liveID的cookie再改
     useEffect(() => {
@@ -15,7 +20,9 @@ export default function Chatroom() {
         newSocket()
     }, [])
     const newSocket = () => {
-        socket = new WebSocket(`wss://${process.env.API_DOMAIN!.match(/https?:\/\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5})/)![1]}/live`)
+        if (socket === undefined || (socket.readyState === WebSocket.CLOSED || socket.readyState === WebSocket.CLOSING)) {
+            socket = new WebSocket(`wss://${process.env.API_DOMAIN!.match(/https?:\/\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5})/)![1]}/live`)
+        }
         // 確認後端是否連線（常常顯示不出來是正常的）
         socket.onopen = (msg) => {
             console.log('open connection')

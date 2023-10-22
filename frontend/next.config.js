@@ -4,6 +4,7 @@ const nextConfig = {
     pageExtensions: ['ts', 'tsx', 'mdx'],
     env: {
         API_DOMAIN: process.env.API_DOMAIN,
+        OPENAI_API_KEY: process.env.OPENAI_API_KEY,
     },
     reactStrictMode: false,
 }

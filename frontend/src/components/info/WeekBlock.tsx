@@ -24,7 +24,7 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
     }
     const handleSummary = (fileId: any, fileName: string) => {
         Cookies.set('fileName', fileName)
-        window.open(`http://localhost:3000/point/${fileId}`, '_blank')
+        window.open(`https://edustream-online-learning-platform.vercel.app/point/${fileId}`, '_blank')
         Cookies.set('fileId', fileId)
     }
 

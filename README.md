@@ -49,9 +49,8 @@
 
 ### Tech Stack
 
-1. Backend: Bun + Elysia
-2. Frontend: npm + Next.js
-3. Database: MySQL
+1. Backend: Bun, Elysia, TypeScript
+2. Frontend: npm, Next.js, TypeScript
+3. Database: MySQL, TypeORM
 4. API: BlendVision, OpenAI
-5. Deployment: EC2 (for backend), Versel (for frontend)
-
+5. Deployment: EC2 (for backend), Vercel (for frontend)

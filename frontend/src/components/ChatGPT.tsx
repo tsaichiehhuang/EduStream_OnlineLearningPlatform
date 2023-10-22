@@ -8,7 +8,7 @@ export async function ChatGPT(prompt: any) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer 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`,
+                Authorization: `Bearer ${API_KEY}`,
             },
             body: JSON.stringify({
                 model: 'gpt-3.5-turbo',

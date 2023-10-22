@@ -89,7 +89,7 @@ export default function Chatroom({ messages, setMessages }: Props) {
     // 如果有新的訊息，捲動到最底下以顯示新的訊息
     const cardBodyRef = useRef(null)
     useEffect(() => {
-        const element = cardBodyRef.current
+        const element: HTMLElement | null = cardBodyRef.current
         if (element) {
             element.scrollTop = element.scrollHeight
         }

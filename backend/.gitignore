@@ -43,3 +43,4 @@ package-lock.json
 
 # project files
 /.env
+/static

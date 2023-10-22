@@ -31,6 +31,7 @@ jobs:
             git remote set-url origin https://tsaichiehhuang:${{ secrets.BE_DEPLOY_PAT }}@github.com/tsaichiehhuang/EduStream_OnlineLearningPlatform.git
             git fetch origin
             git remote set-url origin https://github.com/tsaichiehhuang/EduStream_OnlineLearningPlatform.git
+            systemctl --user stop eduStream
             git switch --force main
             # remove the branch to ensure getting the right commit
             git branch -D $BRANCH; true
@@ -41,4 +42,4 @@ jobs:
             export PATH=$BUN_INSTALL/bin:$PATH
             /home/ubuntu/.bun/bin/bun install --frozen-lockfile
             echo "===Starting server==="
-            systemctl --user restart eduStream
+            systemctl --user start eduStream

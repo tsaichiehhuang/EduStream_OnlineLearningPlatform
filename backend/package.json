@@ -7,17 +7,27 @@
     "start": "bun run src/index.ts"
   },
   "dependencies": {
+    "@elysiajs/bearer": "^0.7.0",
+    "@elysiajs/cookie": "^0.7.0",
     "@elysiajs/cors": "^0.7.1",
+    "@elysiajs/jwt": "^0.7.0",
     "axios": "^1.5.1",
+    "bcrypt-ts": "^4.0.1",
+    "dotenv": "^16.3.1",
     "elysia": "latest",
+    "hnswlib-node": "^2.0.0",
+    "langchain": "^0.0.170",
     "mysql2": "^3.6.1",
+    "pdf-parse": "^1.1.1",
     "prettier": "2.8.8",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.3.17",
+    "validator": "^13.11.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "@types/validator": "^13.11.2"
   },
   "module": "src/index.js"
 }

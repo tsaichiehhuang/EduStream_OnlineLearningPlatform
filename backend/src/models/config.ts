@@ -11,7 +11,7 @@ import { Submission } from "./submission";
 import { Stream } from "./stream";
 import { Announcement } from "./announcement";
 import { Block } from "./block";
-import { Week } from "./week";
+import { Section } from "./section";
 
 if (env.MODE === "test") {
   console.info("DB running in test mode");
@@ -23,10 +23,20 @@ export const Database = new DataSource({
   password: env.DB_PASSWORD,
   host: env.DB_HOST,
   database: env.MODE === "test" ? "EduStream_test" : "EduStream",
-  entities: [User, Class, Enroll, File, Homework, Submission, Stream, Announcement, Block, Week],
+  entities: [
+    User,
+    Class,
+    Enroll,
+    File,
+    Homework,
+    Submission,
+    Stream,
+    Announcement,
+    Block,
+    Section,
+  ],
   connectTimeout: 3000,
-  debug: env.MODE === "test",
-})
+});
 
 export async function initDatabase() {
   while (1) {
@@ -36,7 +46,7 @@ export async function initDatabase() {
     } catch (err) {
       console.warn("Can't connect to database. Try again in 3 seconds.");
       console.info(err, "\n");
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
     }
   }
 }

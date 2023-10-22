@@ -28,9 +28,11 @@ export const createSummary = (app: Elysia) =>
         const docs = await loader.load();
 
         const concat_doc = docs.map((doc) => doc.pageContent).join("");
-        if (concat_doc.length > 4096){
+        if (concat_doc.length > 4096) {
           set.status = 400;
-          return { error: `Your File is too large（${concat_doc.length} tokens）, please choose a file less than 4097 tokens.` }
+          return {
+            error: `Your File is too large（${concat_doc.length} tokens）, please choose a file less than 4097 tokens.`,
+          };
         }
         const concat_doc_len =
           Math.floor(concat_doc.length * 0.2) > 1

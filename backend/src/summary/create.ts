@@ -6,7 +6,6 @@ import path from "path";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { RetrievalQAChain } from "langchain/chains";
 import { ChatOpenAI } from "langchain/chat_models/openai";
-import { Chroma } from "langchain/vectorstores/chroma";
 import { CharacterTextSplitter } from "langchain/text_splitter";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 
@@ -29,6 +28,10 @@ export const createSummary = (app: Elysia) =>
         const docs = await loader.load();
 
         const concat_doc = docs.map((doc) => doc.pageContent).join("");
+        if (concat_doc.length > 4096){
+          set.status = 400;
+          return { error: `Your File is too large（${concat_doc.length} tokens）, please choose a file less than 4097 tokens.` }
+        }
         const concat_doc_len =
           Math.floor(concat_doc.length * 0.2) > 1
             ? Math.floor(concat_doc.length * 0.2)
@@ -43,12 +46,6 @@ export const createSummary = (app: Elysia) =>
               : Math.floor(concat_doc_len / 5),
         });
         const output = await splitter.createDocuments([concat_doc]);
-        console.warn(
-          output,
-          concat_doc_len,
-          Math.floor(concat_doc_len / 5),
-          output.length
-        );
 
         const vectorStore = await MemoryVectorStore.fromDocuments(
           output,

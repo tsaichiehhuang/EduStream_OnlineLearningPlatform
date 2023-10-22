@@ -8,7 +8,6 @@ export const createLive = (app: AuthType) =>
   app.post(
     "/",
     async ({ profile, body, set }) => {
-      console.warn("Create Live API Output：", profile, body, typeof body);
 
       const access_token = process.env.API_TOKEN;
       const result = await (async function () {
@@ -96,9 +95,11 @@ export const createLive = (app: AuthType) =>
 
       if (result.live) {
         const newStream = new Stream();
+        newStream.id = result.live.id;
         newStream.name = body.name;
         newStream.startTime = new Date();
         newStream.classId = body.classID;
+
 
         try {
           await newStream.save();

@@ -11,6 +11,7 @@ import {
     Image,
     Tab,
     Tabs,
+    Snippet,
 } from '@nextui-org/react'
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from '@nextui-org/react'
 import { Checkbox } from '@nextui-org/react'
@@ -20,6 +21,7 @@ import useGetLive from '@/hooks/live/useGetLive'
 import useStartLive from '@/hooks/live/useStartLive'
 import useEndLive from '@/hooks/live/useEndLive'
 import useArchiveLive from '@/hooks/live/useArchiveLive'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 import LiveStreamPlayer from '@/components/live/showVideo'
 import { useRouter } from 'next/router'
@@ -135,7 +137,6 @@ export default function Live() {
                         <LiveStreamPlayer source={liveurl} />
                         {/* <div className="bg-gray-500  w-full h-full "></div> */}
                         <div className="text-xl font-semibold pt-2 px-2 mb-4">
-                            直播名稱
                             {livename === null ? <span>直播名稱</span> : <span>{livename}</span>}
                         </div>
                     </div>
@@ -225,15 +226,15 @@ export default function Live() {
                 </div>
             </main>
 
-            <Card className=" mt-8 mx-28   h-full">
+            <Card className=" my-8 mx-28 h-full">
                 <CardHeader className="flex gap-3">
                     <h2 className="text-black text-xl font-bold mt-4 ml-4">OBS 直播設定</h2>
                 </CardHeader>
 
                 <CardBody>
-                    <div className="  mx-8   h-full">
-                        <p>Links: {livelink}</p>
-                        <p>Keys: {livekey}</p>
+                    <div className="flex-col    h-full gap-4 flex">
+                        <Snippet symbol="">Links: {livelink}</Snippet>
+                        <Snippet symbol="">Keys: {livekey}</Snippet>
                     </div>
                 </CardBody>
             </Card>

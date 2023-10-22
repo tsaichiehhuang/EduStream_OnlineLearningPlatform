@@ -52,6 +52,7 @@ export const createLive = (app: AuthType) =>
                       },
                     },
                   },
+                  ull_enabled: true,
                   cover_images: {
                     ready_to_start: {
                       type: "COVER_IMAGE_TYPE_AUTO",

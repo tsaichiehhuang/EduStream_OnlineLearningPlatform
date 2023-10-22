@@ -16,7 +16,7 @@ export const getClass = (app: AuthType) =>
       const result = await Class.createQueryBuilder("class")
         .leftJoinAndSelect("class.sections", "sections")
         .leftJoinAndSelect("class.stream", "stream")
-        .orderBy('stream.startTime', 'DESC')
+        .orderBy("stream.startTime", "DESC")
         .leftJoinAndSelect("sections.blocks", "blocks")
         .leftJoinAndSelect("blocks.file", "file")
         .leftJoinAndSelect("blocks.announcement", "announcement")

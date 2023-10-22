@@ -45,9 +45,8 @@ function useGetLive() {
         setlivelink(responseData.data.live.setup.links);
         setlivekey(responseData.data.live.setup.key);
         setlivename(responseData.data.live.name);
-        console.log("links",livelink);
-        console.log("keys",livelink);
-
+        // console.log("links",livelink);
+        // console.log("keys",livekey);
       } else {
         setliveurl(responseData.data.live.url);
         setlivestate(responseData.data.live.status);

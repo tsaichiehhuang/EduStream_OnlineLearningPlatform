@@ -54,7 +54,7 @@ export const getLive = (app: AuthType) =>
         const url =
           result.live.stream[0] == null
             ? null
-            : result.live.stream[0].manifests[0].uris[0].uri;
+            : result.live.stream[0].manifests[1].uris[0].uri;
 
         return {
           data: {

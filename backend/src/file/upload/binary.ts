@@ -50,7 +50,7 @@ export const binary = (app: Elysia) =>
           format: "uuid",
           default: "00000000-0000-0000-0000-000000000000",
         }),
-        file: t.File(),
+        file: t.File({ maxSize: "900m" }),
       }),
     }
   );

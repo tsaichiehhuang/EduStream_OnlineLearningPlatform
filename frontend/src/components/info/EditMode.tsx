@@ -209,13 +209,14 @@ const EditModal: React.FC<EditModalProps> = ({ isOpen, onOpenChange, file, statu
         </Modal>
     )
 }
-const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onOpenChange, id, fileId }) => {
+const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onOpenChange, id, fileId, status }) => {
     const { deleteSection } = useDeleteSection()
     const { deleteAnnounce } = useDeleteAnnounce()
     const { deleteHW } = useDeleteHW()
     const { teacherDelete } = useTeacherDelete()
+    const [cStatus, setCStatus] = useState<any>('')
     useEffect(() => {
-        const status = Cookies.get('status')
+        setCStatus(Cookies.get('status'))
     }, [isOpen])
 
     const handleTeachDelete = (fileId: any) => {
@@ -240,9 +241,9 @@ const DeleteModal: React.FC<DeleteModalProps> = ({ isOpen, onOpenChange, id, fil
                                 onPress={
                                     status === 'submit'
                                         ? () => deleteHW(id)
-                                        : status === 'announce'
+                                        : cStatus === 'announce'
                                         ? () => deleteAnnounce(id)
-                                        : status === 'title'
+                                        : cStatus === 'title'
                                         ? () => deleteSection(id)
                                         : () => handleTeachDelete(fileId)
                                 }

@@ -8,36 +8,40 @@ export default function Chatroom() {
     const [userID, setUserID] = useState<string | null>('')
     const [messages, setMessages] = useState<object[]>([])
     const [newMessage, setNewMessage] = useState<string>('')
-    const [liveID, setLiveID] = useState<any>() //等沛婕做完liveID的cookie再改
+    const [liveID, setLiveID] = useState<any>()
     useEffect(() => {
-        setLiveID(Cookies.get('liveId'))
+        setLiveID(Cookies.get('liveid'))
         setUserID(Cookies.get('userId'))
         setName(Cookies.get('userName'))
         newSocket()
     }, [])
+    console.log('liveID', liveID)
     const newSocket = () => {
         socket = new WebSocket(
             `wss://${process.env.API_DOMAIN!.match(/https?:\/\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5})/)![1]}/live`
         )
         // 確認後端是否連線（常常顯示不出來是正常的）
-        socket.onopen = (msg) => {
-            console.log('open connection')
-            socket.send(
-                JSON.stringify({
-                    message: 'EduStream_test_connection',
-                    liveID: liveID,
-                    userID: userID,
-                    name: name,
-                })
-            )
+        if (liveID) {
+            socket.onopen = (msg) => {
+                console.log('open connection')
+                socket.send(
+                    JSON.stringify({
+                        message: 'EduStream_test_connection',
+                        liveID: liveID,
+                        userID: userID,
+                        name: name,
+                    })
+                )
+            }
         }
         // 收到後端訊息後要做什麼（把收到的訊息加進舊訊息的Array）
         socket.onmessage = (event) => {
-            console.log(event, event.data)
+            console.log('data', event, event.data)
             const receivedMessage = JSON.parse(event.data)
-            console.log(receivedMessage.message, receivedMessage.liveID, receivedMessage)
+            console.log('data', receivedMessage.message, receivedMessage.liveID, receivedMessage)
             setMessages((prevMessages) => [
                 ...prevMessages,
+                receivedMessage,
                 {
                     message: receivedMessage.message,
                     liveID: receivedMessage.liveID,
@@ -88,7 +92,7 @@ export default function Chatroom() {
         <Card className=" w-full  max-h-[450px]">
             <CardHeader className="flex gap-3 justify-between text-lg font-bold">聊天室</CardHeader>
             <Divider />
-            <div ref={cardBodyRef} className="flex flex-col min-h-[350px] max-h-[350px] overflow-y-scroll gap-4">
+            <div ref={cardBodyRef} className="p-4 flex flex-col min-h-[350px] max-h-[350px] overflow-y-scroll gap-4">
                 {messages.map((message: any, index) => (
                     <div key={index} className="flex flex-col gap-0.5">
                         <div className="text-xs">{message.name}</div>

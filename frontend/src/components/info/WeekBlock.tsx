@@ -130,7 +130,8 @@ const WeekBlock: React.FC<WeekBlockProps> = ({ data, editMode, index, id }) => {
                                                         file={block}
                                                         id={block.file.id}
                                                         status="file"
-                                                        onClick={() => Cookies.set('status', 'file')}
+                                                        onClick={console.log('hi')}
+                                                        // onClick={Cookies.set('status', 'file')}
                                                     />
                                                     <Edit
                                                         file={block}

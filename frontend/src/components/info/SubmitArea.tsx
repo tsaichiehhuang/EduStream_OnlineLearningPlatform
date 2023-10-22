@@ -78,31 +78,33 @@ const AddFileModal: React.FC<AddFileModalProps> = ({ isOpen, onOpenChange, data,
                                 <>
                                     <p className="text-sm">繳交資料</p>
                                     {hwData.length === 0 && <div className="text-sm text-gray-500">尚無繳交資料</div>}
-                                    <Table aria-label="Example static collection table">
-                                        <TableHeader>
-                                            <TableColumn>姓名</TableColumn>
-                                            <TableColumn>分數</TableColumn>
-                                            <TableColumn>檔案下載</TableColumn>
-                                        </TableHeader>
-                                        <TableBody>
-                                            {hwData.map((item: any, index: number) => (
-                                                <TableRow key={index}>
-                                                    <TableCell>{item.user}</TableCell>
-                                                    <TableCell>
-                                                        {item.score === null ? '尚無分數' : item.score}
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <button
-                                                            onClick={() => handleFileClick(item.fileId, item.user)}
-                                                            className="text-xs  border border-1px border-darkGray rounded-lg px-4 py-1 hover:bg-gray-50"
-                                                        >
-                                                            下載
-                                                        </button>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
+                                    {hwData.length !== 0 && (
+                                        <Table aria-label="Example static collection table">
+                                            <TableHeader>
+                                                <TableColumn>姓名</TableColumn>
+                                                <TableColumn>分數</TableColumn>
+                                                <TableColumn>檔案下載</TableColumn>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {hwData.map((item: any, index: number) => (
+                                                    <TableRow key={index}>
+                                                        <TableCell>{item.user}</TableCell>
+                                                        <TableCell>
+                                                            {item.score === null ? '尚無分數' : item.score}
+                                                        </TableCell>
+                                                        <TableCell>
+                                                            <button
+                                                                onClick={() => handleFileClick(item.fileId, item.user)}
+                                                                className="text-xs  border border-1px border-darkGray rounded-lg px-4 py-1 hover:bg-gray-50"
+                                                            >
+                                                                下載
+                                                            </button>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))}
+                                            </TableBody>
+                                        </Table>
+                                    )}
                                 </>
                             )}
 

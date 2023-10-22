@@ -40,9 +40,9 @@ export default function Live() {
     const toggleTheme = () => {
         setTheme(theme === 'light' ? 'dark' : 'light')
     }
-    const [isSelected, setIsSelected] = React.useState(false)
     const [chatMsg, setChatMsg] = useState([] as Record<string, any>[])
 
+    const [isSelected, setIsSelected] = React.useState(false)
     return (
         <>
             <Header toggleTheme={toggleTheme} theme={theme} />

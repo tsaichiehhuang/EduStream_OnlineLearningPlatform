@@ -113,23 +113,8 @@ export default function Live() {
 
       if (livestate === "LIVE_STATUS_LIVE") {
         setIsLive(false);
-        setfinishLive(false);
-        console.log("正在直播!!");
-      }
-    }, 5000);
-
-    return () => {
-      clearInterval(intervalId); // 组件卸载时清除定时器
-    };
-  }, [livestate]);
-
-  useEffect(() => {
-    const intervalId = setInterval(async () => {
-      await getLive();
-      console.log("3st=livestate", livestate);
-
-      if (livestate === "LIVE_STATUS_LIVE") {
-        setIsLive(false);
+        setcanLive(true);
+        setfinishLive(true);
         console.log("正在直播!!");
       }
     }, 5000);

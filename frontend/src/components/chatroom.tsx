@@ -3,23 +3,31 @@ import { Card, CardHeader, CardBody, CardFooter, Divider, Link, Button, Skeleton
 import Cookies from 'js-cookie'
 
 let socket: WebSocket
-export default function Chatroom() {
+
+type Props = {
+    messages: Record<string, any>[]
+    setMessages: React.Dispatch<React.SetStateAction<Record<string, any>[]>>
+}
+
+export default function Chatroom({ messages, setMessages }: Props) {
     const [name, setName] = useState<string | null>('')
     const [userID, setUserID] = useState<string | null>('')
-    const [messages, setMessages] = useState<object[]>([])
     const [newMessage, setNewMessage] = useState<string>('')
-    const [liveID, setLiveID] = useState<any>()
+    const [liveID, setLiveID] = useState<any>() //等沛婕做完liveID的cookie再改
     useEffect(() => {
         setLiveID(Cookies.get('liveid'))
         setUserID(Cookies.get('userId'))
         setName(Cookies.get('userName'))
         newSocket()
     }, [])
-    console.log('liveID', liveID)
     const newSocket = () => {
-        socket = new WebSocket(
-            `wss://${process.env.API_DOMAIN!.match(/https?:\/\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5})/)![1]}/live`
-        )
+        if (socket === undefined || socket.readyState === WebSocket.CLOSED || socket.readyState === WebSocket.CLOSING) {
+            socket = new WebSocket(
+                `wss://${
+                    process.env.API_DOMAIN!.match(/https?:\/\/(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{1,5})/)![1]
+                }/live`
+            )
+        }
         // 確認後端是否連線（常常顯示不出來是正常的）
         if (liveID) {
             socket.onopen = (msg) => {
@@ -36,12 +44,11 @@ export default function Chatroom() {
         }
         // 收到後端訊息後要做什麼（把收到的訊息加進舊訊息的Array）
         socket.onmessage = (event) => {
-            console.log('data', event, event.data)
+            console.log(event, event.data)
             const receivedMessage = JSON.parse(event.data)
-            console.log('data', receivedMessage.message, receivedMessage.liveID, receivedMessage)
+            console.log(receivedMessage.message, receivedMessage.liveID, receivedMessage)
             setMessages((prevMessages) => [
                 ...prevMessages,
-                receivedMessage,
                 {
                     message: receivedMessage.message,
                     liveID: receivedMessage.liveID,
@@ -80,9 +87,9 @@ export default function Chatroom() {
     }
 
     // 如果有新的訊息，捲動到最底下以顯示新的訊息
-    const cardBodyRef = useRef<any>(null)
+    const cardBodyRef = useRef(null)
     useEffect(() => {
-        const element: any = cardBodyRef.current
+        const element = cardBodyRef.current
         if (element) {
             element.scrollTop = element.scrollHeight
         }
@@ -92,7 +99,7 @@ export default function Chatroom() {
         <Card className=" w-full  max-h-[450px]">
             <CardHeader className="flex gap-3 justify-between text-lg font-bold">聊天室</CardHeader>
             <Divider />
-            <div ref={cardBodyRef} className="p-4 flex flex-col min-h-[350px] max-h-[350px] overflow-y-scroll gap-4">
+            <CardBody ref={cardBodyRef} className="flex flex-col min-h-[350px] max-h-[350px] overflow-y-scroll gap-4">
                 {messages.map((message: any, index) => (
                     <div key={index} className="flex flex-col gap-0.5">
                         <div className="text-xs">{message.name}</div>
@@ -104,7 +111,7 @@ export default function Chatroom() {
                         </Card>
                     </div>
                 ))}
-            </div>
+            </CardBody>
             <CardFooter className="flex flex-row justify-center items-center gap-1">
                 <Input
                     className=" rounded-lg text-xs z-0 flex"

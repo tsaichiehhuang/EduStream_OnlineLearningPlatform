@@ -21,8 +21,6 @@ import useGetLive from '@/hooks/live/useGetLive'
 import useStartLive from '@/hooks/live/useStartLive'
 import useEndLive from '@/hooks/live/useEndLive'
 import useArchiveLive from '@/hooks/live/useArchiveLive'
-import { CopyToClipboard } from 'react-copy-to-clipboard'
-
 import LiveStreamPlayer from '@/components/live/showVideo'
 import { useRouter } from 'next/router'
 

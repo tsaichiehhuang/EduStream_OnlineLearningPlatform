@@ -8,7 +8,6 @@ export const createLive = (app: AuthType) =>
   app.post(
     "/",
     async ({ profile, body, set }) => {
-
       const access_token = process.env.API_TOKEN;
       const result = await (async function () {
         try {
@@ -100,7 +99,6 @@ export const createLive = (app: AuthType) =>
         newStream.name = body.name;
         newStream.startTime = new Date();
         newStream.classId = body.classID;
-
 
         try {
           await newStream.save();

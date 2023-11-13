@@ -1,13 +1,13 @@
 # EduStream: Online Learning Platform
 
-### Demo
+### 💻Demo
 
 [Website URL](https://edustream-online-learning-platform.vercel.app)
 | 首頁 | 課程頁面 | 作業繳交 |
 | :-------------: |:-------------: |:-------------: |
 | <img src="/frontend/public/首頁.png" width="200"> | <img src="/frontend/public/課程頁面.png" width="200"> | <img src="/frontend/public/作業繳交.png" width="200"> |
 
-### Deployment
+### 💁‍♀️Deployment
 
 1. Install packages:
 
@@ -53,10 +53,10 @@
       npm run dev
     ```
 
-### Tech Stack
+### ⚒️Tech Stack
 
 1. Backend: Bun, Elysia, TypeScript
-2. Frontend: npm, Next.js, TypeScript
+2. Frontend: npm, Next.js, TypeScript, TaiwindCSS
 3. Database: MySQL, TypeORM
 4. API: BlendVision, OpenAI
 5. Deployment: EC2 (for backend), Vercel (for frontend)
